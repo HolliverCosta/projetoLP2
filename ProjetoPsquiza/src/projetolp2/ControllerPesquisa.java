@@ -21,12 +21,12 @@ public class ControllerPesquisa {
 	
 		return codigo;
 	}
-	public void alteraPesquisa(String código, String conteudoASerAlterado, String novoConteúdo) {
-		if(pesquisas.get(código).getStatus().equals("ativada")){
+	public void alteraPesquisa(String codigo, String conteudoASerAlterado, String novoConteudo) {
+		if(pesquisas.get(codigo).getStatus().equals("ativada")){
 				if(conteudoASerAlterado.toLowerCase().equals("descricao")) 
-					pesquisas.get(código).setDescricao(novoConteúdo);
+					pesquisas.get(codigo).setDescricao(novoConteudo);
 				else if(conteudoASerAlterado.toLowerCase().equals("campodednteresse"))
-					pesquisas.get(código).setCampoDeInteresse(novoConteúdo);
+					pesquisas.get(codigo).setCampoDeInteresse(novoConteudo);
 		}
 	}
 	public void encerraPesquisa(String codigo, String motivo) {
