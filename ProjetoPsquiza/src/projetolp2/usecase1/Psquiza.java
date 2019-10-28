@@ -1,4 +1,4 @@
-package projetolp2;
+package projetolp2.usecase1;
 
 import easyaccept.EasyAccept;
 
@@ -14,21 +14,21 @@ public class Psquiza {
 	public String cadastraPesquisa(String descricao, String campoDeInteresse) {
 		return controllerPesquisa.cadastraPesquisa(descricao, campoDeInteresse);
 	}
-	
-//	public void alteraPesquisa(String código, String conteúdoASerAlterado, String novoConteúdo) {
-//		
+
+//	public void alteraPesquisa(String cï¿½digo, String conteï¿½doASerAlterado, String novoConteï¿½do) {
+//
 //	}
-//	
+//
 //	public void encerraPesquisa(String codigo, String motivo) {
-//		
+//
 //	}
 //	public void ativaPesquisa(String codigo) {
-//		
+//
 //	}
 //	public String exibePesquisa(String codigo) {
-//		
+//
 //	}
 //	public boolean ehAtiva(String codigo) {
-//		
+//
 //	}
 }

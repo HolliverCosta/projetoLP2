@@ -1,4 +1,4 @@
-package projetolp2;
+package projetolp2.usecase1;
 
 public class Pesquisa {
 	private String descricao, campoDeInteresse, codigo, status;

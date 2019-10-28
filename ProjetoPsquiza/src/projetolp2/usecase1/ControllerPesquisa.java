@@ -1,4 +1,4 @@
-package projetolp2;
+package projetolp2.usecase1;
 
 import java.util.HashMap;
 
@@ -16,21 +16,21 @@ public class ControllerPesquisa {
 		Pesquisa pesquisa = new Pesquisa(descricao, campoDeInteresse, codigo);
 		if(!pesquisas.containsKey(codigo))
 			pesquisas.put(codigo, pesquisa);
-//		else 
+//		else
 //			throw new IllegalArgumentException("Erro no cadastro do cliente: cliente ja existe.");
-	
+
 		return codigo;
 	}
 	public void alteraPesquisa(String codigo, String conteudoASerAlterado, String novoConteudo) {
 		if(pesquisas.get(codigo).getStatus().equals("ativada")){
-				if(conteudoASerAlterado.toLowerCase().equals("descricao")) 
+				if(conteudoASerAlterado.toLowerCase().equals("descricao"))
 					pesquisas.get(codigo).setDescricao(novoConteudo);
 				else if(conteudoASerAlterado.toLowerCase().equals("campodednteresse"))
 					pesquisas.get(codigo).setCampoDeInteresse(novoConteudo);
 		}
 	}
 	public void encerraPesquisa(String codigo, String motivo) {
-		pesquisas.get(codigo).setStatus("desativada");	
+		pesquisas.get(codigo).setStatus("desativada");
 	}
 	public void ativaPesquisa(String codigo) {
 		pesquisas.get(codigo).setStatus("ativada");
