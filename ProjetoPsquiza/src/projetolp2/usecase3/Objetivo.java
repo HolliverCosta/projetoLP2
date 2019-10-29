@@ -35,7 +35,7 @@ public class Objetivo {
      * @throws IllegalArgumentException
      */
     public Objetivo(String tipo, String descricao, int aderencia, int viabilidade, String id) throws IllegalArgumentException{
-        if(!tipo.equals("GERAL") || !tipo.equals("ESPECIFICO")) throw new IllegalArgumentException("Valor invalido de tipo.");
+        if(!tipo.equals("GERAL") && !tipo.equals("ESPECIFICO")) throw new IllegalArgumentException("Valor invalido de tipo.");
         if(aderencia > 5 || aderencia < 1) throw new IllegalArgumentException("Valor invalido de aderencia");
         if(viabilidade > 5 || viabilidade < 1) throw new IllegalArgumentException("Valor invalido de viabilidade.");
         
