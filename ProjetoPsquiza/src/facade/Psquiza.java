@@ -2,22 +2,24 @@ package facade;
 
 import easyaccept.EasyAccept;
 import projetolp2.usecase1.ControllerPesquisa;
+import projetolp2.usecase2.ControllerPesquisador;
 import projetolp2.usecase4.ControllerAtividade;
 
 public class Psquiza {
     
-    ControllerPesquisa controllerPesquisa;
-    ControllerAtividade controllerAtividade;
+    private ControllerPesquisa controllerPesquisa;
+    private ControllerAtividade controllerAtividade;
+    private ControllerPesquisador controllerPesquisador;
     
     public static void main(String[] args) {
-        args = new String[] {"facade.Psquiza", "TestesDeAceitacao/use_case_1.txt","TestesDeAceitacao/use_case_4.txt"};
+        args = new String[] {"facade.Psquiza", "TestesDeAceitacao/use_case_1.txt","TestesDeAceitacao/use_case_2.txt","TestesDeAceitacao/use_case_4.txt"};
         EasyAccept.main(args);
     }
     
     public Psquiza() {
-        controllerPesquisa = new ControllerPesquisa();
-        controllerAtividade = new ControllerAtividade();
-        
+        this.controllerPesquisa = new ControllerPesquisa();
+        this.controllerAtividade = new ControllerAtividade();
+        this.controllerPesquisador = new ControllerPesquisador();
     }
     public String cadastraPesquisa(String descricao, String campoDeInteresse) {
     	System.out.println(controllerPesquisa.cadastraPesquisa(descricao, campoDeInteresse));
@@ -90,4 +92,23 @@ public class Psquiza {
     public int contaItensRealizados(String codigo) {
         return controllerAtividade.contarItensRealizados(codigo);
     }
+    public void cadastraPesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
+    	this.controllerPesquisador.cadastraPesquisador(nome, funcao, biografia, email, fotoURL);
+    }
+    public void alteraPesquisador(String email, String atributo, String novoValor) {
+    	this.controllerPesquisador.alteraPesquisador(email, atributo, novoValor);
+    }
+    public void desativaPesquisador(String email) {
+    	this.controllerPesquisador.desativaPesquisador(email);
+    }
+    public void ativaPesquisador(String email) {
+    	this.controllerPesquisador.ativaPesquisador(email);
+    }
+    public String exibePesquisador(String email) {
+    	return this.controllerPesquisador.exibePesquisador(email);
+    }
+    public boolean pesquisadorEhAtivo(String email) {
+    	return this.controllerPesquisador.pesquisadorEhAtivo(email);
+    }
+    
 }
