@@ -3,10 +3,11 @@ package projetolp2.usecase1;
 public class Pesquisa {
 	private String descricao, campoDeInteresse, codigo, status;
 
-	public Pesquisa(String descricao, String campoDeInteresse) {
+	public Pesquisa(String descricao, String campoDeInteresse, String codigo) {
 		this.descricao = descricao;
 		this.campoDeInteresse = campoDeInteresse;
 		this.status = "ativada";
+		this.codigo = codigo;
 	}
 
 	public String getStatus() {
@@ -28,6 +29,6 @@ public class Pesquisa {
 
 
 	public String toString() {
-		return String.format("%s - %s - %s", codigo, descricao, campoDeInteresse);
+		return this.codigo + " - " + this.descricao + " - " + this.campoDeInteresse;
 	}
 }

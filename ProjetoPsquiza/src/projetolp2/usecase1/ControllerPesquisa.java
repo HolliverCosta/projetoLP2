@@ -14,21 +14,23 @@ public class ControllerPesquisa {
 	}
 
 	public String cadastraPesquisa(String descricao, String campoDeInteresse) {
-		validacao.validaString(descricao, "Descricao nao pode ser nula ou vazia.");
-		validacao.validaString(campoDeInteresse, "Formato do campo de interesse invalido.");
 
+		this.validacao.validaString(campoDeInteresse, "Formato do campo de interesse invalido.");
+		this.validacao.validaString(descricao, "Descricao nao pode ser nula ou vazia.");
+		validacao.validaCampoInteresse(campoDeInteresse, "Formato do campo de interesse invalido.");
 		String codigo = campoDeInteresse.substring(0, 3);
 		if (!idPesquisas.containsKey(codigo)) {
 			idPesquisas.put(codigo, 1);
 
-		} else if (idPesquisas.containsKey(codigo)) {
+		} else {
 			idPesquisas.put(codigo, idPesquisas.get(codigo) + 1);
 
 		}
-		System.out.println(idPesquisas.get(codigo));
-		Pesquisa pesquisa = new Pesquisa(descricao, campoDeInteresse);
 
-		String codigoKey = codigo + Integer.toString(idPesquisas.get(codigo));
+		String codigoKey = (codigo + idPesquisas.get(codigo)).toUpperCase();
+
+		Pesquisa pesquisa = new Pesquisa(descricao, campoDeInteresse, codigoKey);
+
 		if (!pesquisas.containsKey(codigoKey)) {
 
 			pesquisas.put(codigoKey.toUpperCase(), pesquisa);
@@ -37,28 +39,16 @@ public class ControllerPesquisa {
 	}
 
 	public void alteraPesquisa(String codigo, String conteudoASerAlterado, String novoConteudo) {
-		if (pesquisas.containsKey(codigo)) {
-			if (pesquisas.get(codigo).getStatus().equals("ativada")) {
-				if (conteudoASerAlterado.toLowerCase().equals("descricao"))
-					if (novoConteudo == "")
-						throw new IllegalArgumentException("Descricao nao pode ser nula ou vazia.");
-					else
-						pesquisas.get(codigo).setDescricao(novoConteudo);
 
-				else if (conteudoASerAlterado.toLowerCase().equals("campodednteresse"))
-					if (novoConteudo == "")
-						throw new IllegalArgumentException("Formato do campo de interesse invalido.");
-					else
-						pesquisas.get(codigo).setCampoDeInteresse(novoConteudo);
-				else
-					throw new IllegalArgumentException("Nao e possivel alterar esse valor de pesquisa.");
+		if (pesquisas.get(codigo).getStatus().equals("ativada")) {
+			if (conteudoASerAlterado.toLowerCase().equals("descricao"))
+				this.pesquisas.get(codigo).setDescricao(novoConteudo);
 
-			} else {
-				throw new IllegalArgumentException("Pesquisa desativada.");
+			else if (conteudoASerAlterado.toLowerCase().equals("campodednteresse")) {
+				this.pesquisas.get(codigo).setCampoDeInteresse(novoConteudo);
 			}
-		} else
-			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 
+		}
 	}
 
 	public void encerraPesquisa(String codigo, String motivo) {
@@ -82,18 +72,18 @@ public class ControllerPesquisa {
 	}
 
 	public String exibePesquisa(String codigo) {
-		if(!pesquisas.containsKey(codigo))
+		if (!pesquisas.containsKey(codigo))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		return pesquisas.get(codigo).toString();
 	}
 
 	public boolean ehAtiva(String codigo) {
 		validacao.validaString(codigo, "Codigo nao pode ser nulo ou vazio.");
-		if(!pesquisas.containsKey(codigo))
+		if (!pesquisas.containsKey(codigo))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
-		if (pesquisas.get(codigo).getStatus().equals("ativada")) 
+		if (pesquisas.get(codigo).getStatus().equals("ativada"))
 			return true;
-		 else {
+		else {
 			return false;
 		}
 	}
