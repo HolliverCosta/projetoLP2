@@ -1,6 +1,5 @@
 package projetolp2.usecase3;
 
-import java.security.InvalidKeyException;
 import java.util.HashMap;
 /**
  * 
@@ -69,46 +68,46 @@ public class POController {
      * 
      * @param codigo
      * @return
-     * @throws InvalidKeyException
+     * @throws IllegalArgumentException
      */
-    public String exibeProblema(String codigo) throws InvalidKeyException {
+    public String exibeProblema(String codigo) throws IllegalArgumentException{
         ValidaCampos.validaCamposString(new String[] {codigo},
                 new String[] {"codigo"});
-        if(!this.problemas.containsKey(codigo)) throw new InvalidKeyException("Problema nao encontrado");
+        if(!this.problemas.containsKey(codigo)) throw new IllegalArgumentException("Problema nao encontrado");
         return this.problemas.get(codigo).toString();
     }
     /**
      * 
      * @param codigo
      * @return
-     * @throws InvalidKeyException
+     * @throws IllegalArgumentException
      */
-    public String exibeObjetivo(String codigo) throws InvalidKeyException {
+    public String exibeObjetivo(String codigo) throws IllegalArgumentException {
         ValidaCampos.validaCamposString(new String[] {codigo},
                 new String[] {"codigo"});
-        if(!this.objetivos.containsKey(codigo)) throw new InvalidKeyException("Objetivo nao encontrado");
+        if(!this.objetivos.containsKey(codigo)) throw new IllegalArgumentException("Objetivo nao encontrado");
         return this.objetivos.get(codigo).toString();
     }
     /**
      * 
      * @param codigo
-     * @throws InvalidKeyException
+     * @throws IllegalArgumentException
      */
-    public void apagarProblema(String codigo) throws InvalidKeyException {
+    public void apagarProblema(String codigo) throws IllegalArgumentException {
         ValidaCampos.validaCamposString(new String[] {codigo},
                 new String[] {"codigo"});
-        if(!this.problemas.containsKey(codigo)) throw new InvalidKeyException("Problema nao encontrado");
+        if(!this.problemas.containsKey(codigo)) throw new IllegalArgumentException("Problema nao encontrado");
         this.problemas.remove(codigo);
     }
     /**
      * 
      * @param codigo
-     * @throws InvalidKeyException
+     * @throws IllegalArgumentException
      */
-    public void apagarObjetivo(String codigo) throws InvalidKeyException {
+    public void apagarObjetivo(String codigo) throws IllegalArgumentException {
         ValidaCampos.validaCamposString(new String[] {codigo},
                 new String[] {"codigo"});
-        if(!this.objetivos.containsKey(codigo)) throw new InvalidKeyException("Objetivo nao encontrado");
+        if(!this.objetivos.containsKey(codigo)) throw new IllegalArgumentException("Objetivo nao encontrado");
         this.objetivos.remove(codigo);
     }
 }
