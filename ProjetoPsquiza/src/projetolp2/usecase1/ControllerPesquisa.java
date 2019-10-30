@@ -88,6 +88,7 @@ public class ControllerPesquisa {
 	 * @param motivo
 	 */
 	public void encerraPesquisa(String codigo, String motivo) {
+		validacao.validaString(motivo, "Motivo nao pode ser nulo ou vazio.");
 		if(verificaExistePesquisa(codigo)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (ehAtiva(codigo)==false) throw new IllegalArgumentException("Pesquisa desativada.");
 		
@@ -123,11 +124,14 @@ public class ControllerPesquisa {
 	public boolean ehAtiva(String codigo) {
 		validacao.validaString(codigo, "Codigo nao pode ser nulo ou vazio.");
 		if(verificaExistePesquisa(codigo)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
-		
+		boolean msg = false;
 		if (pesquisas.get(codigo).getStatus().equals("ativada"))
-			return true;
-		else 
-			return false;
+			msg = true;
+		else if(pesquisas.get(codigo).getStatus().equals("desativada"))
+			msg = false;
+		
+		return msg;
+		
 		
 	}
 	/**
