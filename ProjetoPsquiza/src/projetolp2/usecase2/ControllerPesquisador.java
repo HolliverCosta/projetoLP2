@@ -40,41 +40,43 @@ public class ControllerPesquisador {
 	}
 
 	public void alteraPesquisador(String email, String atributo, String novoValor) {
-		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
-		validacao.validaString(atributo, "Campo atributo nao pode ser nulo ou vazio.");
+		validacao.validaString(email, "Campo email nao pode ser vazio ou nulo.");
+		validacao.validaString(atributo, "Atributo nao pode ser vazio ou nulo.");
 		if (ehCadastrado(email)) {
 			switch (atributo) {
-			case "email":
+			case "EMAIL":
 				validacao.validaString(novoValor, "Campo email nao pode ser nulo ou vazio.");
 				validacao.validaEmail(novoValor, "Formato de email invalido.");
 				if (this.pesquisadoresAtivos.containsKey(email)) {
-					this.pesquisadoresAtivos.put(novoValor, this.pesquisadoresAtivos.get(email));
+					Pesquisador novoPesquisador = this.pesquisadoresAtivos.get(email);
+					this.pesquisadoresAtivos.put(novoValor,novoPesquisador);
+					this.pesquisadoresAtivos.get(novoValor).setEmail(novoValor);
 					this.pesquisadoresAtivos.remove(email);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
-			case "nome":
+			case "NOME":
 				validacao.validaString(novoValor, "Campo nome nao pode ser nulo ou vazio.");
 				if (this.pesquisadoresAtivos.containsKey(email)) {
 					this.pesquisadoresAtivos.get(email).setNome(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
-			case "funcao":
+			case "FUNCAO":
 				validacao.validaString(novoValor, "Campo funcao nao pode ser nulo ou vazio.");
 				if (this.pesquisadoresAtivos.containsKey(email)) {
 					this.pesquisadoresAtivos.get(email).setFuncao(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
-			case "biografia":
+			case "BIOGRAFIA":
 				validacao.validaString(novoValor, "Campo biografia nao pode ser nulo ou vazio.");
 				if (this.pesquisadoresAtivos.containsKey(email)) {
 					this.pesquisadoresAtivos.get(email).setBiografia(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
-			case "fotoURL":
+			case "FOTO":
 				validacao.validaString(novoValor, "Campo fotoURL nao pode ser nulo ou vazio.");
 				validacao.validaFotoURL(novoValor, "Formato de foto invalido.");
 				if (this.pesquisadoresAtivos.containsKey(email)) {
@@ -83,7 +85,7 @@ public class ControllerPesquisador {
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			default:
-				throw new IllegalArgumentException("Atributo n�o encontrado.");
+				throw new IllegalArgumentException("Atributo invalido.");
 			}
 		} else
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
@@ -133,6 +135,7 @@ public class ControllerPesquisador {
 	}
 	
 	public boolean pesquisadorEhAtivo(String email) {
+		validacao.validaString(email, "Email nao pode ser vazio ou nulo.");
 		if(ehCadastrado(email)) {
 			if(this.pesquisadoresAtivos.containsKey(email)) {
 				return true;
