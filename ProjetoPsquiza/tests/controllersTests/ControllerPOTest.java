@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import projetolp2.usecase3.POController;
+import projetolp2.usecase3.ControllerPO;
 
-class POControllerTest {
+class ControllerPOTest {
 
-    POController controller = new POController();
+    ControllerPO controller = new ControllerPO();
     @BeforeEach
     void inicia() {
         String descricao = "minha descricao";
