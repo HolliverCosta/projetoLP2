@@ -7,7 +7,7 @@ import java.util.HashMap;
  * @author Danilo César Ribeiro Garcia de Medeiros
  *
  */
-public class POController {
+public class ControllerPO {
     /**
      * Mapa de problemas.
      */
@@ -27,7 +27,7 @@ public class POController {
     /**
      * Constrói um novo controlador inicializando os mapas e os contadores em 1.
      */
-    public POController() {
+    public ControllerPO() {
         this.problemas = new HashMap<String,Problema>();
         this.objetivos = new HashMap<String,Objetivo>();
         this.idObj = 1;
