@@ -1,17 +1,17 @@
-package projetolp2.ControllerGeral;
+package projetolp2.Psquiza;
 
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.pesquisa.ControllerPesquisa;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.po.ControllerPO;
 
-public class ControllerGeral {
+public class Psquiza {
 	private ControllerAtividade controllerAtividade;
 	private ControllerPesquisa controllerPesquisa;
 	private ControllerPesquisador controllerPesquisador;
 	private ControllerPO controllerPO;
 	
-	public ControllerGeral() {	
+	public Psquiza() {	
 		this.controllerAtividade = new ControllerAtividade();
 		this.controllerPesquisa = new ControllerPesquisa();
 		this.controllerPesquisador = new ControllerPesquisador();

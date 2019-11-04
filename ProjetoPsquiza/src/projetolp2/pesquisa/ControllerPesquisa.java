@@ -131,8 +131,6 @@ public class ControllerPesquisa {
 			msg = false;
 		
 		return msg;
-		
-		
 	}
 	/**
 	 * metodo para verificar se existe uma pesquisa cadastrada

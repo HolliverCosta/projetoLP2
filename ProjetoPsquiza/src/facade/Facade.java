@@ -1,20 +1,21 @@
 package facade;
 
 import easyaccept.EasyAccept;
-import projetolp2.ControllerGeral.ControllerGeral;
+import projetolp2.Psquiza.Psquiza;
 
 
-public class Psquiza {
+public class Facade {
 
-	private ControllerGeral controllerGeral;
+	private Psquiza controllerGeral;
+	
 	public static void main(String[] args) {
-		args = new String[] { "facade.Psquiza", "TestesDeAceitacao/use_case_1.txt", "TestesDeAceitacao/use_case_2.txt",
+		args = new String[] { "facade.Facade", "TestesDeAceitacao/use_case_1.txt", "TestesDeAceitacao/use_case_2.txt",
 				"TestesDeAceitacao/use_case_3.txt","TestesDeAceitacao/use_case_4.txt" };
 		EasyAccept.main(args);
 	}
 
-	public Psquiza() {
-		this.controllerGeral = new ControllerGeral();
+	public Facade() {
+		this.controllerGeral = new Psquiza();
 	}
 	//-----------------------------------------------------Pesquisa-----------------------------------------------------------//
 	public String cadastraPesquisa(String descricao, String campoDeInteresse) {

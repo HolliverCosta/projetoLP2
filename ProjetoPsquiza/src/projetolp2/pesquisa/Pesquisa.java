@@ -1,11 +1,19 @@
 package projetolp2.pesquisa;
+
+import java.util.List;
+
 /**
  * Pesquisa contem uma descricao, campo de interesse, codigo identificador e um status predefinido como ativada
  * @author Holindo
  *
  */
 public class Pesquisa {
-	private String descricao, campoDeInteresse, codigo, status;
+	private String descricao;
+	private String campoDeInteresse; 
+	private String codigo;
+	private String status;
+	private List<String> objetivos;
+	private String idProblema;
 	/**
 	 * Constroi uma pesquisa
 	 * @param descricao
