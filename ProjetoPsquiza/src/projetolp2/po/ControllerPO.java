@@ -123,4 +123,8 @@ public class ControllerPO {
         if(!this.objetivos.containsKey(codigo)) throw new IllegalArgumentException("Objetivo nao encontrado");
         this.objetivos.remove(codigo);
     }
+    
+    public boolean existe(String id) {
+        return this.problemas.containsKey(id) || this.objetivos.containsKey(id);
+    }
 }
