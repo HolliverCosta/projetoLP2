@@ -1,4 +1,4 @@
-package projetolp2.usecase2;
+package projetolp2.pesquisador;
 
 public class Validacao {
 	public void validaString(String string, String msg) {

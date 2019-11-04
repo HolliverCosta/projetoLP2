@@ -1,4 +1,4 @@
-package projetolp2.usecase1;
+package projetolp2.pesquisa;
 /**
  * Pesquisa contem uma descricao, campo de interesse, codigo identificador e um status predefinido como ativada
  * @author Holindo

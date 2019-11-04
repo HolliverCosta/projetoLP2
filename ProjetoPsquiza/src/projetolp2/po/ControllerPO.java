@@ -1,4 +1,4 @@
-package projetolp2.usecase3;
+package projetolp2.po;
 
 import java.util.HashMap;
 /**

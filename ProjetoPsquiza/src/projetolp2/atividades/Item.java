@@ -1,4 +1,4 @@
-package projetolp2.usecase4;
+package projetolp2.atividades;
 
 /**
  * Representação de um Item. Todo Item possui uma descrição e um status, que é

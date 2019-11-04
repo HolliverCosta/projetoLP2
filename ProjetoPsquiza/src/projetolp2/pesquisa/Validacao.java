@@ -1,4 +1,4 @@
-package projetolp2.usecase1;
+package projetolp2.pesquisa;
 
 public class Validacao {
 	/**

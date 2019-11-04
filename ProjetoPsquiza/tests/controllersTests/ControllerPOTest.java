@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import projetolp2.usecase3.ControllerPO;
+import projetolp2.po.ControllerPO;
 
 class ControllerPOTest {
 

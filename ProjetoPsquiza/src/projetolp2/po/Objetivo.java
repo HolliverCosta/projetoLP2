@@ -1,4 +1,4 @@
-package projetolp2.usecase3;
+package projetolp2.po;
 /**
  * Representação da entidade objetivo do sistema Psquiza. O objetivo é identificado unicamente pelo seu código.
  * 

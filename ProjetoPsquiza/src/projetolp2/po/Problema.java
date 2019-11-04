@@ -1,4 +1,4 @@
-package projetolp2.usecase3;
+package projetolp2.po;
 /**
  * Representação da entidade problema do sistema Psquiza. O problema é identificado unicamente pelo seu código.
  * 

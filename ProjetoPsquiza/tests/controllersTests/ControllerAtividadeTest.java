@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import projetolp2.usecase4.ControllerAtividade;
+
+import projetolp2.atividades.ControllerAtividade;
 
 class ControllerAtividadeTest {
 

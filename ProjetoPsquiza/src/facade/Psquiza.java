@@ -1,17 +1,17 @@
 package facade;
 
 import easyaccept.EasyAccept;
-import projetolp2.usecase1.ControllerPesquisa;
-import projetolp2.usecase2.ControllerPesquisador;
-import projetolp2.usecase3.POController;
-import projetolp2.usecase4.ControllerAtividade;
+import projetolp2.atividades.ControllerAtividade;
+import projetolp2.pesquisa.ControllerPesquisa;
+import projetolp2.pesquisador.ControllerPesquisador;
+import projetolp2.po.ControllerPO;
 
 public class Psquiza {
 
 	private ControllerPesquisa controllerPesquisa;
 	private ControllerAtividade controllerAtividade;
 	private ControllerPesquisador controllerPesquisador;
-	private POController poController;
+	private ControllerPO poController;
 
 	public static void main(String[] args) {
 		args = new String[] { "facade.Psquiza", "TestesDeAceitacao/use_case_1.txt", "TestesDeAceitacao/use_case_2.txt",
@@ -23,7 +23,7 @@ public class Psquiza {
 		this.controllerPesquisa = new ControllerPesquisa();
 		this.controllerAtividade = new ControllerAtividade();
 		this.controllerPesquisador = new ControllerPesquisador();
-		this.poController = new POController();
+		this.poController = new ControllerPO();
 	}
 	//-----------------------------------------------------Pesquisa-----------------------------------------------------------//
 	public String cadastraPesquisa(String descricao, String campoDeInteresse) {
