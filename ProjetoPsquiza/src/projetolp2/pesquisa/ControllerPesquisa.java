@@ -1,12 +1,20 @@
 package projetolp2.pesquisa;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 /**
  * Controladora de pesquisas
  * @author HolliverCosta
  *
  */
 public class ControllerPesquisa {
+    private HashMap<String,Boolean> objetivosAssociados;
 	/*
 	 * Mapa de pesquisas onde a chave e as 3 primeiras letras do campoDeInterrese e um valor inteiro  e o valor e o objeto Pesquisa
 	 */
@@ -26,6 +34,7 @@ public class ControllerPesquisa {
 		this.pesquisas = new HashMap<>();
 		this.validacao = new Validacao();
 		this.idPesquisas = new HashMap<String, Integer>();
+		this.objetivosAssociados = new HashMap<String,Boolean>();
 	}
 	
 	 /**
@@ -139,5 +148,97 @@ public class ControllerPesquisa {
 	 */
 	private boolean verificaExistePesquisa(String codigo) {
 		return pesquisas.containsKey(codigo);
+	}
+	
+	public boolean associaProblema(String idPesquisa, String idProblema) throws IllegalArgumentException{
+	    if(!verificaExistePesquisa(idPesquisa))throw new IllegalArgumentException("Pesquisa nao encontrada.");
+	    if(!ehAtiva(idPesquisa)) throw new IllegalArgumentException("Pesquisa desativada.");
+	    
+	    Pesquisa temp = this.pesquisas.get(idPesquisa);
+	    if(temp.getProblema().equals(idProblema)) return false;
+	    if(!temp.getProblema().isEmpty()) throw new IllegalArgumentException("Pesquisa ja associada a um problema.");
+	    
+	    temp.setProblema(idProblema);
+	    return true;    
+	}
+	
+	public boolean desassociaProblema(String idPesquisa, String idProblema) throws IllegalArgumentException{
+	    if(!verificaExistePesquisa(idPesquisa))throw new IllegalArgumentException("Pesquisa nao encontrada.");
+        if(!ehAtiva(idPesquisa)) throw new IllegalArgumentException("Pesquisa desativada.");
+        
+        Pesquisa temp = this.pesquisas.get(idPesquisa);
+        if(temp.getProblema().isEmpty()) return false;
+        temp.setProblema("");
+        return true;
+	}
+	
+	public boolean associaObjetivo(String idPesquisa, String idObjetivo) {
+	    if(!verificaExistePesquisa(idPesquisa))throw new IllegalArgumentException("Pesquisa nao encontrada.");
+        if(!ehAtiva(idPesquisa)) throw new IllegalArgumentException("Pesquisa desativada.");
+	    
+        Pesquisa temp = this.pesquisas.get(idPesquisa);
+	    if(temp.getObjetivos().contains(idObjetivo)) return false;
+	    if(this.objetivosAssociados.containsKey(idObjetivo) && this.objetivosAssociados.get(idObjetivo)) throw new IllegalArgumentException("Objetivo ja associado a uma pesquisa.");
+	    this.objetivosAssociados.put(idObjetivo, true);
+	    temp.addObjetivo(idObjetivo);
+        return true;
+	}
+	
+	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) {
+	    if(!verificaExistePesquisa(idPesquisa))throw new IllegalArgumentException("Pesquisa nao encontrada.");
+        if(!ehAtiva(idPesquisa)) throw new IllegalArgumentException("Pesquisa desativada.");
+        
+        Pesquisa temp = this.pesquisas.get(idPesquisa);
+        if(!temp.getObjetivos().contains(idObjetivo)) return false;
+        temp.getObjetivos().remove(idObjetivo);
+        this.objetivosAssociados.replace(idObjetivo, false);
+	    return true;
+	}
+	
+	public String geraStringOrdenada(List<Pesquisa> l1, List<Pesquisa> l2, Comparator<Pesquisa> comparador) {
+	    String output = "";
+	    Collections.sort(l1,comparador);
+	    Collections.sort(l2,new Comparator<Pesquisa>() {
+            @Override
+            public int compare(Pesquisa p0, Pesquisa p1) {
+                return p1.getCodigo().compareTo(p0.getCodigo());
+            }});
+	    l1.addAll(l2);
+	    for(Pesquisa p: l1) {
+	        if(l1.indexOf(p) == l1.size() - 1)
+	            output += p.toString();
+	        else
+	            output += p.toString() + " | ";
+ 	    }
+	    return output;
+	}
+	public String listaPesquisas(String ordem) {
+	    if(!ordem.equals("PROBLEMA") && !ordem.equals("OBJETIVOS") && !ordem.equals("PESQUISA")) throw new IllegalAccessError("Valor invalido da ordem");
+	    
+	    String output = "";
+	    List<Pesquisa> comCriterio = new ArrayList<Pesquisa>();
+	    List<Pesquisa> semCriterio = new ArrayList<Pesquisa>();
+	    Comparator<Pesquisa> comparador = GeraComparador.geraComparador(ordem);
+	    if(ordem.equals("PROBLEMA")) {
+	        comCriterio.addAll(this.pesquisas.values().stream().
+	            filter(x -> !x.getProblema().isEmpty()).
+	            collect(Collectors.toList()));
+	        semCriterio.addAll(this.pesquisas.values().stream().
+                filter(x -> x.getProblema().isEmpty()).
+                collect(Collectors.toList()));
+	    }
+	    else if(ordem.equals("OBJETIVOS")) {
+	        comCriterio.addAll(this.pesquisas.values().stream().
+	                filter(x -> !x.getObjetivos().isEmpty()).
+	                collect(Collectors.toList()));
+	        semCriterio.addAll(this.pesquisas.values().stream().
+	                filter(x -> x.getObjetivos().isEmpty()).
+	                collect(Collectors.toList()));
+	    }
+	    else {
+	        comCriterio.addAll(this.pesquisas.values());
+	    }
+	    output = geraStringOrdenada(comCriterio, semCriterio, comparador);
+	    return output;
 	}
 }

@@ -1,5 +1,6 @@
 package projetolp2.pesquisa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,23 @@ public class Pesquisa {
 		this.campoDeInteresse = campoDeInteresse;
 		this.status = "ativada";
 		this.codigo = codigo;
+		this.idProblema = "";
+		this.objetivos = new ArrayList<String>();
+	}
+	
+	public void addObjetivo(String idObjetivo) {
+	    this.objetivos.add(idObjetivo);
+	}
+	
+	public String getCodigo() {
+	    return this.codigo;
+	}
+	
+	public List<String> getObjetivos(){
+	    return this.objetivos;
+	}
+	public String getProblema() {
+	    return this.idProblema;
 	}
 	/**
 	 * @return status da pesquisa
@@ -53,7 +71,10 @@ public class Pesquisa {
 	public void setCampoDeInteresse(String campoDeInteresse) {
 		this.campoDeInteresse = campoDeInteresse;
 	}
-
+	
+	public void setProblema(String idProblema) {
+	    this.idProblema = idProblema;
+	}
 
 	/**
 	 * @return representacao textual de uma pesquisa
