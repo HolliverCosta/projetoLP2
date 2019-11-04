@@ -1,18 +1,12 @@
 package facade;
 
 import easyaccept.EasyAccept;
-import projetolp2.atividades.ControllerAtividade;
-import projetolp2.pesquisa.ControllerPesquisa;
-import projetolp2.pesquisador.ControllerPesquisador;
-import projetolp2.po.ControllerPO;
+import projetolp2.ControllerGeral.ControllerGeral;
+
 
 public class Psquiza {
 
-	private ControllerPesquisa controllerPesquisa;
-	private ControllerAtividade controllerAtividade;
-	private ControllerPesquisador controllerPesquisador;
-	private ControllerPO poController;
-
+	private ControllerGeral controllerGeral;
 	public static void main(String[] args) {
 		args = new String[] { "facade.Psquiza", "TestesDeAceitacao/use_case_1.txt", "TestesDeAceitacao/use_case_2.txt",
 				"TestesDeAceitacao/use_case_3.txt","TestesDeAceitacao/use_case_4.txt" };
@@ -20,110 +14,107 @@ public class Psquiza {
 	}
 
 	public Psquiza() {
-		this.controllerPesquisa = new ControllerPesquisa();
-		this.controllerAtividade = new ControllerAtividade();
-		this.controllerPesquisador = new ControllerPesquisador();
-		this.poController = new ControllerPO();
+		this.controllerGeral = new ControllerGeral();
 	}
 	//-----------------------------------------------------Pesquisa-----------------------------------------------------------//
 	public String cadastraPesquisa(String descricao, String campoDeInteresse) {
-		return controllerPesquisa.cadastraPesquisa(descricao, campoDeInteresse);
+		return controllerGeral.getControllerPesquisa().cadastraPesquisa(descricao, campoDeInteresse);
 	}
 
 	public void alteraPesquisa(String codigo, String conteudoASerAlterado, String novoConteudo) {
-		controllerPesquisa.alteraPesquisa(codigo, conteudoASerAlterado, novoConteudo);
+		controllerGeral.getControllerPesquisa().alteraPesquisa(codigo, conteudoASerAlterado, novoConteudo);
 	}
 
 	public void encerraPesquisa(String codigo, String motivo) {
-		controllerPesquisa.encerraPesquisa(codigo, motivo);
+		controllerGeral.getControllerPesquisa().encerraPesquisa(codigo, motivo);
 	}
 
 	public void ativaPesquisa(String codigo) {
-		controllerPesquisa.ativaPesquisa(codigo);
+		controllerGeral.getControllerPesquisa().ativaPesquisa(codigo);
 	}
 
 	public String exibePesquisa(String codigo) {
-		return controllerPesquisa.exibePesquisa(codigo);
+		return controllerGeral.getControllerPesquisa().exibePesquisa(codigo);
 	}
 
 	public boolean pesquisaEhAtiva(String codigo) {
-		return controllerPesquisa.ehAtiva(codigo);
+		return controllerGeral.getControllerPesquisa().ehAtiva(codigo);
 	}
 
 	//----------------------------------------Pesquisador----------------------------------------------------------//
 	public void cadastraPesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
-		this.controllerPesquisador.cadastraPesquisador(nome, funcao, biografia, email, fotoURL);
+		controllerGeral.getControllerPesquisador().cadastraPesquisador(nome, funcao, biografia, email, fotoURL);
 	}
 
 	public void alteraPesquisador(String email, String atributo, String novoValor) {
-		this.controllerPesquisador.alteraPesquisador(email, atributo, novoValor);
+		controllerGeral.getControllerPesquisador().alteraPesquisador(email, atributo, novoValor);
 	}
 
 	public void desativaPesquisador(String email) {
-		this.controllerPesquisador.desativaPesquisador(email);
+		controllerGeral.getControllerPesquisador().desativaPesquisador(email);
 	}
 
 	public void ativaPesquisador(String email) {
-		this.controllerPesquisador.ativaPesquisador(email);
+		controllerGeral.getControllerPesquisador().ativaPesquisador(email);
 	}
 
 	public String exibePesquisador(String email) {
-		return this.controllerPesquisador.exibePesquisador(email);
+		return controllerGeral.getControllerPesquisador().exibePesquisador(email);
 	}
 
 	public boolean pesquisadorEhAtivo(String email) {
-		return this.controllerPesquisador.pesquisadorEhAtivo(email);
+		return controllerGeral.getControllerPesquisador().pesquisadorEhAtivo(email);
 	}
 	
 	//-------------------------------------------------Problemas e Objetivos-----------------------------------------------//
 	public String cadastraProblema(String descricao, int viabilidade) {
-		return poController.cadastraProblema(descricao, viabilidade);
+		return controllerGeral.getControllerPO().cadastraProblema(descricao, viabilidade);
 	}
 	
 	public String cadastraObjetivo(String tipo, String descricao, int aderencia, int viabilidade) {
-		return poController.cadastraObjetivo(tipo, descricao, aderencia, viabilidade);
+		return controllerGeral.getControllerPO().cadastraObjetivo(tipo, descricao, aderencia, viabilidade);
 	}
 	public void apagarProblema(String codigo) {
-		poController.apagarProblema(codigo);
+		controllerGeral.getControllerPO().apagarProblema(codigo);
 	}
 	public void apagarObjetivo(String codigo) {
-		poController.apagarObjetivo(codigo);
+		controllerGeral.getControllerPO().apagarObjetivo(codigo);
 	}
 	public String exibeProblema(String codigo) {
-		return poController.exibeProblema(codigo);
+		return controllerGeral.getControllerPO().exibeProblema(codigo);
 	}
 	public String exibeObjetivo(String codigo) {
-		return poController.exibeObjetivo(codigo);
+		return controllerGeral.getControllerPO().exibeObjetivo(codigo);
 	}
 	
 	//----------------------------------------------Atividades Metodologicas------------------------------------------------//
 	public String cadastraAtividade(String Descricao, String nivelRisco, String descricaoRisco) {
-		return controllerAtividade.cadastrarAtividadePesquisa(Descricao, nivelRisco, descricaoRisco);
+		return controllerGeral.getControllerAtividade().cadastrarAtividadePesquisa(Descricao, nivelRisco, descricaoRisco);
 	}
 
 	
 	public void apagaAtividade(String codigo) {
-		controllerAtividade.apagarAtividade(codigo);
+		controllerGeral.getControllerAtividade().apagarAtividade(codigo);
 	}
 
 	
 	public void cadastraItem(String codigo, String item) {
-		controllerAtividade.cadastrarItem(codigo, item);
+		controllerGeral.getControllerAtividade().cadastrarItem(codigo, item);
 	}
 
 	
 	public String exibeAtividade(String codigo) {
-		return controllerAtividade.exibirAtividade(codigo);
+		return controllerGeral.getControllerAtividade().exibirAtividade(codigo);
 	}
 
 	
 	public int contaItensPendentes(String codigo) {
-		return controllerAtividade.contarItensPendentes(codigo);
+		return controllerGeral.getControllerAtividade().contarItensPendentes(codigo);
 	}
 
 	
 	public int contaItensRealizados(String codigo) {
-		return controllerAtividade.contarItensRealizados(codigo);
+		return controllerGeral.getControllerAtividade().contarItensRealizados(codigo);
 	}
 
 	
