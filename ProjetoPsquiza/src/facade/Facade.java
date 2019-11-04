@@ -6,11 +6,11 @@ import projetolp2.Psquiza.Psquiza;
 
 public class Facade {
 
-	private Psquiza controllerGeral;
+	Psquiza controllerGeral;
 	
 	public static void main(String[] args) {
 		args = new String[] { "facade.Facade", "TestesDeAceitacao/use_case_1.txt", "TestesDeAceitacao/use_case_2.txt",
-				"TestesDeAceitacao/use_case_3.txt","TestesDeAceitacao/use_case_4.txt" };
+				"TestesDeAceitacao/use_case_3.txt","TestesDeAceitacao/use_case_4.txt","TestesDeAceitacao/use_case_5.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -41,7 +41,26 @@ public class Facade {
 	public boolean pesquisaEhAtiva(String codigo) {
 		return controllerGeral.getControllerPesquisa().ehAtiva(codigo);
 	}
-
+	
+	public boolean associaProblema(String idPesquisa, String idProblema) {
+	    return controllerGeral.associaProblema(idPesquisa, idProblema);
+	}
+	
+	public boolean desassociaProblema(String idPesquisa, String idProblema) {
+	    return controllerGeral.desassociaProblema(idPesquisa, idProblema);
+	}
+	
+	public boolean associaObjetivo(String idPesquisa, String idObjetivo) {
+	    return controllerGeral.associaObjetivo(idPesquisa, idObjetivo);
+	}
+	
+	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) {
+	    return controllerGeral.desassociaObjetivo(idPesquisa, idObjetivo);
+	}
+	
+	public String listaPesquisas(String ordem) {
+	    return controllerGeral.listaPesquisas(ordem);
+	}
 	//----------------------------------------Pesquisador----------------------------------------------------------//
 	public void cadastraPesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
 		controllerGeral.getControllerPesquisador().cadastraPesquisador(nome, funcao, biografia, email, fotoURL);
