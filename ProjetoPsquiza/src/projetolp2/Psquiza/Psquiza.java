@@ -1,10 +1,10 @@
 package projetolp2.Psquiza;
 
 import projetolp2.atividades.ControllerAtividade;
+import projetolp2.misc.ValidaCampos;
 import projetolp2.pesquisa.ControllerPesquisa;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.po.ControllerPO;
-import projetolp2.po.ValidaCampos;
 
 public class Psquiza {
 	private ControllerAtividade controllerAtividade;
@@ -31,7 +31,7 @@ public class Psquiza {
 	public ControllerPO getControllerPO() {
 		return this.controllerPO;
 	}
-	
+	//-------------------------------------------------US5---------------------------------------------------------//
 	public boolean associaProblema(String idPesquisa, String idProblema) {
 	       ValidaCampos.validaCamposString(new String[] {idPesquisa, idProblema},
 	                new String[] {"idPesquisa", "idProblema"});
@@ -58,9 +58,5 @@ public class Psquiza {
                 new String[] {"idPesquisa", "idObjetivo"});
 	    if(!this.controllerPO.existe(idObjetivo)) throw new IllegalArgumentException("Objetivo nao encontrado");
 	    return this.controllerPesquisa.desassociaObjetivo(idPesquisa, idObjetivo);
-	}
-	
-	public String listaPesquisas(String ordem) {
-	    return this.controllerPesquisa.listaPesquisas(ordem);
 	}
 }

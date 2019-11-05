@@ -59,7 +59,7 @@ public class Facade {
 	}
 	
 	public String listaPesquisas(String ordem) {
-	    return controllerGeral.listaPesquisas(ordem);
+	    return controllerGeral.getControllerPesquisa().listaPesquisas(ordem);
 	}
 	//----------------------------------------Pesquisador----------------------------------------------------------//
 	public void cadastraPesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {

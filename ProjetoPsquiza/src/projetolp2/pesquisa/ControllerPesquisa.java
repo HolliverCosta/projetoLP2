@@ -5,8 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import projetolp2.misc.GeraComparador;
 
 /**
  * Controladora de pesquisas
@@ -45,7 +46,6 @@ public class ControllerPesquisa {
      * @return o codigo da pesquisa
      */
 	public String cadastraPesquisa(String descricao, String campoDeInteresse) {
-
 		this.validacao.validaString(campoDeInteresse, "Formato do campo de interesse invalido.");
 		this.validacao.validaString(descricao, "Descricao nao pode ser nula ou vazia.");
 		validacao.validaCampoInteresse(campoDeInteresse, "Formato do campo de interesse invalido.");

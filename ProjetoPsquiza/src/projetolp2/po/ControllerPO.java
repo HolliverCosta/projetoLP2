@@ -1,6 +1,8 @@
 package projetolp2.po;
 
 import java.util.HashMap;
+
+import projetolp2.misc.ValidaCampos;
 /**
  * Representação de um gerenciador de problemas e objetivos do sistema Psquiza.
  * 
