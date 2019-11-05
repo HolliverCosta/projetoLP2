@@ -3,6 +3,7 @@ package projetolp2.Psquiza;
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.misc.ValidaCampos;
 import projetolp2.pesquisa.ControllerPesquisa;
+import projetolp2.pesquisa.Validacao;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.po.ControllerPO;
 
@@ -11,12 +12,13 @@ public class Psquiza {
 	private ControllerPesquisa controllerPesquisa;
 	private ControllerPesquisador controllerPesquisador;
 	private ControllerPO controllerPO;
-	
+	private Validacao validacao;
 	public Psquiza() {	
 		this.controllerAtividade = new ControllerAtividade();
 		this.controllerPesquisa = new ControllerPesquisa();
 		this.controllerPesquisador = new ControllerPesquisador();
-		this.controllerPO = new ControllerPO();				
+		this.controllerPO = new ControllerPO();	
+		this.validacao = new Validacao();
 	}
 	public ControllerAtividade getControllerAtividade() {
 		return this.controllerAtividade;
@@ -58,5 +60,41 @@ public class Psquiza {
                 new String[] {"idPesquisa", "idObjetivo"});
 	    if(!this.controllerPO.existe(idObjetivo)) throw new IllegalArgumentException("Objetivo nao encontrado");
 	    return this.controllerPesquisa.desassociaObjetivo(idPesquisa, idObjetivo);
+	}
+	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
+		validacao.validaString(codigoPesquisa, "Campo codigoPesquisa nao pode ser nulo ou vazio.");
+		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
+		if(controllerAtividade.verificaExisteAtividade(codigoAtividade)==false)throw new IllegalArgumentException("Atividade nao encontrada");
+		return controllerPesquisa.associaAtividade(codigoPesquisa, codigoAtividade);
+	}
+	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
+		validacao.validaString(codigoPesquisa, "Campo codigoPesquisa nao pode ser nulo ou vazio.");
+		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
+		if(controllerAtividade.verificaExisteAtividade(codigoAtividade)==false)throw new IllegalArgumentException("Atividade nao encontrada");
+		return controllerPesquisa.desassociaAtividade(codigoPesquisa, codigoAtividade);
+	}
+	public void executaAtividade(String codigoAtividade, Integer item, Integer duracao) {
+		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
+		validacao.validaInteiro(item, "Item nao pode ser nulo ou negativo.");
+		validacao.validaInteiro(duracao, "Duracao nao pode ser nula ou negativa.");
+		controllerAtividade.executaAtividade(codigoAtividade, item, duracao);
+	}
+	public Integer cadastraResultado(String codigoAtividade, String resultado) {
+		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
+		validacao.validaString(resultado, "Resultado nao pode ser nulo ou vazio.");
+		return controllerAtividade.cadastraResultado(codigoAtividade, resultado);
+	}
+	public boolean removeResultado(String codigoAtividade, Integer numeroResultado) {
+		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
+		validacao.validaInteiro(numeroResultado, "numeroResultado nao pode ser nulo ou negativo.");
+		return controllerAtividade.removeResultado(codigoAtividade, numeroResultado);
+	}
+	public String listaResultados(String codigoAtividade) {
+		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
+		return controllerAtividade.listaResultados(codigoAtividade);
+	}
+	public Integer getDuracao(String codigoAtividade) {
+		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
+		return controllerAtividade.getDuracao(codigoAtividade);
 	}
 }

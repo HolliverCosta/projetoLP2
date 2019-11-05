@@ -241,4 +241,15 @@ public class ControllerPesquisa {
 	    output = geraStringOrdenada(comCriterio, semCriterio, comparador);
 	    return output;
 	}
+	//----------------------------------------US7------------------------------------------------------//
+		public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
+			if(verificaExistePesquisa(codigoPesquisa)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
+			if (ehAtiva(codigoPesquisa)==false) throw new IllegalArgumentException("Pesquisa desativada.");
+			return pesquisas.get(codigoPesquisa).associaAtividade(codigoAtividade);
+		}
+		public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
+			if(verificaExistePesquisa(codigoPesquisa)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
+			if (ehAtiva(codigoPesquisa)==false) throw new IllegalArgumentException("Pesquisa desativada.");
+			return pesquisas.get(codigoPesquisa).desassociaAtividade(codigoAtividade);
+		}
 }

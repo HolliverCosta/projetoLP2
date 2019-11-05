@@ -1,6 +1,7 @@
 package projetolp2.pesquisa;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class Pesquisa {
 	private String status;
 	private List<String> objetivos;
 	private String idProblema;
+	private HashSet<String>atividades;
 	/**
 	 * Constroi uma pesquisa
 	 * @param descricao
@@ -28,6 +30,7 @@ public class Pesquisa {
 		this.codigo = codigo;
 		this.idProblema = "";
 		this.objetivos = new ArrayList<String>();
+		this.atividades = new HashSet<>();
 	}
 	
 	public void addObjetivo(String idObjetivo) {
@@ -82,4 +85,21 @@ public class Pesquisa {
 	public String toString() {
 		return this.codigo + " - " + this.descricao + " - " + this.campoDeInteresse;
 	}
+	//----------------------------------------------US7---------------------------------------------------//
+		public boolean associaAtividade(String codigoAtividade) {
+			if(!atividades.contains(codigoAtividade)) {
+				atividades.add(codigoAtividade);
+				return true;
+			}
+			else
+				return false;
+		}
+		public boolean desassociaAtividade(String codigoAtividade) {
+			if(!atividades.contains(codigoAtividade)) {
+				return false;
+			}
+			else
+				atividades.remove(codigoAtividade);
+				return true;
+		}
 }

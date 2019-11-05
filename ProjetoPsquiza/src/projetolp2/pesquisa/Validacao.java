@@ -44,4 +44,12 @@ public class Validacao {
 		if (string.length() > 255)
 			throw new IllegalArgumentException(msg);
 	}
+	public void validaInteiro(Integer inteiro, String msg) {
+		if (inteiro == null)
+			throw new NullPointerException(msg);
+		else if(inteiro<0) 
+			throw new IllegalArgumentException(msg);
+		
+			
+	}
 }

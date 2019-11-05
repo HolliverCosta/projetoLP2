@@ -103,4 +103,27 @@ public class ControllerAtividade {
         if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
         return atividades.get(codigo).totalItemsRealizados();
     }
+    //-------------------------------------------US7------------------------------------------------------//
+    public boolean verificaExisteAtividade(String codigo) {
+    	return atividades.containsKey(codigo);
+    }
+    public void executaAtividade(String codigoAtividade, Integer item, Integer duracao) {
+		atividades.get(codigoAtividade).setStatusItem(item);
+		atividades.get(codigoAtividade).setDuracao(duracao);
+	}
+	public Integer cadastraResultado(String codigoAtividade, String resultado) {
+		return atividades.get(codigoAtividade).cadastraResultado(resultado);		
+	}
+	public boolean removeResultado(String codigoAtividade, Integer numeroResultado) {
+		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
+		return atividades.get(codigoAtividade).removeResultado(numeroResultado);
+	}
+	public String listaResultados(String codigoAtividade) {
+		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
+		return atividades.get(codigoAtividade).listaResultados();
+	}
+	public Integer getDuracao(String codigoAtividade) {
+		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
+		return atividades.get(codigoAtividade).getDuracao();
+	}
 }

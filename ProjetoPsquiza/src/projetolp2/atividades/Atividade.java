@@ -1,6 +1,6 @@
 package projetolp2.atividades;
-import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Representação de uma Atividade Metodológica. Todoa Atividade possui um ID (códido), uma descrição da Atividade,
@@ -28,13 +28,14 @@ public class Atividade {
     /**
      * Duração de uma Atividade;
      */
-    private Period duracao;
+    private Integer duracao;
 
     /**
      * Lista dos resultados esperados.
      */
     private ArrayList<Item> resultadosEsperados = new ArrayList<Item>();
-
+    private HashMap<Integer,String> resultados;
+    private int contadorResultado;
     /**
      * Constrói uma Atividade, a partir da sua descricao, do nível de risco, da descrição do Risco e de um ID:número
      * de identificação para formar o código.
@@ -48,7 +49,8 @@ public class Atividade {
         this.nivelRisco = nivelRisco;
         this.descricaoRisco = descricaoRisco;
         this.idAtividade = iD;
-        this.duracao = Period.ofDays(8);
+        this.duracao =0;
+        this.resultados = new HashMap<>();
     }
 
     /**
@@ -148,4 +150,48 @@ public class Atividade {
         }
         return conc;
     }
+    //-----------------------------------------------US7------------------------------------------------//
+	public void setDuracao(Integer duracao) {
+		this.duracao += duracao;
+	}
+	private boolean verificaItem(Integer item) {
+		return resultadosEsperados.contains(item);
+	}
+	public void setStatusItem(Integer itemPosicao) {
+
+		if(resultadosEsperados.get(itemPosicao-1).getStatus().equals("REALIZADO"))throw new IllegalArgumentException("Item ja executado.");
+		
+		resultadosEsperados.get(itemPosicao-1).setStatus("REALIZADO");
+		
+		}
+	public Integer cadastraResultado(String resultado) {
+		contadorResultado +=1;
+		resultados.put(contadorResultado, resultado);
+		
+		return contadorResultado;
+	}
+	
+	public boolean removeResultado(Integer numeroResultado) {
+		//if(!resultados.containsKey(numeroResultado-1))throw new IllegalArgumentException("Resultado nao encontrado.");
+		if(!resultados.containsKey(numeroResultado)) 
+			return false;
+		else {
+			resultados.remove(numeroResultado);
+			return true;
+		}
+		
+	}
+	public String listaResultados() {
+		String msg="";
+		for(String r : resultados.values()) {
+			msg += r + " | ";
+		}
+		return msg.substring(0, msg.length()-3);
+	}
+
+
+
+	public Integer getDuracao() {
+		return duracao;
+	}
 }

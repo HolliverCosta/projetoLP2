@@ -10,7 +10,7 @@ public class Facade {
 	
 	public static void main(String[] args) {
 		args = new String[] { "facade.Facade", "TestesDeAceitacao/use_case_1.txt", "TestesDeAceitacao/use_case_2.txt",
-				"TestesDeAceitacao/use_case_3.txt","TestesDeAceitacao/use_case_4.txt","TestesDeAceitacao/use_case_5.txt" };
+				"TestesDeAceitacao/use_case_3.txt","TestesDeAceitacao/use_case_4.txt","TestesDeAceitacao/use_case_5.txt","TestesDeAceitacao/use_case_7.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -136,7 +136,28 @@ public class Facade {
 	public int contaItensRealizados(String codigo) {
 		return controllerGeral.getControllerAtividade().contarItensRealizados(codigo);
 	}
-
+	//----------------------------------------------US7--------------------------------------------------------//
+	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
+		return controllerGeral.associaAtividade(codigoPesquisa, codigoAtividade);
+	}
+	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
+		return controllerGeral.desassociaAtividade(codigoPesquisa, codigoAtividade);
+	}
+	public void executaAtividade(String codigoAtividade, Integer item, Integer duracao) {
+		controllerGeral.executaAtividade(codigoAtividade, item, duracao);
+	}
+	public Integer cadastraResultado(String codigoAtividade, String resultado) {
+		return controllerGeral.cadastraResultado(codigoAtividade, resultado);
+	}
+	public boolean removeResultado(String codigoAtividade, Integer numeroResultado) {
+		return controllerGeral.removeResultado(codigoAtividade, numeroResultado);
+	}
+	public String listaResultados(String codigoAtividade) {
+		return controllerGeral.listaResultados(codigoAtividade);
+	}
+	public Integer getDuracao(String codigoAtividade) {
+		return controllerGeral.getDuracao(codigoAtividade);
+	}
 	
 
 }
