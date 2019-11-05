@@ -1,4 +1,4 @@
-package projetolp2.po;
+package projetolp2.misc;
 
 public class ValidaCampos {
 

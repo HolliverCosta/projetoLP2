@@ -1,6 +1,8 @@
-package projetolp2.pesquisa;
+package projetolp2.misc;
 
 import java.util.Comparator;
+
+import projetolp2.pesquisa.Pesquisa;
 
 public class GeraComparador {
     
