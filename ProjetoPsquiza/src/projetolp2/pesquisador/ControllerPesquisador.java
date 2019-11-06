@@ -1,9 +1,11 @@
 package projetolp2.pesquisador;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import easyaccept.EasyAccept;
+import projetolp2.busca.Pair;
 
 public class ControllerPesquisador {
 	private Map<String, Pesquisador> pesquisadoresAtivos;
@@ -144,6 +146,44 @@ public class ControllerPesquisador {
 		}else 
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
 	}
+	//--------------------------------------------US8------------------------------------------------------//
+	public ArrayList<Pair> retornaBuscaGeralPesquisador(String termo) {
+        String procurarPor = termo;
+        ArrayList<Pair> pares = new ArrayList<Pair>();
+        
+        for(String key: pesquisadoresAtivos.keySet()) {
+            if(pesquisadoresAtivos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,pesquisadoresAtivos.get(key).getBiografia());
+                pares.add(par);
+            }
+        }
+        
+        for(String key: pesquisadoresInativos.keySet()) {
+            if(pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,pesquisadoresInativos.get(key).getBiografia());
+                pares.add(par);
+            }
+        }
+        return pares;
+    }
+	
+	public int contaResultadoBusca(String termo) {
+        String procurarPor = termo;
+        int count = 0;
+        
+        for(String key: pesquisadoresAtivos.keySet()) {
+            if(pesquisadoresAtivos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+               count = count + 1;
+            }
+        }
+        
+        for(String key: pesquisadoresInativos.keySet()) {
+            if(pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }
+        }
+        return count;
+    }
 	
 	
 }

@@ -34,7 +34,11 @@ public class Problema {
         this.id = id;
     }
     
-    @Override
+    public String getDescricao() {
+		return descricao;
+	}
+
+	@Override
     public String toString() {
         return this.id + " - " + this.descricao + " - " + this.viabilidade;
     }

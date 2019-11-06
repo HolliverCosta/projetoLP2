@@ -67,6 +67,16 @@ public class Pesquisa {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
+	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public String getCampoDeInteresse() {
+		return campoDeInteresse;
+	}
+
 	/**
 	 * metodo para mudar o campo de interesse da pesquisa
 	 * @param campoDeInteresse

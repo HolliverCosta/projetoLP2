@@ -1,5 +1,8 @@
 package projetolp2.atividades;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import projetolp2.busca.Pair;
 
 /**
  * Representação da Controladora de uma Atividade. Toda Controladora possui um gerador de Id, para as atividades e um HashMap com todas as atividades;
@@ -126,4 +129,46 @@ public class ControllerAtividade {
 		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
 		return atividades.get(codigoAtividade).getDuracao();
 	}
+	//--------------------------------------------US8----------------------------------------------------------//
+	public ArrayList<Pair> retornaBuscaGeralAtividadesEItems(String termo) {
+        String procurarPor = termo;
+        ArrayList<Pair> pares = new ArrayList<Pair>();
+        
+        for(String key: atividades.keySet()) {
+            
+            if(atividades.get(key).getDescricaoAtividade().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,atividades.get(key).getDescricaoAtividade());
+                pares.add(par);
+            }
+            
+            if(atividades.get(key).getDescricaoRisco().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,atividades.get(key).getDescricaoRisco());
+                pares.add(par);
+            }
+            
+            pares.addAll(atividades.get(key).buscaTermoNoItem(termo)); //Adiciona todos os elementos da lista de pares de Item, na lista geral;
+        }
+        
+        return pares;
+    }
+        
+    public int contaResultadoBusca(String termo) {
+        String procurarPor = termo;
+        int count = 0;
+        
+        for(String key: atividades.keySet()) {
+            
+            if(atividades.get(key).getDescricaoAtividade().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1; 
+            }
+            
+            if(atividades.get(key).getDescricaoRisco().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }  
+            
+            count = count + atividades.get(key).contaTermoNoItem(termo);
+        }
+        return count;
+    }
+	
 }

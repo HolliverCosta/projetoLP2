@@ -48,7 +48,11 @@ public class Objetivo {
         this.id = id;
     }
     
-    @Override
+    public String getDescricao() {
+		return descricao;
+	}
+
+	@Override
     public String toString() {
         int valor = this.aderencia + this.viabilidade;
         return this.id + " - " + this.tipo + " - " + this.descricao + " - " + valor;

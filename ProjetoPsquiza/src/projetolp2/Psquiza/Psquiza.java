@@ -1,6 +1,7 @@
 package projetolp2.Psquiza;
 
 import projetolp2.atividades.ControllerAtividade;
+import projetolp2.busca.ControllerBusca;
 import projetolp2.misc.ValidaCampos;
 import projetolp2.pesquisa.ControllerPesquisa;
 import projetolp2.pesquisa.Validacao;
@@ -12,12 +13,14 @@ public class Psquiza {
 	private ControllerPesquisa controllerPesquisa;
 	private ControllerPesquisador controllerPesquisador;
 	private ControllerPO controllerPO;
+	private ControllerBusca controllerBusca;
 	private Validacao validacao;
 	public Psquiza() {	
 		this.controllerAtividade = new ControllerAtividade();
 		this.controllerPesquisa = new ControllerPesquisa();
 		this.controllerPesquisador = new ControllerPesquisador();
 		this.controllerPO = new ControllerPO();	
+		this.controllerBusca = new ControllerBusca();
 		this.validacao = new Validacao();
 	}
 	public ControllerAtividade getControllerAtividade() {
@@ -32,6 +35,9 @@ public class Psquiza {
 	}
 	public ControllerPO getControllerPO() {
 		return this.controllerPO;
+	}
+	public ControllerBusca getControllerBusca() {
+		return controllerBusca;
 	}
 	//-------------------------------------------------US5---------------------------------------------------------//
 	public boolean associaProblema(String idPesquisa, String idProblema) {

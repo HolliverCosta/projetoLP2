@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import projetolp2.busca.Pair;
 import projetolp2.misc.GeraComparador;
 
 /**
@@ -242,14 +243,50 @@ public class ControllerPesquisa {
 	    return output;
 	}
 	//----------------------------------------US7------------------------------------------------------//
-		public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
-			if(verificaExistePesquisa(codigoPesquisa)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
-			if (ehAtiva(codigoPesquisa)==false) throw new IllegalArgumentException("Pesquisa desativada.");
-			return pesquisas.get(codigoPesquisa).associaAtividade(codigoAtividade);
-		}
-		public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
-			if(verificaExistePesquisa(codigoPesquisa)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
-			if (ehAtiva(codigoPesquisa)==false) throw new IllegalArgumentException("Pesquisa desativada.");
-			return pesquisas.get(codigoPesquisa).desassociaAtividade(codigoAtividade);
-		}
+	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
+		if(verificaExistePesquisa(codigoPesquisa)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
+		if (ehAtiva(codigoPesquisa)==false) throw new IllegalArgumentException("Pesquisa desativada.");
+		return pesquisas.get(codigoPesquisa).associaAtividade(codigoAtividade);
+	}
+	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
+		if(verificaExistePesquisa(codigoPesquisa)==false)throw new IllegalArgumentException("Pesquisa nao encontrada.");
+		if (ehAtiva(codigoPesquisa)==false) throw new IllegalArgumentException("Pesquisa desativada.");
+		return pesquisas.get(codigoPesquisa).desassociaAtividade(codigoAtividade);
+	}
+	//--------------------------------------US8-----------------------------------------------------/-/
+	public ArrayList<Pair> retornaBuscaGeralPesquisa(String termo) {
+	    String procurarPor = termo;
+	    
+	    ArrayList<Pair> pares = new ArrayList<Pair>();
+	    
+	    for(String key:pesquisas.keySet()) {
+	        if(pesquisas.get(key).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+	            Pair par = new Pair(key,pesquisas.get(key).getDescricao());
+	            pares.add(par);
+	        }
+	        
+	        if(pesquisas.get(key).getCampoDeInteresse().toLowerCase().contains(procurarPor.toLowerCase())) {
+	            Pair par = new Pair(key,pesquisas.get(key).getCampoDeInteresse());
+	            pares.add(par);
+            }  
+	    }
+	    return pares;
+	}
+	
+	 public int contaResultadoBusca(String termo) {
+        String procurarPor = termo;
+        int count = 0;
+        
+        for(String key:pesquisas.keySet()) {
+            if(pesquisas.get(key).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }
+            
+            if(pesquisas.get(key).getCampoDeInteresse().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }  
+        }
+        return count;
+    }
+		
 }

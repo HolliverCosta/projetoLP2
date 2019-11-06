@@ -27,7 +27,12 @@ public class Pesquisador {
 	public void setFuncao(String funcao) {
 		this.funcao = funcao;
 	}
-
+	
+	
+	
+	public String getBiografia() {
+		return biografia;
+	}
 	public void setBiografia(String biografia) {
 		this.biografia = biografia;
 	}
@@ -64,6 +69,7 @@ public class Pesquisador {
 	public void setFotoURL(String fotoURL) {
 		this.fotoURL = fotoURL;
 	}
+	
 		
 	
 }

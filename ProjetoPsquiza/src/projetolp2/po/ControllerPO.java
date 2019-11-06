@@ -1,7 +1,9 @@
 package projetolp2.po;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import projetolp2.busca.Pair;
 import projetolp2.misc.ValidaCampos;
 /**
  * Representação de um gerenciador de problemas e objetivos do sistema Psquiza.
@@ -129,4 +131,49 @@ public class ControllerPO {
     public boolean existe(String id) {
         return this.problemas.containsKey(id) || this.objetivos.containsKey(id);
     }
+    //-----------------------------------------------------US8---------------------------------------------------//
+    public ArrayList<Pair> retornaBuscaGeralProblemas(String termo) {
+        String procurarPor = termo;
+        ArrayList<Pair> pares = new ArrayList<Pair>();
+        
+        for(String key: problemas.keySet()) {
+            if(problemas.get(key).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,problemas.get(key).getDescricao());
+                pares.add(par);
+            }
+        }
+        return pares;
+    }
+    
+    public ArrayList<Pair> retornaBuscaGeralObjetivos(String termo) {
+        String procurarPor = termo;
+        ArrayList<Pair> pares = new ArrayList<Pair>();
+        
+        for(String key: objetivos.keySet()) {
+            if(objetivos.get(key).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,objetivos.get(key).getDescricao());
+                pares.add(par);
+            }
+        }
+        return pares;
+    }
+    
+    public int contaResultadoBusca(String termo) {
+        String procurarPor = termo;
+        int count = 0;
+        
+        for(String key: problemas.keySet()) {
+            if(problemas.get(key).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }
+        }
+        
+        for(String key: objetivos.keySet()) {
+            if(objetivos.get(key).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }
+        }
+        return count;
+    }
+    
 }

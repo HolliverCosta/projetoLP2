@@ -3,6 +3,8 @@ package projetolp2.atividades;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import projetolp2.busca.Pair;
+
 /**
  * Representação de uma Atividade Metodológica. Todoa Atividade possui um ID
  * (códido), uma descrição da Atividade, um nível de risco, uma descrição do
@@ -80,6 +82,14 @@ public class Atividade {
 				item.setStatus("REALIZADO");
 			}
 		}
+	}
+	
+	public String getDescricaoAtividade() {
+		return descricaoAtividade;
+	}
+
+	public String getDescricaoRisco() {
+		return descricaoRisco;
 	}
 
 	/**
@@ -207,4 +217,44 @@ public class Atividade {
 	public Integer getDuracao() {
 		return duracao;
 	}
+	//-------------------------------------------------US8-------------------------------------------------------//
+	/**
+     * Busca o termo nos itens dentro da Atividade;
+     * @param termo
+     * @return
+     */
+    public ArrayList<Pair> buscaTermoNoItem (String termo) {
+        String procurarPor = termo;
+        
+        ArrayList<Pair> pares = new ArrayList<Pair>();
+        
+        for(int i = 0; i< resultadosEsperados.size();i++) {
+            if(resultadosEsperados.get(i).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(this.idAtividade,resultadosEsperados.get(i).getDescricao());
+                pares.add(par);
+            }
+        }
+        
+        return pares;
+    }
+    
+    /**
+     * Conta a quantidade de casos do termo encontrado nos itens;
+     * @param termo
+     * @return
+     */
+    public int contaTermoNoItem (String termo) {
+        String procurarPor = termo;
+        int count = 0;
+        
+        for(int i = 0; i < resultadosEsperados.size(); i++) {
+            if(resultadosEsperados.get(i).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }
+        }
+        return count;
+    }
+	
+	
+	
 }
