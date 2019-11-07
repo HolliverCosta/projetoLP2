@@ -1,13 +1,13 @@
 package projetolp2.pesquisador;
 
-public class Pesquisador {
+public  class Pesquisador {
 
 	private String nome;
 	private String funcao;
 	private String biografia;
 	private String email;
 	private String fotoURL;
-	
+
 	public Pesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
 		this.nome = nome;
 		this.funcao = funcao;
@@ -15,9 +15,10 @@ public class Pesquisador {
 		this.email = email;
 		this.fotoURL = fotoURL;
 	}
+
 	@Override
 	public String toString() {
-		return  nome + " (" + funcao + ") - " + biografia + " - " + email + " - " + fotoURL;
+		return nome + " (" + funcao + ") - " + biografia + " - " + email + " - " + fotoURL;
 	}
 
 	public void setNome(String nome) {
@@ -27,12 +28,27 @@ public class Pesquisador {
 	public void setFuncao(String funcao) {
 		this.funcao = funcao;
 	}
-	
-	
-	
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getFuncao() {
+		return funcao;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getFotoURL() {
+		return fotoURL;
+	}
+
 	public String getBiografia() {
 		return biografia;
 	}
+
 	public void setBiografia(String biografia) {
 		this.biografia = biografia;
 	}
@@ -69,7 +85,5 @@ public class Pesquisador {
 	public void setFotoURL(String fotoURL) {
 		this.fotoURL = fotoURL;
 	}
-	
-		
-	
+
 }
