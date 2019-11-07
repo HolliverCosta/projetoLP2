@@ -9,8 +9,8 @@ import easyaccept.EasyAccept;
 import projetolp2.busca.Pair;
 
 public class ControllerPesquisador {
-	private Map<String, Pesquisador> pesquisadoresAtivos;
-	private Map<String, Pesquisador> pesquisadoresInativos;
+	private Map<String, Pesquisador> pesquisadores;
+	
 	private Validacao validacao;
 
 	public static void main(String[] args) {
@@ -19,8 +19,8 @@ public class ControllerPesquisador {
 	}
 
 	public ControllerPesquisador() {
-		this.pesquisadoresAtivos = new HashMap<String, Pesquisador>();
-		this.pesquisadoresInativos = new HashMap<String, Pesquisador>();
+		this.pesquisadores = new HashMap<String, Pesquisador>();
+		
 		this.validacao = new Validacao();
 	}
 
@@ -35,7 +35,7 @@ public class ControllerPesquisador {
 
 		if (!ehCadastrado(email)) {
 			Pesquisador novoPesquisador = new Pesquisador(nome, funcao, biografia, email, fotoURL);
-			this.pesquisadoresAtivos.put(email, novoPesquisador);
+			this.pesquisadores.put(email, novoPesquisador);
 		} else
 			throw new IllegalArgumentException("Pesquisador já cadastrado.");
 
@@ -49,75 +49,75 @@ public class ControllerPesquisador {
 			case "EMAIL":
 				validacao.validaString(novoValor, "Campo email nao pode ser nulo ou vazio.");
 				validacao.validaEmail(novoValor, "Formato de email invalido.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					Pesquisador novoPesquisador = this.pesquisadoresAtivos.get(email);
-					this.pesquisadoresAtivos.put(novoValor, novoPesquisador);
-					this.pesquisadoresAtivos.get(novoValor).setEmail(novoValor);
-					this.pesquisadoresAtivos.remove(email);
+				if (this.pesquisadores.get(email).getStatus()) {
+					Pesquisador novoPesquisador = this.pesquisadores.get(email);
+					this.pesquisadores.put(novoValor, novoPesquisador);
+					this.pesquisadores.get(novoValor).setEmail(novoValor);
+					this.pesquisadores.remove(email);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "NOME":
 				validacao.validaString(novoValor, "Campo nome nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					this.pesquisadoresAtivos.get(email).setNome(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					this.pesquisadores.get(email).setNome(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "FUNCAO":
 				validacao.validaString(novoValor, "Campo funcao nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					this.pesquisadoresAtivos.get(email).setFuncao(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					this.pesquisadores.get(email).setFuncao(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "BIOGRAFIA":
 				validacao.validaString(novoValor, "Campo biografia nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					this.pesquisadoresAtivos.get(email).setBiografia(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					this.pesquisadores.get(email).setBiografia(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "FOTO":
 				validacao.validaString(novoValor, "Campo fotoURL nao pode ser nulo ou vazio.");
 				validacao.validaFotoURL(novoValor, "Formato de foto invalido.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					this.pesquisadoresAtivos.get(email).setFotoURL(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					this.pesquisadores.get(email).setFotoURL(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "FORMACAO":
 				validacao.validaString(novoValor, "Campo formacao nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					((PesquisadorProfessor) pesquisadoresAtivos.get(email)).setFormacao(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					((PesquisadorProfessor) pesquisadores.get(email)).setFormacao(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "UNIDADE":
 				validacao.validaString(novoValor, "Campo unidade nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					((PesquisadorProfessor) this.pesquisadoresAtivos.get(email)).setUnidade(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					((PesquisadorProfessor) this.pesquisadores.get(email)).setUnidade(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "DATA":
 				validacao.validaString(novoValor, "Campo data nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					((PesquisadorProfessor) this.pesquisadoresAtivos.get(email)).setData(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					((PesquisadorProfessor) this.pesquisadores.get(email)).setData(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "SEMESTRE":
 				validacao.validaString(novoValor, "Campo data nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					((PesquisadorAluno) this.pesquisadoresAtivos.get(email)).setSemestre(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					((PesquisadorAluno) this.pesquisadores.get(email)).setSemestre(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
 			case "IEA":
 				validacao.validaString(novoValor, "Campo IEA nao pode ser nulo ou vazio.");
-				if (this.pesquisadoresAtivos.containsKey(email)) {
-					((PesquisadorAluno) this.pesquisadoresAtivos.get(email)).setIEA(novoValor);
+				if (this.pesquisadores.get(email).getStatus()) {
+					((PesquisadorAluno) this.pesquisadores.get(email)).setIEA(novoValor);
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
@@ -129,7 +129,7 @@ public class ControllerPesquisador {
 	}
 
 	private boolean ehCadastrado(String email) {
-		if (!(this.pesquisadoresAtivos.containsKey(email) || this.pesquisadoresInativos.containsKey(email)))
+		if (!(this.pesquisadores.containsKey(email)))
 			return false;
 		return true;
 	}
@@ -137,9 +137,8 @@ public class ControllerPesquisador {
 	public void desativaPesquisador(String email) {
 		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
 		if (ehCadastrado(email)) {
-			if (this.pesquisadoresAtivos.containsKey(email)) {
-				this.pesquisadoresInativos.put(email, this.pesquisadoresAtivos.get(email));
-				this.pesquisadoresAtivos.remove(email);
+			if (this.pesquisadores.get(email).getStatus()) {
+				this.pesquisadores.get(email).setStatus(false);
 			} else {
 				throw new IllegalArgumentException("Pesquisador inativo.");
 			}
@@ -150,9 +149,8 @@ public class ControllerPesquisador {
 	public void ativaPesquisador(String email) {
 		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
 		if (ehCadastrado(email)) {
-			if (this.pesquisadoresInativos.containsKey(email)) {
-				this.pesquisadoresAtivos.put(email, this.pesquisadoresInativos.get(email));
-				this.pesquisadoresInativos.remove(email);
+			if (!pesquisadorEhAtivo(email)) {
+				this.pesquisadores.get(email).setStatus(true);
 			} else {
 				throw new IllegalArgumentException("Pesquisador ja ativado.");
 			}
@@ -163,8 +161,8 @@ public class ControllerPesquisador {
 	public String exibePesquisador(String email) {
 		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
 		if (ehCadastrado(email)) {
-			if (this.pesquisadoresAtivos.containsKey(email)) {
-				return this.pesquisadoresAtivos.get(email).toString();
+			if (this.pesquisadores.containsKey(email)) {
+				return this.pesquisadores.get(email).toString();
 			} else
 				throw new IllegalArgumentException("Pesquisador inativo.");
 		} else
@@ -174,7 +172,7 @@ public class ControllerPesquisador {
 	public boolean pesquisadorEhAtivo(String email) {
 		validacao.validaString(email, "Email nao pode ser vazio ou nulo.");
 		if (ehCadastrado(email)) {
-			if (this.pesquisadoresAtivos.containsKey(email)) {
+			if (this.pesquisadores.get(email).getStatus()) {
 				return true;
 			} else
 				return false;
@@ -187,19 +185,19 @@ public class ControllerPesquisador {
 		String procurarPor = termo;
 		ArrayList<Pair> pares = new ArrayList<Pair>();
 
-		for (String key : pesquisadoresAtivos.keySet()) {
-			if (pesquisadoresAtivos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
-				Pair par = new Pair(key, pesquisadoresAtivos.get(key).getBiografia());
+		for (String key : pesquisadores.keySet()) {
+			if (pesquisadores.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+				Pair par = new Pair(key, pesquisadores.get(key).getBiografia());
 				pares.add(par);
 			}
 		}
 
-		for (String key : pesquisadoresInativos.keySet()) {
-			if (pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
-				Pair par = new Pair(key, pesquisadoresInativos.get(key).getBiografia());
-				pares.add(par);
-			}
-		}
+//		for (String key : pesquisadoresInativos.keySet()) {
+//			if (pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+//				Pair par = new Pair(key, pesquisadoresInativos.get(key).getBiografia());
+//				pares.add(par);
+//			}
+//		}
 		return pares;
 	}
 
@@ -207,22 +205,22 @@ public class ControllerPesquisador {
 		String procurarPor = termo;
 		int count = 0;
 
-		for (String key : pesquisadoresAtivos.keySet()) {
-			if (pesquisadoresAtivos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+		for (String key : pesquisadores.keySet()) {
+			if (pesquisadores.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
 				count = count + 1;
 			}
 		}
 
-		for (String key : pesquisadoresInativos.keySet()) {
-			if (pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
-				count = count + 1;
-			}
-		}
+//		for (String key : pesquisadoresInativos.keySet()) {
+//			if (pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
+//				count = count + 1;
+//			}
+//		}
 		return count;
 	}
 
 	public Pesquisador getPesquisador(String emailPesquisador) {
-		return this.pesquisadoresAtivos.get(emailPesquisador);
+		return this.pesquisadores.get(emailPesquisador);
 	}
 
 	public void cadastraEspecialidadeProfessor(String email, String formacao, String unidade, String data) {
@@ -233,15 +231,15 @@ public class ControllerPesquisador {
 		validacao.validaData(data, "Atributo data com formato invalido.");
 		if (!ehCadastrado(email))
 			throw new IllegalArgumentException("Pesquisadora nao encontrada.");
-		if (!this.pesquisadoresAtivos.get(email).getFuncao().equals("professor"))
+		if (!this.pesquisadores.get(email).getFuncao().equals("professor"))
 			throw new IllegalArgumentException("Pesquisador nao compativel com a especialidade.");
 		if (pesquisadorEhAtivo(email)) {
-			Pesquisador pesquisadorProfessor = new PesquisadorProfessor(this.pesquisadoresAtivos.get(email).getNome(),
-					this.pesquisadoresAtivos.get(email).getFuncao(), this.pesquisadoresAtivos.get(email).getBiografia(),
-					this.pesquisadoresAtivos.get(email).getEmail(), this.pesquisadoresAtivos.get(email).getFotoURL(),
+			Pesquisador pesquisadorProfessor = new PesquisadorProfessor(this.pesquisadores.get(email).getNome(),
+					this.pesquisadores.get(email).getFuncao(), this.pesquisadores.get(email).getBiografia(),
+					this.pesquisadores.get(email).getEmail(), this.pesquisadores.get(email).getFotoURL(),
 					formacao, unidade, data);
-			this.pesquisadoresAtivos.remove(email);
-			this.pesquisadoresAtivos.put(email, pesquisadorProfessor);
+			this.pesquisadores.remove(email);
+			this.pesquisadores.put(email, pesquisadorProfessor);
 		} else {
 			throw new IllegalArgumentException("Pesquisador inativo.");
 
@@ -257,15 +255,15 @@ public class ControllerPesquisador {
 			throw new IllegalArgumentException("Atributo IEA com formato invalido.");
 		if (!ehCadastrado(email))
 			throw new IllegalArgumentException("Pesquisadora nao encontrada.");
-		if (!this.pesquisadoresAtivos.get(email).getFuncao().equals("estudante"))
+		if (!this.pesquisadores.get(email).getFuncao().equals("estudante"))
 			throw new IllegalArgumentException("Pesquisador nao compativel com a especialidade.");
 		if (pesquisadorEhAtivo(email)) {
-			Pesquisador pesquisadorAluno = new PesquisadorAluno(this.pesquisadoresAtivos.get(email).getNome(),
-					this.pesquisadoresAtivos.get(email).getFuncao(), this.pesquisadoresAtivos.get(email).getBiografia(),
-					this.pesquisadoresAtivos.get(email).getEmail(), this.pesquisadoresAtivos.get(email).getFotoURL(),
+			Pesquisador pesquisadorAluno = new PesquisadorAluno(this.pesquisadores.get(email).getNome(),
+					this.pesquisadores.get(email).getFuncao(), this.pesquisadores.get(email).getBiografia(),
+					this.pesquisadores.get(email).getEmail(), this.pesquisadores.get(email).getFotoURL(),
 					semestre, IEA);
-			this.pesquisadoresAtivos.remove(email);
-			this.pesquisadoresAtivos.put(email, pesquisadorAluno);
+			this.pesquisadores.remove(email);
+			this.pesquisadores.put(email, pesquisadorAluno);
 		} else {
 			throw new IllegalArgumentException("Pesquisador inativo.");
 
@@ -274,24 +272,24 @@ public class ControllerPesquisador {
 
 	public String listaPesquisadores(String TIPO) {
 		validacao.validaString(TIPO, "Campo tipo nao pode ser nulo ou vazio.");
-		Set<String> chaves = this.pesquisadoresAtivos.keySet();
+		Set<String> chaves = this.pesquisadores.keySet();
 		String pesquisadores = "";
 		if (TIPO.equals("EXTERNO")) {
 			for (String chave : chaves) {
-				if (this.pesquisadoresAtivos.get(chave).getFuncao().equals("externo")) {
-					pesquisadores += this.pesquisadoresAtivos.get(chave).toString() + " | ";
+				if (this.pesquisadores.get(chave).getFuncao().equals("externo")) {
+					pesquisadores += this.pesquisadores.get(chave).toString() + " | ";
 				}
 			}
 		} else if (TIPO.equals("PROFESSORA")) {
 			for (String chave : chaves) {
-				if (this.pesquisadoresAtivos.get(chave).getFuncao().equals("professor")) {
-					pesquisadores += ((PesquisadorProfessor) this.pesquisadoresAtivos.get(chave)).toString() + " | ";
+				if (this.pesquisadores.get(chave).getFuncao().equals("professor")) {
+					pesquisadores += ((PesquisadorProfessor) this.pesquisadores.get(chave)).toString() + " | ";
 				}
 			}
 		} else if (TIPO.equals("ALUNA")) {
 			for (String chave : chaves) {
-				if (this.pesquisadoresAtivos.get(chave).getFuncao().equals("aluno")) {
-					pesquisadores += ((PesquisadorAluno) this.pesquisadoresAtivos.get(chave)).toString() + " | ";
+				if (this.pesquisadores.get(chave).getFuncao().equals("aluno")) {
+					pesquisadores += ((PesquisadorAluno) this.pesquisadores.get(chave)).toString() + " | ";
 				}
 			}
 

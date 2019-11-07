@@ -3,6 +3,7 @@ package projetolp2.pesquisador;
 public  class Pesquisador {
 
 	private String nome;
+	private boolean status;
 	private String funcao;
 	private String biografia;
 	private String email;
@@ -14,6 +15,7 @@ public  class Pesquisador {
 		this.biografia = biografia;
 		this.email = email;
 		this.fotoURL = fotoURL;
+		this.status = true;
 	}
 
 	@Override
@@ -31,6 +33,12 @@ public  class Pesquisador {
 
 	public String getNome() {
 		return nome;
+	}
+	public boolean getStatus() {
+		return this.status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public String getFuncao() {
