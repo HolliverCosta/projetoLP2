@@ -71,6 +71,8 @@ public class Facade {
 
 	public void alteraPesquisador(String email, String atributo, String novoValor) {
 		controllerGeral.getControllerPesquisador().alteraPesquisador(email, atributo, novoValor);
+		
+
 	}
 
 	public void desativaPesquisador(String email) {

@@ -4,14 +4,14 @@ public  class Pesquisador {
 
 	private String nome;
 	private boolean status;
-	private String funcao;
+	private Funcao funcao;
 	private String biografia;
 	private String email;
 	private String fotoURL;
 
 	public Pesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
 		this.nome = nome;
-		this.funcao = funcao;
+		this.funcao = new SemEspecialidade(funcao);
 		this.biografia = biografia;
 		this.email = email;
 		this.fotoURL = fotoURL;
@@ -20,15 +20,15 @@ public  class Pesquisador {
 
 	@Override
 	public String toString() {
-		return nome + " (" + funcao + ") - " + biografia + " - " + email + " - " + fotoURL;
+		return  nome + " (" + funcao.getNome() + ") - " + biografia + " - " + email + " - " + fotoURL + this.funcao.exibePesquisador();
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public void setFuncao(String funcao) {
-		this.funcao = funcao;
+	public void setFuncao(String novoValor) {
+		this.funcao = new SemEspecialidade(novoValor);
 	}
 
 	public String getNome() {
@@ -41,7 +41,7 @@ public  class Pesquisador {
 		this.status = status;
 	}
 
-	public String getFuncao() {
+	public Funcao getFuncao() {
 		return funcao;
 	}
 
@@ -92,6 +92,22 @@ public  class Pesquisador {
 
 	public void setFotoURL(String fotoURL) {
 		this.fotoURL = fotoURL;
+	}
+
+	public void setAtributo(String atributo, String novoValor) {
+		this.funcao.setAtributo(atributo, novoValor);
+	}
+
+	
+
+	public void especializaProfessor(String string, String formacao, String unidade, String data) {
+		this.funcao = new Professor(string, formacao, unidade, data);
+		
+	}
+
+	public void especializaAluno(String string, Integer semestre, Double IEA) {
+		this.funcao = new Aluno(string , semestre, IEA);
+		
 	}
 
 }
