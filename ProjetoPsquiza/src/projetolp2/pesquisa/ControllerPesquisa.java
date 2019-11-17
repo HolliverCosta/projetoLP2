@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import projetolp2.atividades.ControllerAtividade;
 import projetolp2.busca.Pair;
 import projetolp2.misc.GeraComparador;
 import projetolp2.pesquisador.ControllerPesquisador;
@@ -32,7 +33,7 @@ public class ControllerPesquisa {
 	 * Chamando a classe validacao para tratar sobe atributos vazios ou nulos
 	 */
 	private Validacao validacao;
-
+	private String estrategia; 
 	/**
 	 * Contrutor da classe
 	 */
@@ -41,6 +42,7 @@ public class ControllerPesquisa {
 		this.validacao = new Validacao();
 		this.idPesquisas = new HashMap<String, Integer>();
 		this.objetivosAssociados = new HashMap<String, Boolean>();
+		this.estrategia  = "MAIS_ANTIGA";
 	}
 
 	/**
@@ -276,12 +278,12 @@ public class ControllerPesquisa {
 	}
 
 	// ----------------------------------------US7------------------------------------------------------//
-	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
+	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade, ControllerAtividade controllerAtividade) {
 		if (verificaExistePesquisa(codigoPesquisa) == false)
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (ehAtiva(codigoPesquisa) == false)
 			throw new IllegalArgumentException("Pesquisa desativada.");
-		return pesquisas.get(codigoPesquisa).associaAtividade(codigoAtividade);
+		return pesquisas.get(codigoPesquisa).associaAtividade(codigoAtividade, controllerAtividade);
 	}
 
 	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
@@ -346,6 +348,21 @@ public class ControllerPesquisa {
 		if (!ehAtiva(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa desativada.");
 		return this.pesquisas.get(idPesquisa).desassociaPesquisador(emailPesquisador);
+	}
+	//----------------------------------------------US10------------------------------------------------------//
+	public String getEstrategia() {
+		return estrategia;
+	}
+
+	public void setEstrategia(String estrategia) {
+			this.estrategia = estrategia;
+		
+	}
+	
+	public String proximaAtividade(String codigoPesquisa) {
+		if(ehAtiva(codigoPesquisa)==false)	throw new IllegalArgumentException("Pesquisa desativada.");
+		if(pesquisas.get(codigoPesquisa).verificaPendencia()==false)throw new IllegalArgumentException("Pesquisa sem atividades com pendencias.");
+    	return pesquisas.get(codigoPesquisa).proximaAtividade(getEstrategia());
 	}
 
 }

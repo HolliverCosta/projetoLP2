@@ -71,7 +71,7 @@ public class Psquiza {
 		validacao.validaString(codigoPesquisa, "Campo codigoPesquisa nao pode ser nulo ou vazio.");
 		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
 		if(controllerAtividade.verificaExisteAtividade(codigoAtividade)==false)throw new IllegalArgumentException("Atividade nao encontrada");
-		return controllerPesquisa.associaAtividade(codigoPesquisa, codigoAtividade);
+		return controllerPesquisa.associaAtividade(codigoPesquisa, codigoAtividade,controllerAtividade);
 	}
 	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
 		validacao.validaString(codigoPesquisa, "Campo codigoPesquisa nao pode ser nulo ou vazio.");
@@ -102,5 +102,15 @@ public class Psquiza {
 	public Integer getDuracao(String codigoAtividade) {
 		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
 		return controllerAtividade.getDuracao(codigoAtividade);
+	}
+	public void configuraEstrategia(String estrategia) {
+		validacao.validaString(estrategia, "Estrategia nao pode ser nula ou vazia.");
+		validacao.validaEstrategia(estrategia, "Valor invalido da estrategia");
+		controllerPesquisa.setEstrategia(estrategia);
+	}
+	public String proximaAtividade(String codigoPesquisa) {
+		validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
+		
+		return controllerPesquisa.proximaAtividade(codigoPesquisa);
 	}
 }

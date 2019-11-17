@@ -254,6 +254,13 @@ public class Atividade {
         }
         return count;
     }
+  //----------------------------------------------------------US10----------------------------------------------------------//
+  	public String getIdAtividade() {
+  		return idAtividade;
+  	}
+  	public String getNivelRisco() {
+  		return nivelRisco;
+  	}
 	
 	
 	

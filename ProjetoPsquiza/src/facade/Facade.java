@@ -11,7 +11,8 @@ public class Facade {
 		args = new String[] { "facade.Facade", "TestesDeAceitacao/use_case_1.txt", "TestesDeAceitacao/use_case_2.txt",
 				"TestesDeAceitacao/use_case_3.txt", "TestesDeAceitacao/use_case_4.txt",
 				"TestesDeAceitacao/use_case_5.txt", "TestesDeAceitacao/use_case_6.txt",
-				"TestesDeAceitacao/use_case_7.txt", "TestesDeAceitacao/use_case_8.txt" };
+				"TestesDeAceitacao/use_case_7.txt", "TestesDeAceitacao/use_case_8.txt",
+				"TestesDeAceitacao/use_case_9.txt","TestesDeAceitacao/use_case_10.txt"};
 		EasyAccept.main(args);
 	}
 
@@ -203,9 +204,14 @@ public class Facade {
 	public int contaResultadosBusca(String termo) {
 		return controllerGeral.getControllerBusca().contarResultado(termo, controllerGeral);
 	}
+	//-----------------------------------------------------------US10--------------------------------------------------//
+		public void configuraEstrategia(String estrategia) {
+			controllerGeral.configuraEstrategia(estrategia);
+		}
+		public String proximaAtividade(String codigoPesquisa) {
+			return controllerGeral.proximaAtividade(codigoPesquisa);
+		}
 
-	/*
-	 * cotrollerPesquisa, controllerPesquisador, controllerAtividade, controllerPO
-	 */
+
 
 }

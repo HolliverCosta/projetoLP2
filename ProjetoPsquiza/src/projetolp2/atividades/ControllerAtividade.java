@@ -170,5 +170,9 @@ public class ControllerAtividade {
         }
         return count;
     }
+
+    public Atividade getAtividade(String codigoAtividade) {
+		return this.atividades.get(codigoAtividade);
+	}
 	
 }

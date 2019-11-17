@@ -52,4 +52,9 @@ public class Validacao {
 		
 			
 	}
+	public void validaEstrategia(String string, String msg) {
+		if(!(string.equals("MAIS_ANTIGA") || string.equals("MENOS_PENDENCIAS") || string.equals("MAIOR_RISCO") || string.equals("MAIOR_DURACAO"))) {
+			throw new IllegalArgumentException(msg);
+		}
+	}
 }
