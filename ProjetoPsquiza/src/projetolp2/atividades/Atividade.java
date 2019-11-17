@@ -39,7 +39,14 @@ public class Atividade {
 	 * Lista dos resultados esperados.
 	 */
 	private ArrayList<Item> resultadosEsperados = new ArrayList<Item>();
+	/**
+	 * mapa que guarda os resultados de uma atividade
+	 */
 	private HashMap<Integer, String> resultados;
+	/*
+	 * contador para gerar o id dos resultados
+	 */
+	
 	private int contadorResultado;
 
 	/**
@@ -83,11 +90,19 @@ public class Atividade {
 			}
 		}
 	}
-	
+	/**
+	 * Pega a descricao da atividade atividade
+	 * 
+	 * @return descricao
+	 */
 	public String getDescricaoAtividade() {
 		return descricaoAtividade;
 	}
-
+	/**
+	 * Pega a descricao do risco da atividade atividade
+	 * 
+	 * @return descricao de um risco
+	 */
 	public String getDescricaoRisco() {
 		return descricaoRisco;
 	}
@@ -174,10 +189,17 @@ public class Atividade {
 	}
 
 	// -----------------------------------------------US7------------------------------------------------//
+	/**
+	 * muda a durcao da atividade
+	 * @param duracao
+	 */
 	public void setDuracao(Integer duracao) {
 		this.duracao += duracao;
 	}
-
+	/**
+	 * muda o status de um item
+	 * @param itemPosicao
+	 */
 	public void setStatusItem(Integer itemPosicao) {
 		if((itemPosicao-1)>resultadosEsperados.size())throw new IllegalArgumentException("Item nao encontrado.");
 		if (resultadosEsperados.get(itemPosicao - 1).getStatus().equals("REALIZADO"))
@@ -186,7 +208,11 @@ public class Atividade {
 		resultadosEsperados.get(itemPosicao - 1).setStatus("REALIZADO");
 
 	}
-
+	/**
+	 * cadastra o resultado
+	 * @param resultado
+	 * @return o id do resultado
+	 */
 	public Integer cadastraResultado(String resultado) {
 		contadorResultado += 1;
 		resultados.put(contadorResultado, resultado);
@@ -194,6 +220,12 @@ public class Atividade {
 		return contadorResultado;
 	}
 
+	
+	/**
+	 * remove o resultado da atividade
+	 * @param numeroResultado
+	 * @return boolean
+	 */
 	public boolean removeResultado(Integer numeroResultado) {
 		if(!resultados.containsKey(numeroResultado))throw new IllegalArgumentException("Resultado nao encontrado."); 
 		if (resultados.get(numeroResultado).equals("removido"))
@@ -204,7 +236,10 @@ public class Atividade {
 		}
 		
 	}
-
+	/**
+	 * lista todos os resultados da atividade
+	 * @return representacao textual de todos os resultados
+	 */
 	public String listaResultados() {
 		String msg = "";
 		for (String r : resultados.values()) {
@@ -213,7 +248,10 @@ public class Atividade {
 		}
 		return msg.substring(0, msg.length() - 3);
 	}
-
+	/**
+	 * pega a duracao da atividade
+	 * @return inteiro
+	 */
 	public Integer getDuracao() {
 		return duracao;
 	}
@@ -255,13 +293,44 @@ public class Atividade {
         return count;
     }
   //----------------------------------------------------------US10----------------------------------------------------------//
+    /**
+     * pega o id da atividade
+     * @return id atividade
+     */
   	public String getIdAtividade() {
   		return idAtividade;
   	}
+  	/**
+  	 * pega o nivel de risco da atividade
+  	 * @return nivel de risco
+  	 */
   	public String getNivelRisco() {
   		return nivelRisco;
   	}
 	
-	
+  	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idAtividade == null) ? 0 : idAtividade.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Atividade other = (Atividade) obj;
+		if (idAtividade == null) {
+			if (other.idAtividade != null)
+				return false;
+		} else if (!idAtividade.equals(other.idAtividade))
+			return false;
+		return true;
+	}
 	
 }

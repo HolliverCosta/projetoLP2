@@ -7,6 +7,7 @@ import java.util.Set;
 
 import easyaccept.EasyAccept;
 import projetolp2.busca.Pair;
+import projetolp2.misc.Validacao;
 
 public class ControllerPesquisador {
 	private Map<String, Pesquisador> pesquisadores;

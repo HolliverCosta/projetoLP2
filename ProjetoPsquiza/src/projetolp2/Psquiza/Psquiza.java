@@ -3,8 +3,8 @@ package projetolp2.Psquiza;
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.busca.ControllerBusca;
 import projetolp2.misc.ValidaCampos;
+import projetolp2.misc.Validacao;
 import projetolp2.pesquisa.ControllerPesquisa;
-import projetolp2.pesquisa.Validacao;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.po.ControllerPO;
 
@@ -110,7 +110,6 @@ public class Psquiza {
 	}
 	public String proximaAtividade(String codigoPesquisa) {
 		validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
-		
 		return controllerPesquisa.proximaAtividade(codigoPesquisa);
 	}
 }

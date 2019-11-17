@@ -12,7 +12,7 @@ public class Facade {
 				"TestesDeAceitacao/use_case_3.txt", "TestesDeAceitacao/use_case_4.txt",
 				"TestesDeAceitacao/use_case_5.txt", "TestesDeAceitacao/use_case_6.txt",
 				"TestesDeAceitacao/use_case_7.txt", "TestesDeAceitacao/use_case_8.txt",
-				"TestesDeAceitacao/use_case_9.txt","TestesDeAceitacao/use_case_10.txt"};
+				"TestesDeAceitacao/use_case_9.txt", "TestesDeAceitacao/use_case_10.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -72,7 +72,6 @@ public class Facade {
 
 	public void alteraPesquisador(String email, String atributo, String novoValor) {
 		controllerGeral.getControllerPesquisador().alteraPesquisador(email, atributo, novoValor);
-		
 
 	}
 
@@ -92,8 +91,7 @@ public class Facade {
 		return controllerGeral.getControllerPesquisador().pesquisadorEhAtivo(email);
 	}
 
-	// -------------------------------------------------Problemas e
-	// Objetivos-----------------------------------------------//
+	// -------------------------------------------------Problemas e Objetivos-----------------------------------------------//
 	public String cadastraProblema(String descricao, int viabilidade) {
 		return controllerGeral.getControllerPO().cadastraProblema(descricao, viabilidade);
 	}
@@ -118,8 +116,7 @@ public class Facade {
 		return controllerGeral.getControllerPO().exibeObjetivo(codigo);
 	}
 
-	// ----------------------------------------------Atividades
-	// Metodologicas------------------------------------------------//
+	// ----------------------------------------------Atividades Metodologicas------------------------------------------------//
 	public String cadastraAtividade(String Descricao, String nivelRisco, String descricaoRisco) {
 		return controllerGeral.getControllerAtividade().cadastrarAtividadePesquisa(Descricao, nivelRisco,
 				descricaoRisco);
@@ -153,12 +150,15 @@ public class Facade {
 	public boolean desassociaPesquisador(String idPesquisa, String emailPesquisador) {
 		return this.controllerGeral.getControllerPesquisa().desassociaPesquisador(idPesquisa, emailPesquisador);
 	}
+
 	public void cadastraEspecialidadeProfessor(String email, String formacao, String unidade, String data) {
 		this.controllerGeral.getControllerPesquisador().cadastraEspecialidadeProfessor(email, formacao, unidade, data);
 	}
+
 	public void cadastraEspecialidadeAluno(String email, Integer semestre, Double IEA) {
 		this.controllerGeral.getControllerPesquisador().cadastraEspecialidadeAluno(email, semestre, IEA);
 	}
+
 	public String listaPesquisadores(String tipo) {
 		return this.controllerGeral.getControllerPesquisador().listaPesquisadores(tipo);
 	}
@@ -204,14 +204,14 @@ public class Facade {
 	public int contaResultadosBusca(String termo) {
 		return controllerGeral.getControllerBusca().contarResultado(termo, controllerGeral);
 	}
-	//-----------------------------------------------------------US10--------------------------------------------------//
-		public void configuraEstrategia(String estrategia) {
-			controllerGeral.configuraEstrategia(estrategia);
-		}
-		public String proximaAtividade(String codigoPesquisa) {
-			return controllerGeral.proximaAtividade(codigoPesquisa);
-		}
 
+	// -----------------------------------------------------------US10--------------------------------------------------//
+	public void configuraEstrategia(String estrategia) {
+		controllerGeral.configuraEstrategia(estrategia);
+	}
 
+	public String proximaAtividade(String codigoPesquisa) {
+		return controllerGeral.proximaAtividade(codigoPesquisa);
+	}
 
 }

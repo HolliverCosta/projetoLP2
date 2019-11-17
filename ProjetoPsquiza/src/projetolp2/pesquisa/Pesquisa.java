@@ -19,16 +19,34 @@ import projetolp2.pesquisador.Pesquisador;
  * Pesquisa contem uma descricao, campo de interesse, codigo identificador e um
  * status predefinido como ativada
  * 
- * @author Holindo
+ * @author Holliver
  *
  */
 public class Pesquisa {
+	/**
+	 * descricao da pesquisa
+	 */
 	private String descricao;
+	/**
+	 * campo de interesse de uma pesquisa
+	 */
 	private String campoDeInteresse;
+	/**
+	 * codigo da pesquisa
+	 */
 	private String codigo;
+	/**
+	 * status de uma pesquisa
+	 */
 	private String status;
+	/**
+	 * lista de objetivos
+	 */
 	private List<String> objetivos;
 	private String idProblema;
+	/**
+	 * mapa de atividades
+	 */
 	private Map<String,Atividade> atividades;
 	private Map<String, Pesquisador> pesquisadores;
 
@@ -53,7 +71,10 @@ public class Pesquisa {
 	public void addObjetivo(String idObjetivo) {
 		this.objetivos.add(idObjetivo);
 	}
-
+	/** 
+	 * pega o codigo da pesquisa
+	 * @return codigo
+	 */
 	public String getCodigo() {
 		return this.codigo;
 	}
@@ -90,11 +111,17 @@ public class Pesquisa {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
+	/**
+	 * pega a descricao da pesquisa
+	 * @return descricao
+	 */
 	public String getDescricao() {
 		return descricao;
 	}
-
+	/**
+	 * pega o campo de interesse da pesquisa
+	 * @return capo de interesse
+	 */
 	public String getCampoDeInteresse() {
 		return campoDeInteresse;
 	}
@@ -120,6 +147,12 @@ public class Pesquisa {
 	}
 
 	// ----------------------------------------------US7---------------------------------------------------//
+	/**
+	 * associa uma uma atividade a uma pesquisa
+	 * @param codigoAtividade
+	 * @param controllerAtividade
+	 * @return um boolean
+	 */
 	public boolean associaAtividade(String codigoAtividade, ControllerAtividade controllerAtividade) {
 		if (!atividades.containsKey(codigoAtividade)) {
 			atividades.put(codigoAtividade, controllerAtividade.getAtividade(codigoAtividade));
@@ -127,7 +160,12 @@ public class Pesquisa {
 		} else
 			return false;
 	}
-
+	/**
+	 * desassocia uma uma atividade a uma pesquisa
+	 * @param codigoAtividade
+	 * @param controllerAtividade
+	 * @return um boolean
+	 */
 	public boolean desassociaAtividade(String codigoAtividade) {
 		if (!atividades.containsKey(codigoAtividade)) {
 			return false;
@@ -151,6 +189,10 @@ public class Pesquisa {
 		return true;
 	}
 	// ---------------------------------------US10-------------------------------------------------//
+	/**
+	 * verifica se uma pesquisa tem atividades pendentes
+	 * @return boolean
+	 */
 		public boolean verificaPendencia() {
 			boolean verifica = false;
 			for(Atividade a : atividades.values()) {
@@ -160,6 +202,10 @@ public class Pesquisa {
 			}
 			return verifica;
 		}
+		/**
+		 * ordena as atividades de acordo com a duracao
+		 * @return uma lista ordenada
+		 */
 		private ArrayList<Atividade> adicionaAtividadesOrdenadosDuracao() {
 			ArrayList<Atividade> atividadesOrdenadas = new ArrayList<>(this.atividades.values());
 
@@ -167,6 +213,10 @@ public class Pesquisa {
 
 			return atividadesOrdenadas;
 		}
+		/**
+		 * pega a atividade com menos pendencia
+		 * @return id atividade
+		 */
 		private String adicionaAtividadesOrdenadosPendencias() {
 	        ArrayList<Atividade> atividadesOrdenadas = new ArrayList<>(this.atividades.values());
 	        Collections.sort(atividadesOrdenadas,new ComparatorPendencias());
@@ -180,6 +230,10 @@ public class Pesquisa {
 	        }
 	        return id;
 	    }
+		/**
+		 * ordena as atividades de acordo com o risco
+		 * @return uma lista ordenada
+		 */
 		private ArrayList<Atividade> adicionaAtividadesOrdenadosRisco() {
 			ArrayList<Atividade> atividadesOrdenadas = new ArrayList<>(this.atividades.values());
 
@@ -187,6 +241,10 @@ public class Pesquisa {
 
 			return atividadesOrdenadas;
 		}
+		/**
+		 * pega a primeira atividade inserida que tenha algum item pendente
+		 * @return id atividade
+		 */
 		private String atividadeMaisAntiga() {
 			
 			if(atividades.entrySet().iterator().next().getValue().totalItemsPendentes()!=0)
@@ -199,7 +257,11 @@ public class Pesquisa {
 				}
 			return null;
 		}
-		
+		/**
+		 * sugere a proxima atividade a ser executada
+		 * @param estrategia
+		 * @return id atividade
+		 */
 		public String proximaAtividade(String estrategia) {
 			String atividade = "";
 			if (estrategia.equals("MAIS_ANTIGA")) {
@@ -215,5 +277,29 @@ public class Pesquisa {
 			
 			return atividade;
 			
+		}
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Pesquisa other = (Pesquisa) obj;
+			if (codigo == null) {
+				if (other.codigo != null)
+					return false;
+			} else if (!codigo.equals(other.codigo))
+				return false;
+			return true;
 		}
 }

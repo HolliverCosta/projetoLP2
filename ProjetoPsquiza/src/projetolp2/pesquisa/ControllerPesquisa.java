@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.busca.Pair;
 import projetolp2.misc.GeraComparador;
+import projetolp2.misc.Validacao;
 import projetolp2.pesquisador.ControllerPesquisador;
 
 /**
@@ -33,6 +34,9 @@ public class ControllerPesquisa {
 	 * Chamando a classe validacao para tratar sobe atributos vazios ou nulos
 	 */
 	private Validacao validacao;
+	/*
+	 * serve para guardar qual estrategia escolher na hora de sugerir uma atividade
+	 */
 	private String estrategia; 
 	/**
 	 * Contrutor da classe
@@ -54,8 +58,8 @@ public class ControllerPesquisa {
 	 * @return o codigo da pesquisa
 	 */
 	public String cadastraPesquisa(String descricao, String campoDeInteresse) {
-		this.validacao.validaString(campoDeInteresse, "Formato do campo de interesse invalido.");
-		this.validacao.validaString(descricao, "Descricao nao pode ser nula ou vazia.");
+		validacao.validaString(campoDeInteresse, "Formato do campo de interesse invalido.");
+		validacao.validaString(descricao, "Descricao nao pode ser nula ou vazia.");
 		validacao.validaCampoInteresse(campoDeInteresse, "Formato do campo de interesse invalido.");
 
 		String codigo = campoDeInteresse.substring(0, 3);
@@ -278,6 +282,13 @@ public class ControllerPesquisa {
 	}
 
 	// ----------------------------------------US7------------------------------------------------------//
+	/**
+	 * associa uma uma atividade a uma pesquisa
+	 * @param codigoPesquisa
+	 * @param codigoAtividade
+	 * @param controllerAtividade
+	 * @return um boolean
+	 */
 	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade, ControllerAtividade controllerAtividade) {
 		if (verificaExistePesquisa(codigoPesquisa) == false)
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
@@ -285,7 +296,13 @@ public class ControllerPesquisa {
 			throw new IllegalArgumentException("Pesquisa desativada.");
 		return pesquisas.get(codigoPesquisa).associaAtividade(codigoAtividade, controllerAtividade);
 	}
-
+	/**
+	 * desassocia uma uma atividade a uma pesquisa
+	 * @param codigoPesquisa
+	 * @param codigoAtividade
+	 * @param controllerAtividade
+	 * @return um boolean
+	 */
 	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
 		if (verificaExistePesquisa(codigoPesquisa) == false)
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
@@ -350,15 +367,26 @@ public class ControllerPesquisa {
 		return this.pesquisas.get(idPesquisa).desassociaPesquisador(emailPesquisador);
 	}
 	//----------------------------------------------US10------------------------------------------------------//
+	/**
+	 * pega a estrategia para sugerir a proxima atividade
+	 * @return estrtegia
+	 */
 	public String getEstrategia() {
 		return estrategia;
 	}
-
+	/**
+	 * muda a estrategia
+	 * @param estrategia
+	 */
 	public void setEstrategia(String estrategia) {
 			this.estrategia = estrategia;
 		
 	}
-	
+	/**
+	 * sugere a proxima atividade de acordo com a estrategia
+	 * @param codigoPesquisa
+	 * @return idAtividade
+	 */
 	public String proximaAtividade(String codigoPesquisa) {
 		if(ehAtiva(codigoPesquisa)==false)	throw new IllegalArgumentException("Pesquisa desativada.");
 		if(pesquisas.get(codigoPesquisa).verificaPendencia()==false)throw new IllegalArgumentException("Pesquisa sem atividades com pendencias.");

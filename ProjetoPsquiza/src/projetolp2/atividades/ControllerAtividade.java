@@ -107,24 +107,58 @@ public class ControllerAtividade {
         return atividades.get(codigo).totalItemsRealizados();
     }
     //-------------------------------------------US7------------------------------------------------------//
+    /**
+     * Metódo para verificar se uma atividade existe no mapa de atividades
+     * @param codigo
+     * @return um boolean
+     */
     public boolean verificaExisteAtividade(String codigo) {
     	return atividades.containsKey(codigo);
     }
+    /**
+     * Metódo para executar uma atividade
+     * @param codigoAtividade
+     * @param item
+     * @param duracao
+     * @return nao tem
+     */
     public void executaAtividade(String codigoAtividade, Integer item, Integer duracao) {
 		atividades.get(codigoAtividade).setStatusItem(item);
 		atividades.get(codigoAtividade).setDuracao(duracao);
 	}
+    /**
+     * Metódo para cadastrar um resultado
+     * @param codigoAtividade
+     * @param resultado
+     * @return o id do resultado
+     */
 	public Integer cadastraResultado(String codigoAtividade, String resultado) {
 		return atividades.get(codigoAtividade).cadastraResultado(resultado);		
 	}
+	 /**
+     * Metódo para remover um resultado
+     * @param codigoAtividade
+     * @param resultado
+     * @return um boolean
+     */
 	public boolean removeResultado(String codigoAtividade, Integer numeroResultado) {
 		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
 		return atividades.get(codigoAtividade).removeResultado(numeroResultado);
 	}
+	/**
+     * Metódo para lista um resultado
+     * @param codigoAtividade
+     * @return representacao textual de um resultado
+     */
 	public String listaResultados(String codigoAtividade) {
 		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
 		return atividades.get(codigoAtividade).listaResultados();
 	}
+	/**
+     * Metódo para pegar a duracao de um resultado
+     * @param codigoAtividade
+     * @return a duracao do resultado em inteiro
+     */
 	public Integer getDuracao(String codigoAtividade) {
 		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
 		return atividades.get(codigoAtividade).getDuracao();
@@ -170,7 +204,11 @@ public class ControllerAtividade {
         }
         return count;
     }
-
+    /**
+     * metodo para pegar uma atividade
+     * @param codigoAtividade
+     * @return um objeto do tipo atividade
+     */
     public Atividade getAtividade(String codigoAtividade) {
 		return this.atividades.get(codigoAtividade);
 	}
