@@ -13,7 +13,11 @@ public class Facade {
 				"TestesDeAceitacao/use_case_5.txt", "TestesDeAceitacao/use_case_6.txt",
 				"TestesDeAceitacao/use_case_7.txt", "TestesDeAceitacao/use_case_8.txt",
 				"TestesDeAceitacao/use_case_9.txt", "TestesDeAceitacao/use_case_10.txt" };
-		EasyAccept.main(args);
+		String[] args2 = new String[] {"facade.Facade",
+		        "TestesDeAceitacao/use_case_12SALVAR.txt", 
+		        "TestesDeAceitacao/use_case_12CARREGAR.txt"};
+		//EasyAccept.main(args);
+		EasyAccept.main(args2);
 	}
 
 	public Facade() {
@@ -49,8 +53,8 @@ public class Facade {
 		return controllerGeral.associaProblema(idPesquisa, idProblema);
 	}
 
-	public boolean desassociaProblema(String idPesquisa, String idProblema) {
-		return controllerGeral.desassociaProblema(idPesquisa, idProblema);
+	public boolean desassociaProblema(String idPesquisa) {
+		return controllerGeral.desassociaProblema(idPesquisa);
 	}
 
 	public boolean associaObjetivo(String idPesquisa, String idObjetivo) {
@@ -212,6 +216,14 @@ public class Facade {
 
 	public String proximaAtividade(String codigoPesquisa) {
 		return controllerGeral.proximaAtividade(codigoPesquisa);
+	}
+	
+	public void salvar() {
+	    controllerGeral.salva();
+	}
+	
+	public void carregar() {
+	    controllerGeral.carrega();
 	}
 
 }
