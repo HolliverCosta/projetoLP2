@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import projetolp2.atividades.Atividade;
 import projetolp2.atividades.ComparatorDuracao;
@@ -15,6 +16,7 @@ import projetolp2.atividades.ComparatorRisco;
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.pesquisador.Pesquisador;
+import projetolp2.po.Problema;
 
 /**
  * Pesquisa contem uma descricao, campo de interesse, codigo identificador e um
@@ -48,6 +50,7 @@ public class Pesquisa implements Serializable{
 	 * código do problema associado.
 	 */
 	private String idProblema;
+	private Problema problema;
 	/**
 	 * mapa de atividades
 	 */
@@ -70,6 +73,8 @@ public class Pesquisa implements Serializable{
 		this.objetivos = new ArrayList<String>();
 		this.atividades = new LinkedHashMap<>();
 		this.pesquisadores = new HashMap<String, Pesquisador>();
+		this.problema = null;
+	
 	}
 
 	public void addObjetivo(String idObjetivo) {
@@ -282,6 +287,35 @@ public class Pesquisa implements Serializable{
 			return atividade;
 			
 		}
+		private String exibePesquisadores() {
+			Set<String> chaves = this.pesquisadores.keySet();
+			String pesquisadores = "";
+			for (String chave : chaves) {
+				pesquisadores += "- " + chave.toString() + "\n";
+			}
+			return pesquisadores;
+		}
+		private String exibeObjetivos() {
+			String objetivos = "";
+			for(String chave: this.objetivos) {
+				objetivos += "- " + chave.toString() + "\n";
+			}
+			return objetivos;
+		}
+		private String exibeAtividades() {
+			Set<String> chaves = this.atividades.keySet();
+			String atividades = "";
+			for (String chave : chaves) {
+				atividades += "- " + chave.toString() + "\n";
+			}
+			return atividades;
+		}
+		public String exibePesquisa() {
+			return "- Pesquisa: " + toString() + "\n" + "    - Pesquisadores:\n" + "        " + exibePesquisadores()
+		+ "    - Problema:\n" + "       - " + this.problema.toString() + "    - Objetivos:\n" + "        " + exibeObjetivos() + "    - Atividades:\n        " + 
+		exibeAtividades();
+		}
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -305,5 +339,15 @@ public class Pesquisa implements Serializable{
 			} else if (!codigo.equals(other.codigo))
 				return false;
 			return true;
+		}
+
+		public void removeProblema() {
+			this.problema = null;
+			
+		}
+
+		public void adicionaProblema(Problema novoProblema) {
+			this.problema = novoProblema;
+			
 		}
 }

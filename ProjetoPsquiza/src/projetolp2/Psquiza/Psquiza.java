@@ -12,6 +12,7 @@ import projetolp2.misc.Validacao;
 import projetolp2.pesquisa.ControllerPesquisa;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.po.ControllerPO;
+import projetolp2.po.Problema;
 
 public class Psquiza {
     /**
@@ -70,7 +71,8 @@ public class Psquiza {
 	       ValidaCampos.validaCamposString(new String[] {idPesquisa, idProblema},
 	                new String[] {"idPesquisa", "idProblema"});
 	    if(!this.controllerPO.existe(idProblema)) throw new IllegalArgumentException("Problema nao encontrado");
-	    return this.controllerPesquisa.associaProblema(idPesquisa, idProblema);
+	    Problema novoProblema = this.controllerPO.getProblemas().get(idProblema);
+	    return this.controllerPesquisa.associaProblema(idPesquisa, novoProblema, idProblema);
 	}
 	
 	public boolean desassociaProblema(String idPesquisa) {
@@ -195,4 +197,6 @@ public class Psquiza {
 	        ex.printStackTrace();
 	    }
 	}
+
+	
 }

@@ -12,12 +12,12 @@ public class Facade {
 				"TestesDeAceitacao/use_case_3.txt", "TestesDeAceitacao/use_case_4.txt",
 				"TestesDeAceitacao/use_case_5.txt", "TestesDeAceitacao/use_case_6.txt",
 				"TestesDeAceitacao/use_case_7.txt", "TestesDeAceitacao/use_case_8.txt",
-				"TestesDeAceitacao/use_case_9.txt", "TestesDeAceitacao/use_case_10.txt" };
+				"TestesDeAceitacao/use_case_9.txt", "TestesDeAceitacao/use_case_10.txt", "TestesDeAceitacao/use_case_11.txt" };
 		String[] args2 = new String[] {"facade.Facade",
 		        "TestesDeAceitacao/use_case_12SALVAR.txt", 
 		        "TestesDeAceitacao/use_case_12CARREGAR.txt"};
-		//EasyAccept.main(args);
-		EasyAccept.main(args2);
+		EasyAccept.main(args);
+		//EasyAccept.main(args2);
 	}
 
 	public Facade() {
@@ -224,6 +224,12 @@ public class Facade {
 	
 	public void carregar() {
 	    controllerGeral.carrega();
+	}
+	public void gravarResumo(String codigoPesquisa) {
+		controllerGeral.getControllerPesquisa().gravarResumo(codigoPesquisa);
+	}
+	public void gravarResultados(String codigoPesquisa) {
+		controllerGeral.getControllerPesquisa().gravarResultado(codigoPesquisa);
 	}
 
 }
