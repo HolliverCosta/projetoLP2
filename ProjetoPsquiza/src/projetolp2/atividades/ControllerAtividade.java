@@ -1,4 +1,5 @@
 package projetolp2.atividades;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,7 +9,7 @@ import projetolp2.busca.Pair;
  * Representação da Controladora de uma Atividade. Toda Controladora possui um gerador de Id, para as atividades e um HashMap com todas as atividades;
  * @author caiom
  */
-public class ControllerAtividade {
+public class ControllerAtividade implements Serializable{
     
     /**
      * Gerador do numero que irá compôr o ID da atividade;

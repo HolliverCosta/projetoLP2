@@ -1,6 +1,8 @@
 package projetolp2.pesquisador;
 
-public  class Pesquisador {
+import java.io.Serializable;
+
+public  class Pesquisador implements Serializable{
 
 	private String nome;
 	private boolean status;

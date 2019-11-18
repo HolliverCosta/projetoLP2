@@ -1,5 +1,6 @@
 package projetolp2.pesquisa;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,7 +20,10 @@ import projetolp2.pesquisador.ControllerPesquisador;
  * @author HolliverCosta
  *
  */
-public class ControllerPesquisa {
+public class ControllerPesquisa implements Serializable{
+    /*
+     * Mapa para controlar objetivos já associados.
+     */
 	private HashMap<String, Boolean> objetivosAssociados;
 	/*
 	 * Mapa de pesquisas onde a chave e as 3 primeiras letras do campoDeInterrese e
@@ -177,7 +181,14 @@ public class ControllerPesquisa {
 	private boolean verificaExistePesquisa(String codigo) {
 		return pesquisas.containsKey(codigo);
 	}
-
+	/**
+	 * Associa um problema identificado pelo idProblema a uma pesquisa identificada por idPesquisa.
+	 * 
+	 * @param idPesquisa código da pesquisa
+	 * @param idProblema código do problema
+	 * @return true ou false. 
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista, esteja desativada ou ja esteja associada a um problema.
+	 */
 	public boolean associaProblema(String idPesquisa, String idProblema) throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
@@ -193,8 +204,14 @@ public class ControllerPesquisa {
 		temp.setProblema(idProblema);
 		return true;
 	}
-
-	public boolean desassociaProblema(String idPesquisa, String idProblema) throws IllegalArgumentException {
+	/**
+	 * Desassocia o problema associado a pesquisa identificad pro idPesquisa.
+	 * 
+	 * @param idPesquisa código da pesquisa
+	 * @return ture ou false.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista ou esteja desativada.
+	 */
+	public boolean desassociaProblema(String idPesquisa) throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (!ehAtiva(idPesquisa))
@@ -206,8 +223,15 @@ public class ControllerPesquisa {
 		temp.setProblema("");
 		return true;
 	}
-
-	public boolean associaObjetivo(String idPesquisa, String idObjetivo) {
+	/**
+	 * Associa um objetivo identificado por idObjetivo a uma pesquisa identificada por idPesquisa.
+	 * 
+	 * @param idPesquisa código da pesquisa
+	 * @param idObjetivo código do objetivo
+	 * @return true ou false.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista, esteja desativada ou objetivo ja esteja associado a uma pesquisa.
+	 */
+	public boolean associaObjetivo(String idPesquisa, String idObjetivo) throws IllegalArgumentException{
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (!ehAtiva(idPesquisa))
@@ -222,8 +246,15 @@ public class ControllerPesquisa {
 		temp.addObjetivo(idObjetivo);
 		return true;
 	}
-
-	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) {
+	/**
+	 * Desassocia um objetivo identificado por idObjetivo de uma pesquisa identificada por idPesquisa.
+	 * 
+	 * @param idPesquisa código da pesquisa
+	 * @param idObjetivo código do objetivo
+	 * @return true ou false.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista ou esteja desativada.
+	 */
+	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) throws IllegalArgumentException{
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (!ehAtiva(idPesquisa))
@@ -237,7 +268,7 @@ public class ControllerPesquisa {
 		return true;
 	}
 
-	public String geraStringOrdenada(List<Pesquisa> l1, List<Pesquisa> l2, Comparator<Pesquisa> comparador) {
+	private String geraStringOrdenada(List<Pesquisa> l1, List<Pesquisa> l2, Comparator<Pesquisa> comparador) {
 		String output = "";
 		Collections.sort(l1, comparador);
 		Collections.sort(l2, new Comparator<Pesquisa>() {
@@ -255,10 +286,15 @@ public class ControllerPesquisa {
 		}
 		return output;
 	}
-
+	/**
+	 * Retorna uma String contendo todas as pesquisas ordenadas a partir do critério ordem(PROBLEMA,OBJETIVOS,PESQUISA).
+	 * 
+	 * @param ordem criterio de ordenaçao
+	 * @return String contendo todas as pesquisas ordenadas
+	 */
 	public String listaPesquisas(String ordem) {
 		if (!ordem.equals("PROBLEMA") && !ordem.equals("OBJETIVOS") && !ordem.equals("PESQUISA"))
-			throw new IllegalAccessError("Valor invalido da ordem");
+			throw new IllegalArgumentException("Valor invalido da ordem");
 
 		String output = "";
 		List<Pesquisa> comCriterio = new ArrayList<Pesquisa>();

@@ -1,6 +1,8 @@
 package projetolp2.pesquisador;
 
-public class SemEspecialidade implements Funcao {
+import java.io.Serializable;
+
+public class SemEspecialidade implements Funcao,Serializable {
 	private String nome;
 	
 	public SemEspecialidade(String funcao) {

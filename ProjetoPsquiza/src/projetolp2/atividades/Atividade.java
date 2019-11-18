@@ -1,5 +1,6 @@
 package projetolp2.atividades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ import projetolp2.busca.Pair;
  * 
  * @author caiom
  */
-public class Atividade {
+public class Atividade implements Serializable{
 
 	/**
 	 * Código da atividade;

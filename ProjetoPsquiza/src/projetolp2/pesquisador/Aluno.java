@@ -1,6 +1,8 @@
 package projetolp2.pesquisador;
 
-public class Aluno implements Funcao {
+import java.io.Serializable;
+
+public class Aluno implements Funcao,Serializable {
 	private String nome;
 	private Integer semestre;
 	private Double IEA;

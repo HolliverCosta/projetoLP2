@@ -1,10 +1,11 @@
 package projetolp2.misc;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Validacao {
+public class Validacao implements Serializable{
 	/**
 	 * verifica se a string e vazia ou nula
 	 * 

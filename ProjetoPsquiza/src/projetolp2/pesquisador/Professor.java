@@ -1,6 +1,8 @@
 package projetolp2.pesquisador;
 
-public class Professor implements Funcao {
+import java.io.Serializable;
+
+public class Professor implements Funcao,Serializable {
 	
 	private String nome, formacao, unidade, data;
 

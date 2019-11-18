@@ -1,5 +1,7 @@
 package projetolp2.atividades;
 
+import java.io.Serializable;
+
 /**
  * Representação de um Item. Todo Item possui uma descrição e um status, que é
  * definido como "PENDENTE" inicialmente;
@@ -7,7 +9,7 @@ package projetolp2.atividades;
  * @author caiom
  *
  */
-public class Item {
+public class Item implements Serializable{
 
     /**
      * Descrição do item;

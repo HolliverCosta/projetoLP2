@@ -1,11 +1,14 @@
 package projetolp2.po;
+
+import java.io.Serializable;
+
 /**
  * Representação da entidade objetivo do sistema Psquiza. O objetivo é identificado unicamente pelo seu código.
  * 
  * @author Danilo César Ribeiro Garcia de Medeiros
  *
  */
-public class Objetivo {
+public class Objetivo implements Serializable{
     /**
      * Tipo do objetivo.
      */
@@ -47,7 +50,11 @@ public class Objetivo {
         this.viabilidade = viabilidade;
         this.id = id;
     }
-    
+    /**
+     * retorna a descriçao do Objetivo
+     * 
+     * @return descricao
+     */
     public String getDescricao() {
 		return descricao;
 	}
@@ -57,4 +64,47 @@ public class Objetivo {
         int valor = this.aderencia + this.viabilidade;
         return this.id + " - " + this.tipo + " - " + this.descricao + " - " + valor;
     }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + aderencia;
+        result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+        result = prime * result + viabilidade;
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Objetivo other = (Objetivo) obj;
+        if (aderencia != other.aderencia)
+            return false;
+        if (descricao == null) {
+            if (other.descricao != null)
+                return false;
+        } else if (!descricao.equals(other.descricao))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (tipo == null) {
+            if (other.tipo != null)
+                return false;
+        } else if (!tipo.equals(other.tipo))
+            return false;
+        if (viabilidade != other.viabilidade)
+            return false;
+        return true;
+    }
+	
+	
 }

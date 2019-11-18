@@ -1,5 +1,6 @@
 package projetolp2.pesquisador;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,8 @@ import easyaccept.EasyAccept;
 import projetolp2.busca.Pair;
 import projetolp2.misc.Validacao;
 
-public class ControllerPesquisador {
+public class ControllerPesquisador implements Serializable{
+    
 	private Map<String, Pesquisador> pesquisadores;
 	
 	private Validacao validacao;

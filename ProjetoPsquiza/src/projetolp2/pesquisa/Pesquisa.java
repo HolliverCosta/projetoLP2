@@ -1,5 +1,6 @@
 package projetolp2.pesquisa;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ import projetolp2.pesquisador.Pesquisador;
  * @author Holliver
  *
  */
-public class Pesquisa {
+public class Pesquisa implements Serializable{
 	/**
 	 * descricao da pesquisa
 	 */
@@ -43,6 +44,9 @@ public class Pesquisa {
 	 * lista de objetivos
 	 */
 	private List<String> objetivos;
+	/**
+	 * código do problema associado.
+	 */
 	private String idProblema;
 	/**
 	 * mapa de atividades

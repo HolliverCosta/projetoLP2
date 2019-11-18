@@ -1,5 +1,6 @@
 package projetolp2.po;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ import projetolp2.misc.ValidaCampos;
  * @author Danilo César Ribeiro Garcia de Medeiros
  *
  */
-public class ControllerPO {
+public class ControllerPO implements Serializable{
     /**
      * Mapa de problemas.
      */
@@ -127,7 +128,11 @@ public class ControllerPO {
         if(!this.objetivos.containsKey(codigo)) throw new IllegalArgumentException("Objetivo nao encontrado");
         this.objetivos.remove(codigo);
     }
-    
+    /**
+     * 
+     * @param id
+     * @return
+     */
     public boolean existe(String id) {
         return this.problemas.containsKey(id) || this.objetivos.containsKey(id);
     }
