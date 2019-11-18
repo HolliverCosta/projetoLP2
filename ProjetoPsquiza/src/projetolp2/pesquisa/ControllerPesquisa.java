@@ -1,5 +1,7 @@
 package projetolp2.pesquisa;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +15,7 @@ import projetolp2.busca.Pair;
 import projetolp2.misc.GeraComparador;
 import projetolp2.misc.Validacao;
 import projetolp2.pesquisador.ControllerPesquisador;
+import projetolp2.po.Problema;
 
 /**
  * Controladora de pesquisas
@@ -189,7 +192,7 @@ public class ControllerPesquisa implements Serializable{
 	 * @return true ou false. 
 	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista, esteja desativada ou ja esteja associada a um problema.
 	 */
-	public boolean associaProblema(String idPesquisa, String idProblema) throws IllegalArgumentException {
+	public boolean associaProblema(String idPesquisa, Problema novoProblema, String idProblema) throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (!ehAtiva(idPesquisa))
@@ -202,12 +205,14 @@ public class ControllerPesquisa implements Serializable{
 			throw new IllegalArgumentException("Pesquisa ja associada a um problema.");
 
 		temp.setProblema(idProblema);
+		temp.adicionaProblema(novoProblema);
 		return true;
 	}
 	/**
 	 * Desassocia o problema associado a pesquisa identificad pro idPesquisa.
 	 * 
 	 * @param idPesquisa código da pesquisa
+	 * @param idProblema 
 	 * @return ture ou false.
 	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista ou esteja desativada.
 	 */
@@ -221,6 +226,7 @@ public class ControllerPesquisa implements Serializable{
 		if (temp.getProblema().isEmpty())
 			return false;
 		temp.setProblema("");
+		temp.removeProblema();
 		return true;
 	}
 	/**
@@ -428,5 +434,31 @@ public class ControllerPesquisa implements Serializable{
 		if(pesquisas.get(codigoPesquisa).verificaPendencia()==false)throw new IllegalArgumentException("Pesquisa sem atividades com pendencias.");
     	return pesquisas.get(codigoPesquisa).proximaAtividade(getEstrategia());
 	}
+	  public void gravarResumo(String codigoPesquisa) {
+	        validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
+	        verificaExistePesquisa(codigoPesquisa);
+	        try {
+	            PrintWriter gravarArqquivo = new PrintWriter(new FileWriter("CODIGO.txt"));
+	            gravarArqquivo.print(pesquisas.get(codigoPesquisa).exibePesquisa());
+	            gravarArqquivo.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    public void gravarResultado(String codigoPesquisa) {
+	        validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
+	        verificaExistePesquisa(codigoPesquisa);
+	        try {
+	            PrintWriter gravarArquivo = new PrintWriter(new FileWriter(codigoPesquisa + "-Resultados.txt"));
+	            gravarArquivo.print("-Pesquisa: " + exibePesquisa(codigoPesquisa));
+	            gravarArquivo.print("-Resultados:");
+	            gravarArquivo.print("-Descrição");
+	            gravarArquivo.print("");
+	            gravarArquivo.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 
 }

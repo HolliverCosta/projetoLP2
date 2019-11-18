@@ -182,5 +182,9 @@ public class ControllerPO implements Serializable{
         }
         return count;
     }
+	public HashMap<String, Problema> getProblemas() {
+		return problemas;
+	}
+
     
 }
