@@ -12,6 +12,7 @@ import projetolp2.misc.Validacao;
 import projetolp2.pesquisa.ControllerPesquisa;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.po.ControllerPO;
+import projetolp2.po.Objetivo;
 import projetolp2.po.Problema;
 
 public class Psquiza {
@@ -86,7 +87,8 @@ public class Psquiza {
 	    ValidaCampos.validaCamposString(new String[] {idPesquisa, idObjetivo},
                 new String[] {"idPesquisa", "idObjetivo"});
 	    if(!this.controllerPO.existe(idObjetivo)) throw new IllegalArgumentException("Objetivo nao encontrado");
-	    return this.controllerPesquisa.associaObjetivo(idPesquisa, idObjetivo);
+	    Objetivo novoObjetivo = this.controllerPO.getObjetivos().get(idObjetivo);
+	    return this.controllerPesquisa.associaObjetivo(idPesquisa, idObjetivo, novoObjetivo);
 	}
 	
 	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) {

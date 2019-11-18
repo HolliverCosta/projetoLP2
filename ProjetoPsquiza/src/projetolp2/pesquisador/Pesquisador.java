@@ -1,14 +1,35 @@
 package projetolp2.pesquisador;
 
 import java.io.Serializable;
-
+/**
+ * Representação da entidade Pesquisador do sistema Psquiza. O Pesquisador é identificado unicamente pelo seu email.
+ * @author User
+ *
+ */
 public  class Pesquisador implements Serializable{
-
+	/**
+	 * nome do pesquisador.
+	 */
 	private String nome;
+	/**
+	 * status do pesquisador, ativo ou nao.
+	 */
 	private boolean status;
+	/**
+	 * funcao do pesquisador: professor, externo ou estudante.
+	 */
 	private Funcao funcao;
+	/**
+	 * biografia do pesquisador.
+	 */
 	private String biografia;
+	/**
+	 * email do pesquisador, utilizado como forma de identificacao no mapa.
+	 */
 	private String email;
+	/**
+	 * url da sua foto(pesquisador).
+	 */
 	private String fotoURL;
 
 	public Pesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
@@ -101,12 +122,23 @@ public  class Pesquisador implements Serializable{
 	}
 
 	
-
+	/**
+	 * atualiza a funcao e adiciona atributos para o mesmo.
+	 * @param string
+	 * @param formacao
+	 * @param unidade
+	 * @param data
+	 */
 	public void especializaProfessor(String string, String formacao, String unidade, String data) {
 		this.funcao = new Professor(string, formacao, unidade, data);
 		
 	}
-
+	/**
+	 * atualiza a funcao e adiciona atributos para o mesmo.
+	 * @param string
+	 * @param semestre
+	 * @param IEA
+	 */
 	public void especializaAluno(String string, Integer semestre, Double IEA) {
 		this.funcao = new Aluno(string , semestre, IEA);
 		

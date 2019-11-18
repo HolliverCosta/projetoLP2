@@ -15,6 +15,7 @@ import projetolp2.busca.Pair;
 import projetolp2.misc.GeraComparador;
 import projetolp2.misc.Validacao;
 import projetolp2.pesquisador.ControllerPesquisador;
+import projetolp2.po.Objetivo;
 import projetolp2.po.Problema;
 
 /**
@@ -23,10 +24,10 @@ import projetolp2.po.Problema;
  * @author HolliverCosta
  *
  */
-public class ControllerPesquisa implements Serializable{
-    /*
-     * Mapa para controlar objetivos já associados.
-     */
+public class ControllerPesquisa implements Serializable {
+	/*
+	 * Mapa para controlar objetivos já associados.
+	 */
 	private HashMap<String, Boolean> objetivosAssociados;
 	/*
 	 * Mapa de pesquisas onde a chave e as 3 primeiras letras do campoDeInterrese e
@@ -44,7 +45,8 @@ public class ControllerPesquisa implements Serializable{
 	/*
 	 * serve para guardar qual estrategia escolher na hora de sugerir uma atividade
 	 */
-	private String estrategia; 
+	private String estrategia;
+
 	/**
 	 * Contrutor da classe
 	 */
@@ -53,7 +55,7 @@ public class ControllerPesquisa implements Serializable{
 		this.validacao = new Validacao();
 		this.idPesquisas = new HashMap<String, Integer>();
 		this.objetivosAssociados = new HashMap<String, Boolean>();
-		this.estrategia  = "MAIS_ANTIGA";
+		this.estrategia = "MAIS_ANTIGA";
 	}
 
 	/**
@@ -184,15 +186,20 @@ public class ControllerPesquisa implements Serializable{
 	private boolean verificaExistePesquisa(String codigo) {
 		return pesquisas.containsKey(codigo);
 	}
+
 	/**
-	 * Associa um problema identificado pelo idProblema a uma pesquisa identificada por idPesquisa.
+	 * Associa um problema identificado pelo idProblema a uma pesquisa identificada
+	 * por idPesquisa.
 	 * 
 	 * @param idPesquisa código da pesquisa
 	 * @param idProblema código do problema
-	 * @return true ou false. 
-	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista, esteja desativada ou ja esteja associada a um problema.
+	 * @return true ou false.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista,
+	 *                                  esteja desativada ou ja esteja associada a
+	 *                                  um problema.
 	 */
-	public boolean associaProblema(String idPesquisa, Problema novoProblema, String idProblema) throws IllegalArgumentException {
+	public boolean associaProblema(String idPesquisa, Problema novoProblema, String idProblema)
+			throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (!ehAtiva(idPesquisa))
@@ -208,13 +215,15 @@ public class ControllerPesquisa implements Serializable{
 		temp.adicionaProblema(novoProblema);
 		return true;
 	}
+
 	/**
 	 * Desassocia o problema associado a pesquisa identificad pro idPesquisa.
 	 * 
 	 * @param idPesquisa código da pesquisa
-	 * @param idProblema 
+	 * @param idProblema
 	 * @return ture ou false.
-	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista ou esteja desativada.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista
+	 *                                  ou esteja desativada.
 	 */
 	public boolean desassociaProblema(String idPesquisa) throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
@@ -229,45 +238,54 @@ public class ControllerPesquisa implements Serializable{
 		temp.removeProblema();
 		return true;
 	}
+
 	/**
-	 * Associa um objetivo identificado por idObjetivo a uma pesquisa identificada por idPesquisa.
+	 * Associa um objetivo identificado por idObjetivo a uma pesquisa identificada
+	 * por idPesquisa.
 	 * 
-	 * @param idPesquisa código da pesquisa
-	 * @param idObjetivo código do objetivo
+	 * @param idPesquisa   código da pesquisa
+	 * @param idObjetivo   código do objetivo
+	 * @param novoObjetivo
 	 * @return true ou false.
-	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista, esteja desativada ou objetivo ja esteja associado a uma pesquisa.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista,
+	 *                                  esteja desativada ou objetivo ja esteja
+	 *                                  associado a uma pesquisa.
 	 */
-	public boolean associaObjetivo(String idPesquisa, String idObjetivo) throws IllegalArgumentException{
+	public boolean associaObjetivo(String idPesquisa, String idObjetivo, Objetivo novoObjetivo)
+			throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (!ehAtiva(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa desativada.");
 
 		Pesquisa temp = this.pesquisas.get(idPesquisa);
-		if (temp.getObjetivos().contains(idObjetivo))
+		if (temp.getObjetivos().containsKey(idObjetivo))
 			return false;
 		if (this.objetivosAssociados.containsKey(idObjetivo) && this.objetivosAssociados.get(idObjetivo))
 			throw new IllegalArgumentException("Objetivo ja associado a uma pesquisa.");
 		this.objetivosAssociados.put(idObjetivo, true);
-		temp.addObjetivo(idObjetivo);
+		temp.addObjetivo(idObjetivo, novoObjetivo);
 		return true;
 	}
+
 	/**
-	 * Desassocia um objetivo identificado por idObjetivo de uma pesquisa identificada por idPesquisa.
+	 * Desassocia um objetivo identificado por idObjetivo de uma pesquisa
+	 * identificada por idPesquisa.
 	 * 
 	 * @param idPesquisa código da pesquisa
 	 * @param idObjetivo código do objetivo
 	 * @return true ou false.
-	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista ou esteja desativada.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista
+	 *                                  ou esteja desativada.
 	 */
-	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) throws IllegalArgumentException{
+	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (!ehAtiva(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa desativada.");
 
 		Pesquisa temp = this.pesquisas.get(idPesquisa);
-		if (!temp.getObjetivos().contains(idObjetivo))
+		if (!temp.getObjetivos().containsKey(idObjetivo))
 			return false;
 		temp.getObjetivos().remove(idObjetivo);
 		this.objetivosAssociados.replace(idObjetivo, false);
@@ -292,8 +310,10 @@ public class ControllerPesquisa implements Serializable{
 		}
 		return output;
 	}
+
 	/**
-	 * Retorna uma String contendo todas as pesquisas ordenadas a partir do critério ordem(PROBLEMA,OBJETIVOS,PESQUISA).
+	 * Retorna uma String contendo todas as pesquisas ordenadas a partir do critério
+	 * ordem(PROBLEMA,OBJETIVOS,PESQUISA).
 	 * 
 	 * @param ordem criterio de ordenaçao
 	 * @return String contendo todas as pesquisas ordenadas
@@ -326,20 +346,24 @@ public class ControllerPesquisa implements Serializable{
 	// ----------------------------------------US7------------------------------------------------------//
 	/**
 	 * associa uma uma atividade a uma pesquisa
+	 * 
 	 * @param codigoPesquisa
 	 * @param codigoAtividade
 	 * @param controllerAtividade
 	 * @return um boolean
 	 */
-	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade, ControllerAtividade controllerAtividade) {
+	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade,
+			ControllerAtividade controllerAtividade) {
 		if (verificaExistePesquisa(codigoPesquisa) == false)
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		if (ehAtiva(codigoPesquisa) == false)
 			throw new IllegalArgumentException("Pesquisa desativada.");
 		return pesquisas.get(codigoPesquisa).associaAtividade(codigoAtividade, controllerAtividade);
 	}
+
 	/**
 	 * desassocia uma uma atividade a uma pesquisa
+	 * 
 	 * @param codigoPesquisa
 	 * @param codigoAtividade
 	 * @param controllerAtividade
@@ -389,10 +413,11 @@ public class ControllerPesquisa implements Serializable{
 		return count;
 	}
 
-	public boolean associaPesquisador(String idPesquisa, String emailPesquisador,ControllerPesquisador controllerPesquisador) {
-		validacao.validaString(idPesquisa,"Campo idPesquisa nao pode ser nulo ou vazio.");
+	public boolean associaPesquisador(String idPesquisa, String emailPesquisador,
+			ControllerPesquisador controllerPesquisador) {
+		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
 		validacao.validaString(emailPesquisador, "Campo emailPesquisador nao pode ser nulo ou vazio.");
-		
+
 		if (!ehAtiva(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa desativada.");
 		if (!controllerPesquisador.pesquisadorEhAtivo(emailPesquisador))
@@ -402,63 +427,81 @@ public class ControllerPesquisa implements Serializable{
 	}
 
 	public boolean desassociaPesquisador(String idPesquisa, String emailPesquisador) {
-		validacao.validaString(idPesquisa,"Campo idPesquisa nao pode ser nulo ou vazio.");
+		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
 		validacao.validaString(emailPesquisador, "Campo emailPesquisador nao pode ser nulo ou vazio.");
 		if (!ehAtiva(idPesquisa))
 			throw new IllegalArgumentException("Pesquisa desativada.");
 		return this.pesquisas.get(idPesquisa).desassociaPesquisador(emailPesquisador);
 	}
-	//----------------------------------------------US10------------------------------------------------------//
+
+	// ----------------------------------------------US10------------------------------------------------------//
 	/**
 	 * pega a estrategia para sugerir a proxima atividade
+	 * 
 	 * @return estrtegia
 	 */
 	public String getEstrategia() {
 		return estrategia;
 	}
+
 	/**
 	 * muda a estrategia
+	 * 
 	 * @param estrategia
 	 */
 	public void setEstrategia(String estrategia) {
-			this.estrategia = estrategia;
-		
+		this.estrategia = estrategia;
+
 	}
+
 	/**
 	 * sugere a proxima atividade de acordo com a estrategia
+	 * 
 	 * @param codigoPesquisa
 	 * @return idAtividade
 	 */
 	public String proximaAtividade(String codigoPesquisa) {
-		if(ehAtiva(codigoPesquisa)==false)	throw new IllegalArgumentException("Pesquisa desativada.");
-		if(pesquisas.get(codigoPesquisa).verificaPendencia()==false)throw new IllegalArgumentException("Pesquisa sem atividades com pendencias.");
-    	return pesquisas.get(codigoPesquisa).proximaAtividade(getEstrategia());
+		if (ehAtiva(codigoPesquisa) == false)
+			throw new IllegalArgumentException("Pesquisa desativada.");
+		if (pesquisas.get(codigoPesquisa).verificaPendencia() == false)
+			throw new IllegalArgumentException("Pesquisa sem atividades com pendencias.");
+		return pesquisas.get(codigoPesquisa).proximaAtividade(getEstrategia());
 	}
-	  public void gravarResumo(String codigoPesquisa) {
-	        validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
-	        verificaExistePesquisa(codigoPesquisa);
-	        try {
-	            PrintWriter gravarArqquivo = new PrintWriter(new FileWriter("CODIGO.txt"));
-	            gravarArqquivo.print(pesquisas.get(codigoPesquisa).exibePesquisa());
-	            gravarArqquivo.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-
-	    public void gravarResultado(String codigoPesquisa) {
-	        validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
-	        verificaExistePesquisa(codigoPesquisa);
-	        try {
-	            PrintWriter gravarArquivo = new PrintWriter(new FileWriter(codigoPesquisa + "-Resultados.txt"));
-	            gravarArquivo.print("-Pesquisa: " + exibePesquisa(codigoPesquisa));
-	            gravarArquivo.print("-Resultados:");
-	            gravarArquivo.print("-Descrição");
-	            gravarArquivo.print("");
-	            gravarArquivo.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
+	/**
+	 * retorna um arquivo em formato txt com um resumo da pesquisa em que foi passado seu codigo.
+	 * 
+	 * @param codigoPesquisa
+	 */
+	public void gravarResumo(String codigoPesquisa) {
+		validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
+		if (!this.pesquisas.containsKey(codigoPesquisa))
+			throw new IllegalArgumentException("Pesquisa nao encontrada.");
+		try {
+			PrintWriter gravarArqquivo = new PrintWriter(new FileWriter("_" + codigoPesquisa + ".txt"));
+			gravarArqquivo.print(pesquisas.get(codigoPesquisa).exibePesquisa());
+			gravarArqquivo.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * retorna um arquivo txt com o resumo dos resultados existentes em pesquisa.
+	 * @param codigoPesquisa
+	 */
+	public void gravarResultado(String codigoPesquisa) {
+		validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
+		if (!this.pesquisas.containsKey(codigoPesquisa))
+			throw new IllegalArgumentException("Pesquisa nao encontrada.");
+		try {
+			PrintWriter gravarArquivo = new PrintWriter(new FileWriter(codigoPesquisa + "-Resultados.txt"));
+			gravarArquivo.print("-Pesquisa: " + exibePesquisa(codigoPesquisa));
+			gravarArquivo.print("-Resultados:");
+			gravarArquivo.print("-Descrição");
+			gravarArquivo.print("");
+			gravarArquivo.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

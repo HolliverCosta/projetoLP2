@@ -3,9 +3,23 @@ package projetolp2.pesquisador;
 import java.io.Serializable;
 
 public class Professor implements Funcao,Serializable {
-	
-	private String nome, formacao, unidade, data;
-
+	/**
+	 * representa o nome da funcao exercidade, no caso professor.
+	 */
+	private String nome;
+	/**
+	 * formacao obtida pelo pesquisador.
+	 */
+	private String formacao;
+	private String unidade;
+	private String data;
+	/**
+	 * Construtor de uma nova funcao de um pesquisador.
+	 * @param funcao
+	 * @param formacao
+	 * @param unidade
+	 * @param data
+	 */
 	public Professor(String funcao, String formacao, String unidade, String data) {
 		this.nome = funcao;
 		this.formacao = formacao;
@@ -22,7 +36,9 @@ public class Professor implements Funcao,Serializable {
 	public void setData(String data) {
 		this.data = data;
 	}
-	
+	/**
+	 * representacao textual da funcao.
+	 */
 	@Override
 	public String exibePesquisador() {
 		// TODO Auto-generated method stub

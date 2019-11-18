@@ -16,6 +16,7 @@ import projetolp2.atividades.ComparatorRisco;
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.pesquisador.Pesquisador;
+import projetolp2.po.Objetivo;
 import projetolp2.po.Problema;
 
 /**
@@ -45,7 +46,7 @@ public class Pesquisa implements Serializable{
 	/**
 	 * lista de objetivos
 	 */
-	private List<String> objetivos;
+	private Map<String, Objetivo> objetivos;
 	/**
 	 * código do problema associado.
 	 */
@@ -70,15 +71,15 @@ public class Pesquisa implements Serializable{
 		this.status = "ativada";
 		this.codigo = codigo;
 		this.idProblema = "";
-		this.objetivos = new ArrayList<String>();
+		this.objetivos = new HashMap<String, Objetivo>();
 		this.atividades = new LinkedHashMap<>();
 		this.pesquisadores = new HashMap<String, Pesquisador>();
 		this.problema = null;
 	
 	}
 
-	public void addObjetivo(String idObjetivo) {
-		this.objetivos.add(idObjetivo);
+	public void addObjetivo(String idObjetivo , Objetivo objetivo) {
+		this.objetivos.put(idObjetivo, objetivo);
 	}
 	/** 
 	 * pega o codigo da pesquisa
@@ -88,8 +89,10 @@ public class Pesquisa implements Serializable{
 		return this.codigo;
 	}
 
-	public List<String> getObjetivos() {
-		return this.objetivos;
+	
+
+	public Map<String, Objetivo> getObjetivos() {
+		return objetivos;
 	}
 
 	public String getProblema() {
@@ -287,32 +290,49 @@ public class Pesquisa implements Serializable{
 			return atividade;
 			
 		}
+		/**
+		 * metodo feito pra pecorrer o mapa de pesquisadores que fazem parte da pesquisa.
+		 * @return pesquisadores 
+		 */
 		private String exibePesquisadores() {
 			Set<String> chaves = this.pesquisadores.keySet();
 			String pesquisadores = "";
 			for (String chave : chaves) {
-				pesquisadores += "- " + chave.toString() + "\n";
+				pesquisadores += "        - " + this.pesquisadores.get(chave).toString() + "\n";
 			}
 			return pesquisadores;
 		}
+		/**
+		 * metodo feito pra pecorrer o mapa de objetivos que fazem parte da pesquisa.
+		 * @return objetivos 
+		 */
 		private String exibeObjetivos() {
+			Set<String> chaves = this.objetivos.keySet();
 			String objetivos = "";
-			for(String chave: this.objetivos) {
-				objetivos += "- " + chave.toString() + "\n";
+			for(String chave: chaves) {
+				objetivos += "        - " + this.objetivos.get(chave).toString() + "\n";
 			}
 			return objetivos;
 		}
+		/**
+		 * metodo feito pra pecorrer o mapa de atividades que fazem parte da pesquisa.
+		 * @return atividades
+		 */
 		private String exibeAtividades() {
 			Set<String> chaves = this.atividades.keySet();
 			String atividades = "";
 			for (String chave : chaves) {
-				atividades += "- " + chave.toString() + "\n";
+				atividades += "        - " + this.atividades.get(chave).exibeAtividade() + "\n" + this.atividades.get(chave).exibeResultados();
 			}
 			return atividades;
 		}
+		/**
+		 * metodo feito para exibir a classe Pesquisa no modo que foi exigido no metodo 'gravarResumo'.
+		 * @return resumo de pesquisa.
+		 */
 		public String exibePesquisa() {
-			return "- Pesquisa: " + toString() + "\n" + "    - Pesquisadores:\n" + "        " + exibePesquisadores()
-		+ "    - Problema:\n" + "       - " + this.problema.toString() + "    - Objetivos:\n" + "        " + exibeObjetivos() + "    - Atividades:\n        " + 
+			return "- Pesquisa: " + toString() + "\n" + "    - Pesquisadores:\n" + exibePesquisadores()
+		+ "    - Problema:\n        - "  + this.problema.toString() + "\n    - Objetivos:\n" +  exibeObjetivos() + "    - Atividades:\n" + 
 		exibeAtividades();
 		}
 		
@@ -340,12 +360,17 @@ public class Pesquisa implements Serializable{
 				return false;
 			return true;
 		}
-
+		/**
+		 * remove o problema que estava relacionado a essa pesquisa.
+		 */
 		public void removeProblema() {
 			this.problema = null;
 			
 		}
-
+		/**
+		 * adiciona um problema relacionado a essa pesquisa.
+		 * @param novoProblema
+		 */
 		public void adicionaProblema(Problema novoProblema) {
 			this.problema = novoProblema;
 			

@@ -2,6 +2,7 @@ package projetolp2.atividades;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.io.Serializable;
 import projetolp2.busca.Pair;
 
@@ -199,6 +200,9 @@ public class Atividade implements Serializable{
 		}
 		return conc;
 	}
+	public String exibeAtividade() {
+		return this.descricaoAtividade + " (" + this.nivelRisco + " - " + this.descricaoRisco + ")";
+	}
 
 	// -----------------------------------------------US7------------------------------------------------//
 	/**
@@ -372,5 +376,17 @@ public class Atividade implements Serializable{
 		
 		public void removePrecedente(String idPrecedente) {
 			idPrecedentes.remove(idPrecedente);
+		}
+		public String exibeResultados() {
+			
+			String resultados = "";
+			for (int i = 0; i< this.resultadosEsperados.size(); i++) {
+				
+				if(!this.resultadosEsperados.isEmpty()) {
+					resultados += "            - " + this.resultadosEsperados.get(i).getStatus() + " - ITEM"+ (i+1) + "\n";
+
+				}
+			}
+			return resultados;
 		}
 }

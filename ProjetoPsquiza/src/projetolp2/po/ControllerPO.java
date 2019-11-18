@@ -185,6 +185,8 @@ public class ControllerPO implements Serializable{
 	public HashMap<String, Problema> getProblemas() {
 		return problemas;
 	}
-
+	public HashMap<String, Objetivo> getObjetivos() {
+		return objetivos;
+	}
     
 }

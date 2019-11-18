@@ -10,10 +10,18 @@ import easyaccept.EasyAccept;
 import projetolp2.busca.Pair;
 import projetolp2.misc.Validacao;
 
-public class ControllerPesquisador implements Serializable{
-    
+/**
+ * Classe reponsavel por controlar os pesquisadores e suas respectiveis funcoes.
+ * 
+ * @author Pedro Goncalves
+ *
+ */
+public class ControllerPesquisador implements Serializable {
+	/**
+	 * mapa de pesquisadores do sistema.
+	 */
 	private Map<String, Pesquisador> pesquisadores;
-	
+
 	private Validacao validacao;
 
 	public static void main(String[] args) {
@@ -21,12 +29,25 @@ public class ControllerPesquisador implements Serializable{
 		EasyAccept.main(args);
 	}
 
+	/**
+	 * Controi o controlador inicializando o mapa de pesquisadores como tambem a
+	 * instancia da classe validacao.
+	 */
 	public ControllerPesquisador() {
 		this.pesquisadores = new HashMap<String, Pesquisador>();
-		
 		this.validacao = new Validacao();
 	}
 
+	/**
+	 * Cadastra um novo Pesquisador de acordo com seu nome, biografia, email e a URL
+	 * de sua foto. A idenficacao do pesquisador eh atraves do email.
+	 * 
+	 * @param nome
+	 * @param funcao
+	 * @param biografia
+	 * @param email
+	 * @param fotoURL
+	 */
 	public void cadastraPesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
 		validacao.validaString(nome, "Campo nome nao pode ser nulo ou vazio.");
 		validacao.validaString(funcao, "Campo funcao nao pode ser nulo ou vazio.");
@@ -44,6 +65,13 @@ public class ControllerPesquisador implements Serializable{
 
 	}
 
+	/**
+	 * Altera qualquer tipo de atributo de um pesquisador existente.
+	 * 
+	 * @param email
+	 * @param atributo
+	 * @param novoValor
+	 */
 	public void alteraPesquisador(String email, String atributo, String novoValor) {
 		validacao.validaString(email, "Campo email nao pode ser vazio ou nulo.");
 		validacao.validaString(atributo, "Atributo nao pode ser vazio ou nulo.");
@@ -106,7 +134,8 @@ public class ControllerPesquisador implements Serializable{
 			case "DATA":
 				validacao.validaString(novoValor, "Campo data nao pode ser nulo ou vazio.");
 				if (this.pesquisadores.get(email).getStatus()) {
-					this.pesquisadores.get(email).setAtributo(atributo, novoValor);;
+					this.pesquisadores.get(email).setAtributo(atributo, novoValor);
+					;
 				} else
 					throw new IllegalArgumentException("Pesquisador inativo.");
 				break;
@@ -131,12 +160,25 @@ public class ControllerPesquisador implements Serializable{
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
 	}
 
+	/**
+	 * Metodo feito para verificar a existencia de um pesquisador no sistema
+	 * PSQUIZA.
+	 * 
+	 * @param email
+	 * @return
+	 */
 	private boolean ehCadastrado(String email) {
 		if (!(this.pesquisadores.containsKey(email)))
 			return false;
 		return true;
 	}
 
+	/**
+	 * Metodo responsavel por desativar um pesquisador, um pesquisador inativo nao
+	 * pode praticar nenhuma funcao no sistema.
+	 * 
+	 * @param email
+	 */
 	public void desativaPesquisador(String email) {
 		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
 		if (ehCadastrado(email)) {
@@ -149,6 +191,12 @@ public class ControllerPesquisador implements Serializable{
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
 	}
 
+	/**
+	 * metodo feito para ativar um pesquisador que antes ja foi desativado, podendo
+	 * assim, o objeto, usar os metodos do sistema Psquiza.
+	 * 
+	 * @param email
+	 */
 	public void ativaPesquisador(String email) {
 		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
 		if (ehCadastrado(email)) {
@@ -161,6 +209,12 @@ public class ControllerPesquisador implements Serializable{
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
 	}
 
+	/**
+	 * Metodo responsavel por exibir de forma textual um pesquisador.
+	 * 
+	 * @param email
+	 * @return toString do pesquisador
+	 */
 	public String exibePesquisador(String email) {
 		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
 		if (ehCadastrado(email)) {
@@ -172,6 +226,12 @@ public class ControllerPesquisador implements Serializable{
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
 	}
 
+	/**
+	 * verifica se um pesquisador ele eh ativo ou nao.
+	 * 
+	 * @param email
+	 * @return true, caso ativo; false, caso inativo.
+	 */
 	public boolean pesquisadorEhAtivo(String email) {
 		validacao.validaString(email, "Email nao pode ser vazio ou nulo.");
 		if (ehCadastrado(email)) {
@@ -226,6 +286,15 @@ public class ControllerPesquisador implements Serializable{
 		return this.pesquisadores.get(emailPesquisador);
 	}
 
+	/**
+	 * Especializa um pesquisador, que antes ja tinha a funcao de professor. Para
+	 * ele é adicionado novos metodos e sua representacao textual eh alterada.
+	 * 
+	 * @param email
+	 * @param formacao
+	 * @param unidade
+	 * @param data
+	 */
 	public void cadastraEspecialidadeProfessor(String email, String formacao, String unidade, String data) {
 		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
 		validacao.validaString(formacao, "Campo formacao nao pode ser nulo ou vazio.");
@@ -237,14 +306,20 @@ public class ControllerPesquisador implements Serializable{
 		if (!this.pesquisadores.get(email).getFuncao().getNome().equals("professor"))
 			throw new IllegalArgumentException("Pesquisador nao compativel com a especialidade.");
 		if (pesquisadorEhAtivo(email)) {
-			this.pesquisadores.get(email).especializaProfessor("professor",formacao, unidade, data);
+			this.pesquisadores.get(email).especializaProfessor("professor", formacao, unidade, data);
 		} else {
 			throw new IllegalArgumentException("Pesquisador inativo.");
 
 		}
 
 	}
-
+	/**
+	 * Especializa um pesquisador, que antes ja tinha a funcao de estudante. Para
+	 * ele é adicionado novos metodos e sua representacao textual eh alterada.
+	 * @param email
+	 * @param semestre
+	 * @param IEA
+	 */
 	public void cadastraEspecialidadeAluno(String email, Integer semestre, Double IEA) {
 		String semestreS = semestre.toString();
 		String IEAS = IEA.toString();
@@ -258,15 +333,18 @@ public class ControllerPesquisador implements Serializable{
 		if (!this.pesquisadores.get(email).getFuncao().getNome().equals("estudante"))
 			throw new IllegalArgumentException("Pesquisador nao compativel com a especialidade.");
 		if (pesquisadorEhAtivo(email)) {
-			this.pesquisadores.get(email).especializaAluno("estudante",semestre, IEA);
+			this.pesquisadores.get(email).especializaAluno("estudante", semestre, IEA);
 
-			
 		} else {
 			throw new IllegalArgumentException("Pesquisador inativo.");
 
 		}
 	}
-
+	/**
+	 * Lista os pesquisadores existentes no sistema de acordo com seu TIPO, podendo ele ser externo, estudante ou professor.
+	 * @param TIPO
+	 * @return pesquisadores
+	 */
 	public String listaPesquisadores(String TIPO) {
 		validacao.validaString(TIPO, "Campo tipo nao pode ser nulo ou vazio.");
 		Set<String> chaves = this.pesquisadores.keySet();

@@ -1,14 +1,33 @@
 package projetolp2.pesquisador;
 
 import java.io.Serializable;
-
+/**
+ * Classe reponsavel por representar uma funcao/especializacao de um Pesquisador.
+ * @author Pedro Goncalves
+ *
+ */
 public class Aluno implements Funcao,Serializable {
+	/**
+	 * nome da funcao do pesquisador.
+	 */
 	private String nome;
+	/**
+	 * semestre no qual o aluno pertence.
+	 */
 	private Integer semestre;
+	/**
+	 * representa seu indice de aprendizado na sua vida de estudante.
+	 */
 	private Double IEA;
 
 	
-
+	/**
+	 * Contrutor de uma nova funcao Aluno, utilizada no metodo 'cadastraEspecialidadeAluno'.
+	 * 
+	 * @param string
+	 * @param semestre
+	 * @param IEA
+	 */
 	public Aluno(String string, Integer semestre, Double IEA) {
 		this.nome = string;
 		this.semestre = semestre;
@@ -25,7 +44,9 @@ public class Aluno implements Funcao,Serializable {
 		this.IEA = edita;
 	}
 
-
+	/**
+	 * representacao textual da sua funcao de estudante.
+	 */
 	@Override
 	public String exibePesquisador() {
 		if (semestre == null || IEA == null) {
