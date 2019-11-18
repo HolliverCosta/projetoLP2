@@ -51,9 +51,10 @@ public class ControllerPO implements Serializable{
     public String cadastraProblema(String descricao, int viabilidade) throws IllegalArgumentException, NullPointerException{
         ValidaCampos.validaCamposString(new String[]{descricao, String.valueOf(viabilidade)},
                 new String[] {"descricao", "viabilidade"});
-        String tempId = "P" + this.idProb++;
+        String tempId = "P" + this.idProb;
         this.problemas.put(tempId, new Problema(descricao, viabilidade, tempId));
-        return "";
+        this.idProb++;
+        return tempId;
     }
     /**
      * Cadastra um novo objetivo no sistema a partir de setu tipo, sua descrição, sua aderencia e viabilidade. Seu código é gerado automaticamente
@@ -70,9 +71,10 @@ public class ControllerPO implements Serializable{
     public String cadastraObjetivo(String tipo, String descricao, int aderencia, int viabilidade) throws IllegalArgumentException, NullPointerException{
         ValidaCampos.validaCamposString(new String[] {tipo, descricao, String.valueOf(aderencia), String.valueOf(viabilidade)},
                 new String[] {"tipo", "descricao", "aderencia", "viabilidade"});
-        String tempId = "O" + this.idObj++;
+        String tempId = "O" + this.idObj;
         this.objetivos.put(tempId, new Objetivo(tipo, descricao, aderencia, viabilidade, tempId));
-        return "";
+        this.idObj++;
+        return tempId;
     }
     /**
      * Retorna o toString do objeto Problema identificado pelo código passado como parâmetro.
@@ -134,7 +136,7 @@ public class ControllerPO implements Serializable{
      * @return
      */
     public boolean existe(String id) {
-        return this.problemas.containsKey(id) || this.objetivos.containsKey(id);
+        return (this.problemas.containsKey(id) || this.objetivos.containsKey(id));
     }
     //-----------------------------------------------------US8---------------------------------------------------//
     public ArrayList<Pair> retornaBuscaGeralProblemas(String termo) {
