@@ -50,16 +50,32 @@ public class Objetivo implements Serializable{
         this.viabilidade = viabilidade;
         this.id = id;
     }
-    /**
-     * retorna a descriçao do Objetivo
-     * 
-     * @return descricao
-     */
-    public String getDescricao() {
-		return descricao;
-	}
+    
+	public String getTipo() {
+        return tipo;
+    }
 
-	@Override
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public int getAderencia() {
+        return aderencia;
+    }
+
+    public int getViabilidade() {
+        return viabilidade;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
     public String toString() {
         int valor = this.aderencia + this.viabilidade;
         return this.id + " - " + this.tipo + " - " + this.descricao + " - " + valor;

@@ -36,16 +36,21 @@ public class Problema implements Serializable{
         this.viabilidade = viabilidade;
         this.id = id;
     }
-    /**
-     * retorna a descriçao do problema
-     * 
-     * @return descricao
-     */
+    
+	public String getId() {
+        return id;
+    }
+	
+    
+    public int getViabilidade() {
+        return viabilidade;
+    }
+    
     public String getDescricao() {
-		return descricao;
-	}
-
-	@Override
+        return descricao;
+    }
+    
+    @Override
     public String toString() {
         return this.id + " - " + this.descricao + " - " + this.viabilidade;
     }
