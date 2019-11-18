@@ -1,9 +1,8 @@
 package projetolp2.atividades;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.io.Serializable;
 import projetolp2.busca.Pair;
 
 /**
@@ -35,6 +34,16 @@ public class Atividade implements Serializable{
 	 * Duração de uma Atividade;
 	 */
 	private Integer duracao;
+	
+	/**
+	 * Conjunto de IDs que precedem esta atividade;
+	 */
+	private ArrayList<String> idPrecedentes;
+	
+	/**
+	 * ID da atividade que vem após esta;
+	 */
+	private String idSubsequente;
 
 	/**
 	 * Lista dos resultados esperados.
@@ -67,6 +76,8 @@ public class Atividade implements Serializable{
 		this.duracao = 0;
 		this.resultados = new HashMap<>();
 		this.contadorResultado = 0;
+		this.idPrecedentes = new ArrayList<String>();
+		this.idSubsequente = null;
 	}
 
 	/**
@@ -334,4 +345,32 @@ public class Atividade implements Serializable{
 		return true;
 	}
 	
+	//-------------------------------------------------------US9--------------------------------------------------------------//
+
+		public ArrayList<String> getIdPrecedentes() {
+			return idPrecedentes;
+		}
+
+		public void setIdPrecedentes(ArrayList<String> idPrecedentes) {
+			this.idPrecedentes = idPrecedentes;
+		}
+
+		public String getIdSubsequente() {
+			return idSubsequente;
+		}
+
+		public void setIdSubsequente(String idSubsequente) {
+			this.idSubsequente = idSubsequente;
+		}
+		
+		public boolean checaSubsequente() {
+			if(this.idSubsequente != null) {
+				return true;
+			}
+			return false;
+		}
+		
+		public void removePrecedente(String idPrecedente) {
+			idPrecedentes.remove(idPrecedente);
+		}
 }

@@ -209,6 +209,23 @@ public class Facade {
 		return controllerGeral.getControllerBusca().contarResultado(termo, controllerGeral);
 	}
 
+	// -----------------------------------------------------------US9--------------------------------------------------//
+	public void defineProximaAtividade(String idPrecedente, String idSubsequente) {
+		controllerGeral.getControllerAtividade().definirProximaAtividade(idPrecedente, idSubsequente);
+	}
+	public void tiraProximaAtividade(String idPrecedente) {
+		controllerGeral.getControllerAtividade().tirarProximaAtividade(idPrecedente);
+	}
+	public int contaProximos(String idPrecedente) {
+		return controllerGeral.getControllerAtividade().contarProximas(idPrecedente);
+	}
+	public String pegaProximo(String idAtividade, int enesimaAtividade) {
+		return controllerGeral.getControllerAtividade().pegarEnesimaProxima(idAtividade, enesimaAtividade);
+	}
+	public String pegaMaiorRiscoAtividades(String idAtividade) {
+		return controllerGeral.getControllerAtividade().pegarMaiorRiscoAtividades(idAtividade);
+	}
+
 	// -----------------------------------------------------------US10--------------------------------------------------//
 	public void configuraEstrategia(String estrategia) {
 		controllerGeral.configuraEstrategia(estrategia);

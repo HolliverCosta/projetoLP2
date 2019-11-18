@@ -1,7 +1,10 @@
 package projetolp2.atividades;
-import java.io.Serializable;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.LowerCase;
 
 import projetolp2.busca.Pair;
 
@@ -9,7 +12,7 @@ import projetolp2.busca.Pair;
  * Representação da Controladora de uma Atividade. Toda Controladora possui um gerador de Id, para as atividades e um HashMap com todas as atividades;
  * @author caiom
  */
-public class ControllerAtividade implements Serializable{
+public class ControllerAtividade implements Serializable {
     
     /**
      * Gerador do numero que irá compôr o ID da atividade;
@@ -165,6 +168,11 @@ public class ControllerAtividade implements Serializable{
 		return atividades.get(codigoAtividade).getDuracao();
 	}
 	//--------------------------------------------US8----------------------------------------------------------//
+	/**
+	 * Retorna o termo na busca em Atividades e Items;
+	 * @param termo
+	 * @return
+	 */
 	public ArrayList<Pair> retornaBuscaGeralAtividadesEItems(String termo) {
         String procurarPor = termo;
         ArrayList<Pair> pares = new ArrayList<Pair>();
@@ -187,6 +195,11 @@ public class ControllerAtividade implements Serializable{
         return pares;
     }
         
+    /**
+     * Conta quantos casos do termo foram encontrados em Atividades e na descrição do risco;
+     * @param termo
+     * @return
+     */
     public int contaResultadoBusca(String termo) {
         String procurarPor = termo;
         int count = 0;
@@ -213,5 +226,161 @@ public class ControllerAtividade implements Serializable{
     public Atividade getAtividade(String codigoAtividade) {
 		return this.atividades.get(codigoAtividade);
 	}
-	
+    
+//---------------------------------------------------------------------CRUD 9-------------------------------------------------------------------------//
+    /**
+     * Verifica se a inserção do idSubsequente irá gerar uma Loop na sequência das atividades;
+     * @param idPrecedente
+     * @param idSubsequente
+     * @return
+     */
+    private boolean checaLoop(String idPrecedente,String idSubsequente) {
+  		String id = idSubsequente;
+  		while (atividades.get(id).checaSubsequente() == true) {
+  			id = atividades.get(id).getIdSubsequente();
+  		}
+  		if(id.equals(idPrecedente)) {
+  			return true;
+  		}
+  		return false;	
+  	}
+    
+    /**
+     * Define a proxima a atividade de outra atividade;
+     * @param idPrecedente
+     * @param idSubsequente
+     */
+    public void definirProximaAtividade(String idPrecedente,String idSubsequente) {
+  		if(idPrecedente == null || idPrecedente.trim().isEmpty()) throw new IllegalArgumentException("Atividade nao pode ser nulo ou vazio.");
+  		if(idSubsequente == null || idSubsequente.trim().isEmpty()) throw new IllegalArgumentException("Atividade nao pode ser nulo ou vazio.");
+  		if(!atividades.containsKey(idPrecedente)) throw new IllegalArgumentException("Atividade nao encontrada." );
+  		if(!atividades.containsKey(idSubsequente)) throw new IllegalArgumentException("Atividade nao encontrada." );
+  		if(atividades.get(idPrecedente).checaSubsequente() == true) throw new IllegalArgumentException("Atividade ja possui uma subsequente.");
+  		if(checaLoop(idPrecedente,idSubsequente)) throw new IllegalArgumentException("Criacao de loops negada.");
+
+  		this.atividades.get(idPrecedente).setIdSubsequente(idSubsequente);
+  		this.atividades.get(idSubsequente).getIdPrecedentes().add(idPrecedente);
+  	}
+    
+    /**
+     * Conta quantas atividades vêm depois do idPrecedente;
+     * @param idPrecedente
+     * @return
+     */
+    public int contarProximas(String idPrecedente) {
+    	if(idPrecedente == null || idPrecedente.trim().isEmpty()) throw new IllegalArgumentException("Atividade nao pode ser nulo ou vazio.");
+    	if(!atividades.containsKey(idPrecedente)) throw new IllegalArgumentException("Atividade nao encontrada.");   	
+    	int cont = 0;
+    	String id = idPrecedente;
+  		while (atividades.get(id).checaSubsequente() == true) {
+  			cont = cont + 1;
+  			id = atividades.get(id).getIdSubsequente();
+  		}    	
+    	return cont;
+    }
+ 	
+    /**
+     * Remove a atividade seguinte ao IdPrecedente, gerando duas novas sequências de Atividades;
+     * @param idPrecedente
+     */
+    public void tirarProximaAtividade(String idPrecedente) {
+    	if(idPrecedente == null || idPrecedente.trim().isEmpty()) throw new IllegalArgumentException("Atividade nao pode ser nulo ou vazio.");
+    	if(!atividades.containsKey(idPrecedente)) throw new IllegalArgumentException("Atividade nao encontrada.");
+    	
+    	String id = atividades.get(idPrecedente).getIdSubsequente();
+    	if(id == null) {
+    		atividades.get(idPrecedente).setIdSubsequente(null);
+    	} else {
+    		atividades.get(idPrecedente).setIdSubsequente(null);
+    		atividades.get(id).removePrecedente(idPrecedente);  
+    	}
+    }
+    
+    /**
+     * Pega uma atividade numa posição específica em uma sequência de atividades;
+     * @param idAtividade
+     * @param enesimaAtividade
+     * @return
+     */
+    public String pegarEnesimaProxima(String idAtividade,int enesimaAtividade) {
+    	if(idAtividade == null || idAtividade.trim().isEmpty()) throw new IllegalArgumentException("Atividade nao pode ser nulo ou vazio.");
+    	if(!atividades.containsKey(idAtividade)) throw new IllegalArgumentException("Atividade não encontrada.");
+    	if(enesimaAtividade <= 0) throw new IllegalArgumentException("EnesimaAtividade nao pode ser negativa ou zero.");
+    	if(!atividades.get(idAtividade).checaSubsequente()) throw new IllegalArgumentException("Atividade inexistente.");
+    	
+    	ArrayList<String> lista = new ArrayList<String>(); //Lista que receber a sequência das Atividades;
+    	String nextID = atividades.get(idAtividade).getIdSubsequente();
+    	
+    	if(atividades.get(nextID).checaSubsequente()) {
+    		while (atividades.get(nextID).checaSubsequente()) {
+      			lista.add(nextID);
+      			nextID = atividades.get(nextID).getIdSubsequente();
+      		}
+    		lista.add(nextID);
+    	} else if(enesimaAtividade > 1) {
+    		throw new IllegalArgumentException("Atividade inexistente.");
+    	} else {
+    		return nextID;
+    	}
+    	
+    	String id = "";
+    	for(int i = 0; i < lista.size(); i++) {
+    		if(i == enesimaAtividade-1) {
+    			id = lista.get(i);
+    		}
+    	}
+    	return id;
+    }
+    
+    /**
+     * Pega a atividade que possuir o maior risco. Primeiro irá buscar a última atividade de risco "ALTO"; caso não haja, procura a última de nível "MEDIO";
+     * Por fim, irá retornar a última de níivel "BAIXO", caso não exista nem alto nem médio.
+     * @param idAtividade
+     * @return
+     */
+    public String pegarMaiorRiscoAtividades(String idAtividade) {
+    	if(idAtividade == null || idAtividade.trim().isEmpty()) throw new IllegalArgumentException("Atividade nao pode ser nulo ou vazio.");
+    	if(!atividades.containsKey(idAtividade)) throw new IllegalArgumentException("Atividade nao encontrada.");
+    	if(!atividades.get(idAtividade).checaSubsequente()) throw new IllegalArgumentException("Nao existe proxima atividade.");
+    	
+    	ArrayList<String> lista = new ArrayList<String>(); //Lista que receber a sequência das Atividades;
+    	String nextID = atividades.get(idAtividade).getIdSubsequente();
+    	
+    	if(atividades.get(nextID).checaSubsequente()) {
+    		while (atividades.get(nextID).checaSubsequente()) {
+      			lista.add(nextID);
+      			nextID = atividades.get(nextID).getIdSubsequente();
+      		}
+    	} else {
+    		return nextID; //Se o próximo do IdAtividade não tiver próximo, ele será o mais alto risco;
+    	}
+  		
+  		String maior = "";
+  		int achaAlto = 0;
+  		int achaMedio = 0;
+  		
+  		for(String s: lista) {
+  			if(atividades.get(s).getNivelRisco().equals("ALTO")) {
+  				achaAlto = 1;
+  				maior = s;
+  			}
+  		} 		
+  		
+  		if(achaAlto == 0) {
+  			for(String s: lista) {
+  	  			if(atividades.get(s).getNivelRisco().equals("MEDIO")) {
+  	  				achaMedio = 1;
+  	  				maior = s;
+  	  			}
+  	  		}
+  		}
+  		if(achaMedio == 0 && achaAlto == 0) {
+  			for(String s: lista) {
+  	  			if(atividades.get(s).getNivelRisco().equals("BAIXO")) {
+  	  				maior = s;
+  	  			}
+  	  		}
+  		}
+  		return maior;
+    }
 }
