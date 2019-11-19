@@ -19,7 +19,9 @@ public class Item implements Serializable{
      * Status do item;
      */
     private String status;
-
+    /**
+     * duracao de cada item
+     */
     private Integer duracao;
     /**
      * COnstrói um Item a partir da sua descrição. Define o atributo status para

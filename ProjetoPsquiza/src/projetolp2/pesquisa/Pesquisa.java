@@ -161,7 +161,7 @@ public class Pesquisa implements Serializable {
 		return this.codigo + " - " + this.descricao + " - " + this.campoDeInteresse;
 	}
 
-	// ----------------------------------------------US7---------------------------------------------------//
+	
 	/**
 	 * associa uma uma atividade a uma pesquisa
 	 * 
@@ -196,7 +196,12 @@ public class Pesquisa implements Serializable {
 			return true;
 		}
 	}
-
+	/**
+	 * associa um pesquisador a essa pesquisa.
+	 * @param emailPesquisador
+	 * @param controllerPesquisador
+	 * @return true or false.
+	 */
 	public boolean associaPesquisador(String emailPesquisador, ControllerPesquisador controllerPesquisador) {
 		if (pesquisadores.containsKey(emailPesquisador))
 			return false;
@@ -204,7 +209,11 @@ public class Pesquisa implements Serializable {
 		return true;
 
 	}
-
+	/**
+	 * desassocia um pesquisador que estava associado a essa pesquisa.
+	 * @param emailPesquisador
+	 * @return true or false.
+	 */
 	public boolean desassociaPesquisador(String emailPesquisador) {
 		if (!pesquisadores.containsKey(emailPesquisador))
 			return false;
@@ -213,7 +222,6 @@ public class Pesquisa implements Serializable {
 	}
 	
 
-	// ---------------------------------------US10-------------------------------------------------//
 	/**
 	 * verifica se uma pesquisa tem atividades pendentes
 	 * 
@@ -369,11 +377,17 @@ public class Pesquisa implements Serializable {
 				+ "    - Problema:\n        - " + this.problema.toString() + "\n    - Objetivos:\n" + exibeObjetivos()
 				+ "    - Atividades:\n" + exibeAtividades();
 	}
-
+	/**
+	 * exibe os resultados presentes na pesquisa.
+	 * @return resultados
+	 */
 	public String exibeResultadoPesquisa() {
 			return "- Pesquisa: " + toString() + "\n" + "    - Resultados:\n" +  listaDescricoes();
 		}
-
+	/**
+	 * lista a descricoes da atividade, junto com eles os itens e duracao de intens.
+	 * @return lista de descricoes.
+	 */
 	public String listaDescricoes() {
 		Set<String> chaves = this.atividades.keySet();
 		String descricao = "";

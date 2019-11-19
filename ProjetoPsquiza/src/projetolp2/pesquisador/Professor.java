@@ -11,7 +11,14 @@ public class Professor implements Funcao,Serializable {
 	 * formacao obtida pelo pesquisador.
 	 */
 	private String formacao;
+	/**
+	 * unidade do professor
+	 */
 	private String unidade;
+	/**
+	 * data da sua formacao
+	 * 
+	 */
 	private String data;
 	/**
 	 * Construtor de uma nova funcao de um pesquisador.
@@ -38,6 +45,7 @@ public class Professor implements Funcao,Serializable {
 	}
 	/**
 	 * representacao textual da funcao.
+	 * 
 	 */
 	@Override
 	public String exibePesquisador() {

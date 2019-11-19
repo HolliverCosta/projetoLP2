@@ -452,9 +452,9 @@ public class Atividade implements Serializable {
 	}
 
 	/**
-	 * Exibe resultados esperados concatenados;
+	 * Exibe todos os status dos resultados existentes;
 	 * 
-	 * @return
+	 * @return status dos itens.
 	 */
 	public String exibeStatusItem() {
 
@@ -469,6 +469,11 @@ public class Atividade implements Serializable {
 		}
 		return resultados;
 	}
+	/**
+	 * exibe os itens e suas respectivas duracoes.
+	 * 
+	 * @return duracoes dos itens
+	 */
 	public String exibeDuracaoItens() {
 		String duracaoItens = "";
 		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
@@ -484,6 +489,11 @@ public class Atividade implements Serializable {
 		}
 		return duracaoItens;
 	}
+	/**
+	 * exibe todos os resultados da atividade.
+	 * 
+	 * @return resultados
+	 */
 	public String exibeResultadosCadastados() {
 		String msg = "";
 		for (String r : resultados.values()) {

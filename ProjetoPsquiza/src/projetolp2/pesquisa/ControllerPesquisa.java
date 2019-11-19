@@ -412,7 +412,13 @@ public class ControllerPesquisa implements Serializable {
 		}
 		return count;
 	}
-
+	/**
+	 * associa um determinado pesquisador a uma pesquisa
+	 * @param idPesquisa
+	 * @param emailPesquisador
+	 * @param controllerPesquisador
+	 * @return true or false
+	 */
 	public boolean associaPesquisador(String idPesquisa, String emailPesquisador,
 			ControllerPesquisador controllerPesquisador) {
 		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
@@ -425,7 +431,13 @@ public class ControllerPesquisa implements Serializable {
 		return this.pesquisas.get(idPesquisa).associaPesquisador(emailPesquisador, controllerPesquisador);
 
 	}
-
+	/**
+	 * desassocia um pesquisador que antes estava associado a mesma.
+	 * 
+	 * @param idPesquisa
+	 * @param emailPesquisador
+	 * @return true or false
+	 */
 	public boolean desassociaPesquisador(String idPesquisa, String emailPesquisador) {
 		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
 		validacao.validaString(emailPesquisador, "Campo emailPesquisador nao pode ser nulo ou vazio.");

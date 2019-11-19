@@ -243,7 +243,7 @@ public class ControllerPesquisador implements Serializable {
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
 	}
 
-	// --------------------------------------------US8------------------------------------------------------//
+
 	public ArrayList<Pair> retornaBuscaGeralPesquisador(String termo) {
 		String procurarPor = termo;
 		ArrayList<Pair> pares = new ArrayList<Pair>();
@@ -254,13 +254,6 @@ public class ControllerPesquisador implements Serializable {
 				pares.add(par);
 			}
 		}
-
-//		for (String key : pesquisadoresInativos.keySet()) {
-//			if (pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
-//				Pair par = new Pair(key, pesquisadoresInativos.get(key).getBiografia());
-//				pares.add(par);
-//			}
-//		}
 		return pares;
 	}
 
@@ -273,15 +266,9 @@ public class ControllerPesquisador implements Serializable {
 				count = count + 1;
 			}
 		}
-
-//		for (String key : pesquisadoresInativos.keySet()) {
-//			if (pesquisadoresInativos.get(key).getBiografia().toLowerCase().contains(procurarPor.toLowerCase())) {
-//				count = count + 1;
-//			}
-//		}
 		return count;
 	}
-
+	
 	public Pesquisador getPesquisador(String emailPesquisador) {
 		return this.pesquisadores.get(emailPesquisador);
 	}
