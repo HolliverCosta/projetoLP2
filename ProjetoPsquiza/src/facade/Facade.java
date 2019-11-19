@@ -1,4 +1,4 @@
-package facade;
+ package facade;
 
 import easyaccept.EasyAccept;
 import projetolp2.Psquiza.Psquiza;

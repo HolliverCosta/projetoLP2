@@ -213,7 +213,8 @@ public class Atividade implements Serializable {
 	 * 
 	 * @param duracao
 	 */
-	public void setDuracao(Integer duracao) {
+	public void setDuracao(Integer item, Integer duracao) {
+		resultadosEsperados.get(item-1).setDuracao(duracao);
 		this.duracao += duracao;
 	}
 
@@ -374,6 +375,7 @@ public class Atividade implements Serializable {
 
 	/**
 	 * Retorna a lista de Precedentes
+	 * 
 	 * @return
 	 */
 	public ArrayList<String> getIdPrecedentes() {
@@ -382,6 +384,7 @@ public class Atividade implements Serializable {
 
 	/**
 	 * Retorna o Idsubsequente
+	 * 
 	 * @return
 	 */
 	public String getIdSubsequente() {
@@ -390,6 +393,7 @@ public class Atividade implements Serializable {
 
 	/**
 	 * Define o idsubsequente;
+	 * 
 	 * @param idSubsequente
 	 */
 	public void setIdSubsequente(String idSubsequente) {
@@ -398,6 +402,7 @@ public class Atividade implements Serializable {
 
 	/**
 	 * Verifica se o idsubsequente já foi preenchido ou está vazio;
+	 * 
 	 * @return
 	 */
 	public boolean checaSubsequente() {
@@ -409,6 +414,7 @@ public class Atividade implements Serializable {
 
 	/**
 	 * Remove uma atividade precedente a esta;
+	 * 
 	 * @param idPrecedente
 	 */
 	public void removePrecedente(String idPrecedente) {
@@ -417,6 +423,7 @@ public class Atividade implements Serializable {
 
 	/**
 	 * Retorna uma string com a lista de todos os precedentes desta atividade;
+	 * 
 	 * @return
 	 */
 	public String retornaListaPrecedentes() {
@@ -437,9 +444,10 @@ public class Atividade implements Serializable {
 
 	/**
 	 * Exibe resultados esperados concatenados;
+	 * 
 	 * @return
 	 */
-	public String exibeResultados() {
+	public String exibeStatusItem() {
 
 		String resultados = "";
 		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
@@ -452,5 +460,28 @@ public class Atividade implements Serializable {
 		}
 		return resultados;
 	}
+	public String exibeDuracaoItens() {
+		String duracaoItens = "";
+		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
 
+			if (!this.resultadosEsperados.isEmpty()) {
+				if(this.resultadosEsperados.get(i).getDuracao()!=0) {
+					duracaoItens += "            - ITEM" + (i + 1) +" - "+ this.resultadosEsperados.get(i).getDuracao()
+							+ "\n";
+				}
+				
+
+			}
+		}
+		return duracaoItens;
+	}
+	public String exibeResultadosCadastados() {
+		String msg = "";
+		for (String r : resultados.values()) {
+			if (!r.equals("removido"))
+				msg += "            - " + r + "\n";
+		}
+		return msg;
+	}
+	
 }
