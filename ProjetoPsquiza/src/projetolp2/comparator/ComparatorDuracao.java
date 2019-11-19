@@ -1,4 +1,4 @@
-package projeto.lp2.comparator;
+package projetolp2.comparator;
 
 import java.util.Comparator;
 

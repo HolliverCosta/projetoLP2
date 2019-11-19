@@ -8,11 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import projeto.lp2.comparator.ComparatorDuracao;
-import projeto.lp2.comparator.ComparatorPendencias;
-import projeto.lp2.comparator.ComparatorRisco;
 import projetolp2.atividades.Atividade;
 import projetolp2.atividades.ControllerAtividade;
+import projetolp2.comparator.ComparatorDuracao;
+import projetolp2.comparator.ComparatorPendencias;
+import projetolp2.comparator.ComparatorRisco;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.pesquisador.Pesquisador;
 import projetolp2.po.Objetivo;
