@@ -71,8 +71,8 @@ public class Pesquisa implements Serializable {
 		this.codigo = codigo;
 		this.idProblema = "";
 		this.objetivos = new HashMap<String, Objetivo>();
-		this.atividades = new LinkedHashMap<>();
-		this.pesquisadores = new HashMap<String, Pesquisador>();
+		this.atividades = new LinkedHashMap<String, Atividade>();
+		this.pesquisadores = new LinkedHashMap<String, Pesquisador>();
 		this.problema = null;
 
 	}
@@ -172,6 +172,7 @@ public class Pesquisa implements Serializable {
 	public boolean associaAtividade(String codigoAtividade, ControllerAtividade controllerAtividade) {
 		if (!atividades.containsKey(codigoAtividade)) {
 			atividades.put(codigoAtividade, controllerAtividade.getAtividade(codigoAtividade));
+			atividades.get(codigoAtividade).setAssociado(true);
 			return true;
 		} else
 			return false;
@@ -185,11 +186,14 @@ public class Pesquisa implements Serializable {
 	 * @return um boolean
 	 */
 	public boolean desassociaAtividade(String codigoAtividade) {
+		
 		if (!atividades.containsKey(codigoAtividade)) {
 			return false;
-		} else
+		} else {
 			atividades.remove(codigoAtividade);
-		return true;
+			atividades.get(codigoAtividade).setAssociado(false);
+			return true;
+		}
 	}
 
 	public boolean associaPesquisador(String emailPesquisador, ControllerPesquisador controllerPesquisador) {
@@ -206,6 +210,7 @@ public class Pesquisa implements Serializable {
 		this.pesquisadores.remove(emailPesquisador);
 		return true;
 	}
+	
 
 	// ---------------------------------------US10-------------------------------------------------//
 	/**

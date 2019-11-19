@@ -127,6 +127,7 @@ public class ControllerAtividade implements Serializable {
      * @return nao tem
      */
     public void executaAtividade(String codigoAtividade, Integer item, Integer duracao) {
+    	if(atividades.get(codigoAtividade).isAssociado()==false)throw new IllegalArgumentException("Atividade sem associacoes com pesquisas.");
         atividades.get(codigoAtividade).setStatusItem(item);
         atividades.get(codigoAtividade).setDuracao(item,duracao);
     }

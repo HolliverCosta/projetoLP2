@@ -59,7 +59,7 @@ public class Atividade implements Serializable {
 	 */
 
 	private int contadorResultado;
-
+	private boolean associado;
 	/**
 	 * Constrói uma Atividade, a partir da sua descricao, do nível de risco, da
 	 * descrição do Risco e de um ID:número de identificação para formar o código.
@@ -79,6 +79,15 @@ public class Atividade implements Serializable {
 		this.contadorResultado = 0;
 		this.idPrecedentes = new ArrayList<String>();
 		this.idSubsequente = null;
+		this.associado = false;
+	}
+
+	public boolean isAssociado() {
+		return associado;
+	}
+
+	public void setAssociado(boolean associado) {
+		this.associado = associado;
 	}
 
 	/**

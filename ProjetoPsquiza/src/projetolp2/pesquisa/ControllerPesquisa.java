@@ -376,7 +376,7 @@ public class ControllerPesquisa implements Serializable {
 			throw new IllegalArgumentException("Pesquisa desativada.");
 		return pesquisas.get(codigoPesquisa).desassociaAtividade(codigoAtividade);
 	}
-
+	
 	// --------------------------------------US8-----------------------------------------------------/-/
 	public ArrayList<Pair> retornaBuscaGeralPesquisa(String termo) {
 		String procurarPor = termo;
