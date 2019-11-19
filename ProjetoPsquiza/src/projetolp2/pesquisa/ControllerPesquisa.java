@@ -193,17 +193,7 @@ public class ControllerPesquisa implements Serializable {
 		return pesquisas.containsKey(codigo);
 	}
 
-	/**
-	 * Associa um problema identificado pelo idProblema a uma pesquisa identificada
-	 * por idPesquisa.
-	 * 
-	 * @param idPesquisa código da pesquisa
-	 * @param idProblema código do problema
-	 * @return true ou false.
-	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista,
-	 *                                  esteja desativada ou ja esteja associada a
-	 *                                  um problema.
-	 */
+	
 	/**
 	 * Retorna uma String contendo todas as pesquisas ordenadas a partir do critério
 	 * ordem(PROBLEMA,OBJETIVOS,PESQUISA).
@@ -254,6 +244,17 @@ public class ControllerPesquisa implements Serializable {
 		return output;
 	}
 	//------------------------------------------------PROBLEMAS E OBJETIVOS----------------------------------------------------//
+	/**
+	 * Associa um problema identificado pelo idProblema a uma pesquisa identificada
+	 * por idPesquisa.
+	 * 
+	 * @param idPesquisa código da pesquisa
+	 * @param idProblema código do problema
+	 * @return true ou false.
+	 * @throws IllegalArgumentException Exceção lançada caso a pesquisa nao exista,
+	 *                                  esteja desativada ou ja esteja associada a
+	 *                                  um problema.
+	 */
 	public boolean associaProblema(String idPesquisa, Problema novoProblema, String idProblema)
 			throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
