@@ -190,8 +190,9 @@ public class Pesquisa implements Serializable {
 		if (!atividades.containsKey(codigoAtividade)) {
 			return false;
 		} else {
-			atividades.remove(codigoAtividade);
 			atividades.get(codigoAtividade).setAssociado(false);
+			atividades.remove(codigoAtividade);
+			
 			return true;
 		}
 	}
