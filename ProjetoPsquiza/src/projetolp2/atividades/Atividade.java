@@ -13,7 +13,7 @@ import projetolp2.busca.Pair;
  * 
  * @author caiom
  */
-public class Atividade implements Serializable{
+public class Atividade implements Serializable {
 
 	/**
 	 * Código da atividade;
@@ -35,12 +35,12 @@ public class Atividade implements Serializable{
 	 * Duração de uma Atividade;
 	 */
 	private Integer duracao;
-	
+
 	/**
 	 * Conjunto de IDs que precedem esta atividade;
 	 */
 	private ArrayList<String> idPrecedentes;
-	
+
 	/**
 	 * ID da atividade que vem após esta;
 	 */
@@ -57,7 +57,7 @@ public class Atividade implements Serializable{
 	/*
 	 * contador para gerar o id dos resultados
 	 */
-	
+
 	private int contadorResultado;
 
 	/**
@@ -103,6 +103,7 @@ public class Atividade implements Serializable{
 			}
 		}
 	}
+
 	/**
 	 * Pega a descricao da atividade atividade
 	 * 
@@ -111,6 +112,7 @@ public class Atividade implements Serializable{
 	public String getDescricaoAtividade() {
 		return descricaoAtividade;
 	}
+
 	/**
 	 * Pega a descricao do risco da atividade atividade
 	 * 
@@ -200,6 +202,7 @@ public class Atividade implements Serializable{
 		}
 		return conc;
 	}
+
 	public String exibeAtividade() {
 		return this.descricaoAtividade + " (" + this.nivelRisco + " - " + this.descricaoRisco + ")";
 	}
@@ -207,25 +210,31 @@ public class Atividade implements Serializable{
 	// -----------------------------------------------US7------------------------------------------------//
 	/**
 	 * muda a durcao da atividade
+	 * 
 	 * @param duracao
 	 */
 	public void setDuracao(Integer duracao) {
 		this.duracao += duracao;
 	}
+
 	/**
 	 * muda o status de um item
+	 * 
 	 * @param itemPosicao
 	 */
 	public void setStatusItem(Integer itemPosicao) {
-		if((itemPosicao-1)>resultadosEsperados.size())throw new IllegalArgumentException("Item nao encontrado.");
+		if ((itemPosicao - 1) > resultadosEsperados.size())
+			throw new IllegalArgumentException("Item nao encontrado.");
 		if (resultadosEsperados.get(itemPosicao - 1).getStatus().equals("REALIZADO"))
 			throw new IllegalArgumentException("Item ja executado.");
 
 		resultadosEsperados.get(itemPosicao - 1).setStatus("REALIZADO");
 
 	}
+
 	/**
 	 * cadastra o resultado
+	 * 
 	 * @param resultado
 	 * @return o id do resultado
 	 */
@@ -236,95 +245,107 @@ public class Atividade implements Serializable{
 		return contadorResultado;
 	}
 
-	
 	/**
 	 * remove o resultado da atividade
+	 * 
 	 * @param numeroResultado
 	 * @return boolean
 	 */
 	public boolean removeResultado(Integer numeroResultado) {
-		if(!resultados.containsKey(numeroResultado))throw new IllegalArgumentException("Resultado nao encontrado."); 
+		if (!resultados.containsKey(numeroResultado))
+			throw new IllegalArgumentException("Resultado nao encontrado.");
 		if (resultados.get(numeroResultado).equals("removido"))
 			return false;
 		else {
 			resultados.put(numeroResultado, "removido");
 			return true;
 		}
-		
+
 	}
+
 	/**
 	 * lista todos os resultados da atividade
+	 * 
 	 * @return representacao textual de todos os resultados
 	 */
 	public String listaResultados() {
 		String msg = "";
 		for (String r : resultados.values()) {
-			if(!r.equals("removido"))
+			if (!r.equals("removido"))
 				msg += r + " | ";
 		}
 		return msg.substring(0, msg.length() - 3);
 	}
+
 	/**
 	 * pega a duracao da atividade
+	 * 
 	 * @return inteiro
 	 */
 	public Integer getDuracao() {
 		return duracao;
 	}
-	//-------------------------------------------------US8-------------------------------------------------------//
+
+	// -------------------------------------------------US8-------------------------------------------------------//
 	/**
-     * Busca o termo nos itens dentro da Atividade;
-     * @param termo
-     * @return
-     */
-    public ArrayList<Pair> buscaTermoNoItem (String termo) {
-        String procurarPor = termo;
-        
-        ArrayList<Pair> pares = new ArrayList<Pair>();
-        
-        for(int i = 0; i< resultadosEsperados.size();i++) {
-            if(resultadosEsperados.get(i).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
-                Pair par = new Pair(this.idAtividade,resultadosEsperados.get(i).getDescricao());
-                pares.add(par);
-            }
-        }
-        
-        return pares;
-    }
-    
-    /**
-     * Conta a quantidade de casos do termo encontrado nos itens;
-     * @param termo
-     * @return
-     */
-    public int contaTermoNoItem (String termo) {
-        String procurarPor = termo;
-        int count = 0;
-        
-        for(int i = 0; i < resultadosEsperados.size(); i++) {
-            if(resultadosEsperados.get(i).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
-                count = count + 1;
-            }
-        }
-        return count;
-    }
-  //----------------------------------------------------------US10----------------------------------------------------------//
-    /**
-     * pega o id da atividade
-     * @return id atividade
-     */
-  	public String getIdAtividade() {
-  		return idAtividade;
-  	}
-  	/**
-  	 * pega o nivel de risco da atividade
-  	 * @return nivel de risco
-  	 */
-  	public String getNivelRisco() {
-  		return nivelRisco;
-  	}
-	
-  	@Override
+	 * Busca o termo nos itens dentro da Atividade;
+	 * 
+	 * @param termo
+	 * @return
+	 */
+	public ArrayList<Pair> buscaTermoNoItem(String termo) {
+		String procurarPor = termo;
+
+		ArrayList<Pair> pares = new ArrayList<Pair>();
+
+		for (int i = 0; i < resultadosEsperados.size(); i++) {
+			if (resultadosEsperados.get(i).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+				Pair par = new Pair(this.idAtividade, resultadosEsperados.get(i).getDescricao());
+				pares.add(par);
+			}
+		}
+
+		return pares;
+	}
+
+	/**
+	 * Conta a quantidade de casos do termo encontrado nos itens;
+	 * 
+	 * @param termo
+	 * @return
+	 */
+	public int contaTermoNoItem(String termo) {
+		String procurarPor = termo;
+		int count = 0;
+
+		for (int i = 0; i < resultadosEsperados.size(); i++) {
+			if (resultadosEsperados.get(i).getDescricao().toLowerCase().contains(procurarPor.toLowerCase())) {
+				count = count + 1;
+			}
+		}
+		return count;
+	}
+
+	// ----------------------------------------------------------US10----------------------------------------------------------//
+	/**
+	 * pega o id da atividade
+	 * 
+	 * @return id atividade
+	 */
+	public String getIdAtividade() {
+		return idAtividade;
+	}
+
+	/**
+	 * pega o nivel de risco da atividade
+	 * 
+	 * @return nivel de risco
+	 */
+	public String getNivelRisco() {
+		return nivelRisco;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -348,45 +369,88 @@ public class Atividade implements Serializable{
 			return false;
 		return true;
 	}
-	
-	//-------------------------------------------------------US9--------------------------------------------------------------//
 
-		public ArrayList<String> getIdPrecedentes() {
-			return idPrecedentes;
-		}
+	// -------------------------------------------------------US9--------------------------------------------------------------//
 
-		public void setIdPrecedentes(ArrayList<String> idPrecedentes) {
-			this.idPrecedentes = idPrecedentes;
-		}
+	/**
+	 * Retorna a lista de Precedentes
+	 * @return
+	 */
+	public ArrayList<String> getIdPrecedentes() {
+		return idPrecedentes;
+	}
 
-		public String getIdSubsequente() {
-			return idSubsequente;
-		}
+	/**
+	 * Retorna o Idsubsequente
+	 * @return
+	 */
+	public String getIdSubsequente() {
+		return idSubsequente;
+	}
 
-		public void setIdSubsequente(String idSubsequente) {
-			this.idSubsequente = idSubsequente;
-		}
-		
-		public boolean checaSubsequente() {
-			if(this.idSubsequente != null) {
-				return true;
-			}
-			return false;
-		}
-		
-		public void removePrecedente(String idPrecedente) {
-			idPrecedentes.remove(idPrecedente);
-		}
-		public String exibeResultados() {
-			
-			String resultados = "";
-			for (int i = 0; i< this.resultadosEsperados.size(); i++) {
-				
-				if(!this.resultadosEsperados.isEmpty()) {
-					resultados += "            - " + this.resultadosEsperados.get(i).getStatus() + " - ITEM"+ (i+1) + "\n";
+	/**
+	 * Define o idsubsequente;
+	 * @param idSubsequente
+	 */
+	public void setIdSubsequente(String idSubsequente) {
+		this.idSubsequente = idSubsequente;
+	}
 
+	/**
+	 * Verifica se o idsubsequente já foi preenchido ou está vazio;
+	 * @return
+	 */
+	public boolean checaSubsequente() {
+		if (this.idSubsequente != null) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Remove uma atividade precedente a esta;
+	 * @param idPrecedente
+	 */
+	public void removePrecedente(String idPrecedente) {
+		idPrecedentes.remove(idPrecedente);
+	}
+
+	/**
+	 * Retorna uma string com a lista de todos os precedentes desta atividade;
+	 * @return
+	 */
+	public String retornaListaPrecedentes() {
+		String preceds = "";
+		if (idPrecedentes.isEmpty()) {
+			return "Sem precedentes.";
+		} else {
+			for (int i = 0; i < idPrecedentes.size(); i++) {
+				if (i == idPrecedentes.size() - 1) {
+					preceds = preceds + idPrecedentes.get(i);
+				} else {
+					preceds = preceds + idPrecedentes.get(i) + " - ";
 				}
 			}
-			return resultados;
+			return preceds;
 		}
+	}
+
+	/**
+	 * Exibe resultados esperados concatenados;
+	 * @return
+	 */
+	public String exibeResultados() {
+
+		String resultados = "";
+		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
+
+			if (!this.resultadosEsperados.isEmpty()) {
+				resultados += "            - " + this.resultadosEsperados.get(i).getStatus() + " - ITEM" + (i + 1)
+						+ "\n";
+
+			}
+		}
+		return resultados;
+	}
+
 }
