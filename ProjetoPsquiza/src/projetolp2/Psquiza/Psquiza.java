@@ -67,7 +67,7 @@ public class Psquiza {
 	public ControllerBusca getControllerBusca() {
 		return controllerBusca;
 	}
-	//-------------------------------------------------US5---------------------------------------------------------//
+	//-------------------------------------------------PROBLEMAS E OBJETIVOS---------------------------------------------------------//
 	public boolean associaProblema(String idPesquisa, String idProblema) {
 	       ValidaCampos.validaCamposString(new String[] {idPesquisa, idProblema},
 	                new String[] {"idPesquisa", "idProblema"});
@@ -97,6 +97,7 @@ public class Psquiza {
 	    if(!this.controllerPO.existe(idObjetivo)) throw new IllegalArgumentException("Objetivo nao encontrado");
 	    return this.controllerPesquisa.desassociaObjetivo(idPesquisa, idObjetivo);
 	}
+	//----------------------------------------------------------ATIVIDADE----------------------------------------------//
 	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
 		validacao.validaString(codigoPesquisa, "Campo codigoPesquisa nao pode ser nulo ou vazio.");
 		validacao.validaString(codigoAtividade, "Campo codigoAtividade nao pode ser nulo ou vazio.");
@@ -142,7 +143,7 @@ public class Psquiza {
 		validacao.validaString(codigoPesquisa, "Pesquisa nao pode ser nula ou vazia.");
 		return controllerPesquisa.proximaAtividade(codigoPesquisa);
 	}
-	
+	//-------------------------------------------------------SALVA------------------------------------------------//
 	public void salva() {
 	    String dir = "persistencia";
 	    try {

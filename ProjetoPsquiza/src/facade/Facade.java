@@ -1,4 +1,4 @@
- package facade;
+package facade;
 
 import easyaccept.EasyAccept;
 import projetolp2.Psquiza.Psquiza;
@@ -12,12 +12,12 @@ public class Facade {
 				"TestesDeAceitacao/use_case_3.txt", "TestesDeAceitacao/use_case_4.txt",
 				"TestesDeAceitacao/use_case_5.txt", "TestesDeAceitacao/use_case_6.txt",
 				"TestesDeAceitacao/use_case_7.txt", "TestesDeAceitacao/use_case_8.txt",
-				"TestesDeAceitacao/use_case_9.txt", "TestesDeAceitacao/use_case_10.txt", "TestesDeAceitacao/use_case_11.txt" };
-		String[] args2 = new String[] {"facade.Facade",
-		        "TestesDeAceitacao/use_case_12SALVAR.txt", 
-		        "TestesDeAceitacao/use_case_12CARREGAR.txt"};
+				"TestesDeAceitacao/use_case_9.txt", "TestesDeAceitacao/use_case_10.txt",
+				"TestesDeAceitacao/use_case_11.txt" };
+		String[] args2 = new String[] { "facade.Facade", "TestesDeAceitacao/use_case_12SALVAR.txt",
+				"TestesDeAceitacao/use_case_12CARREGAR.txt" };
 		EasyAccept.main(args);
-		//EasyAccept.main(args2);
+		// EasyAccept.main(args2);
 	}
 
 	public Facade() {
@@ -69,6 +69,23 @@ public class Facade {
 		return controllerGeral.getControllerPesquisa().listaPesquisas(ordem);
 	}
 
+	public boolean associaPesquisador(String idPesquisa, String emailPesquisador) {
+		return this.controllerGeral.getControllerPesquisa().associaPesquisador(idPesquisa, emailPesquisador,
+				controllerGeral.getControllerPesquisador());
+	}
+
+	public boolean desassociaPesquisador(String idPesquisa, String emailPesquisador) {
+		return this.controllerGeral.getControllerPesquisa().desassociaPesquisador(idPesquisa, emailPesquisador);
+	}
+
+	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
+		return controllerGeral.associaAtividade(codigoPesquisa, codigoAtividade);
+	}
+
+	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
+		return controllerGeral.desassociaAtividade(codigoPesquisa, codigoAtividade);
+	}
+
 	// ----------------------------------------Pesquisador----------------------------------------------------------//
 	public void cadastraPesquisador(String nome, String funcao, String biografia, String email, String fotoURL) {
 		controllerGeral.getControllerPesquisador().cadastraPesquisador(nome, funcao, biografia, email, fotoURL);
@@ -93,6 +110,18 @@ public class Facade {
 
 	public boolean pesquisadorEhAtivo(String email) {
 		return controllerGeral.getControllerPesquisador().pesquisadorEhAtivo(email);
+	}
+
+	public void cadastraEspecialidadeProfessor(String email, String formacao, String unidade, String data) {
+		this.controllerGeral.getControllerPesquisador().cadastraEspecialidadeProfessor(email, formacao, unidade, data);
+	}
+
+	public void cadastraEspecialidadeAluno(String email, Integer semestre, Double IEA) {
+		this.controllerGeral.getControllerPesquisador().cadastraEspecialidadeAluno(email, semestre, IEA);
+	}
+
+	public String listaPesquisadores(String tipo) {
+		return this.controllerGeral.getControllerPesquisador().listaPesquisadores(tipo);
 	}
 
 	// -------------------------------------------------Problemas e Objetivos-----------------------------------------------//
@@ -146,36 +175,6 @@ public class Facade {
 		return controllerGeral.getControllerAtividade().contarItensRealizados(codigo);
 	}
 
-	public boolean associaPesquisador(String idPesquisa, String emailPesquisador) {
-		return this.controllerGeral.getControllerPesquisa().associaPesquisador(idPesquisa, emailPesquisador,
-				controllerGeral.getControllerPesquisador());
-	}
-
-	public boolean desassociaPesquisador(String idPesquisa, String emailPesquisador) {
-		return this.controllerGeral.getControllerPesquisa().desassociaPesquisador(idPesquisa, emailPesquisador);
-	}
-
-	public void cadastraEspecialidadeProfessor(String email, String formacao, String unidade, String data) {
-		this.controllerGeral.getControllerPesquisador().cadastraEspecialidadeProfessor(email, formacao, unidade, data);
-	}
-
-	public void cadastraEspecialidadeAluno(String email, Integer semestre, Double IEA) {
-		this.controllerGeral.getControllerPesquisador().cadastraEspecialidadeAluno(email, semestre, IEA);
-	}
-
-	public String listaPesquisadores(String tipo) {
-		return this.controllerGeral.getControllerPesquisador().listaPesquisadores(tipo);
-	}
-
-	// ----------------------------------------------US7--------------------------------------------------------//
-	public boolean associaAtividade(String codigoPesquisa, String codigoAtividade) {
-		return controllerGeral.associaAtividade(codigoPesquisa, codigoAtividade);
-	}
-
-	public boolean desassociaAtividade(String codigoPesquisa, String codigoAtividade) {
-		return controllerGeral.desassociaAtividade(codigoPesquisa, codigoAtividade);
-	}
-
 	public void executaAtividade(String codigoAtividade, Integer item, Integer duracao) {
 		controllerGeral.executaAtividade(codigoAtividade, item, duracao);
 	}
@@ -196,7 +195,35 @@ public class Facade {
 		return controllerGeral.getDuracao(codigoAtividade);
 	}
 
-	// -----------------------------------------------------US8---------------------------------------------------//
+	public void defineProximaAtividade(String idPrecedente, String idSubsequente) {
+		controllerGeral.getControllerAtividade().definirProximaAtividade(idPrecedente, idSubsequente);
+	}
+
+	public void tiraProximaAtividade(String idPrecedente) {
+		controllerGeral.getControllerAtividade().tirarProximaAtividade(idPrecedente);
+	}
+
+	public int contaProximos(String idPrecedente) {
+		return controllerGeral.getControllerAtividade().contarProximas(idPrecedente);
+	}
+
+	public String pegaProximo(String idAtividade, int enesimaAtividade) {
+		return controllerGeral.getControllerAtividade().pegarEnesimaProxima(idAtividade, enesimaAtividade);
+	}
+
+	public String pegaMaiorRiscoAtividades(String idAtividade) {
+		return controllerGeral.getControllerAtividade().pegarMaiorRiscoAtividades(idAtividade);
+	}
+
+	public void configuraEstrategia(String estrategia) {
+		controllerGeral.configuraEstrategia(estrategia);
+	}
+
+	public String proximaAtividade(String codigoPesquisa) {
+		return controllerGeral.proximaAtividade(codigoPesquisa);
+	}
+
+	// -----------------------------------------------------BUSCA---------------------------------------------------//
 	public String busca(String termo) {
 		return controllerGeral.getControllerBusca().buscarGeral(termo, controllerGeral);
 	}
@@ -208,45 +235,26 @@ public class Facade {
 	public int contaResultadosBusca(String termo) {
 		return controllerGeral.getControllerBusca().contarResultado(termo, controllerGeral);
 	}
-
-	// -----------------------------------------------------------US9--------------------------------------------------//
-	public void defineProximaAtividade(String idPrecedente, String idSubsequente) {
-		controllerGeral.getControllerAtividade().definirProximaAtividade(idPrecedente, idSubsequente);
-	}
-	public void tiraProximaAtividade(String idPrecedente) {
-		controllerGeral.getControllerAtividade().tirarProximaAtividade(idPrecedente);
-	}
-	public int contaProximos(String idPrecedente) {
-		return controllerGeral.getControllerAtividade().contarProximas(idPrecedente);
-	}
-	public String pegaProximo(String idAtividade, int enesimaAtividade) {
-		return controllerGeral.getControllerAtividade().pegarEnesimaProxima(idAtividade, enesimaAtividade);
-	}
-	public String pegaMaiorRiscoAtividades(String idAtividade) {
-		return controllerGeral.getControllerAtividade().pegarMaiorRiscoAtividades(idAtividade);
-	}
-
-	// -----------------------------------------------------------US10--------------------------------------------------//
-	public void configuraEstrategia(String estrategia) {
-		controllerGeral.configuraEstrategia(estrategia);
-	}
-
-	public String proximaAtividade(String codigoPesquisa) {
-		return controllerGeral.proximaAtividade(codigoPesquisa);
-	}
 	
-	public void salvar() {
-	    controllerGeral.salva();
-	}
-	
-	public void carregar() {
-	    controllerGeral.carrega();
-	}
+	//---------------------------------------------------------GRAVAR------------------------------------------------------//
 	public void gravarResumo(String codigoPesquisa) {
 		controllerGeral.getControllerPesquisa().gravarResumo(codigoPesquisa);
 	}
+
 	public void gravarResultados(String codigoPesquisa) {
 		controllerGeral.getControllerPesquisa().gravarResultado(codigoPesquisa);
 	}
+
+	// -----------------------------------------------------------SALVAR--------------------------------------------------//
+
+	public void salvar() {
+		controllerGeral.salva();
+	}
+
+	public void carregar() {
+		controllerGeral.carrega();
+	}
+
+	
 
 }

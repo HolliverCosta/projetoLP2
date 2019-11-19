@@ -59,7 +59,11 @@ public class Atividade implements Serializable {
 	 */
 
 	private int contadorResultado;
+	/**
+	 * variavel para saber se uma atividade esta associada com alguma pesquisa
+	 */
 	private boolean associado;
+
 	/**
 	 * Constrói uma Atividade, a partir da sua descricao, do nível de risco, da
 	 * descrição do Risco e de um ID:número de identificação para formar o código.
@@ -82,13 +86,7 @@ public class Atividade implements Serializable {
 		this.associado = false;
 	}
 
-	public boolean isAssociado() {
-		return associado;
-	}
-
-	public void setAssociado(boolean associado) {
-		this.associado = associado;
-	}
+	// --------------------------------------------------------------ITEM-------------------------------------------------------------//
 
 	/**
 	 * Cadasta um item na lista de resultados esperados;
@@ -111,24 +109,6 @@ public class Atividade implements Serializable {
 				item.setStatus("REALIZADO");
 			}
 		}
-	}
-
-	/**
-	 * Pega a descricao da atividade atividade
-	 * 
-	 * @return descricao
-	 */
-	public String getDescricaoAtividade() {
-		return descricaoAtividade;
-	}
-
-	/**
-	 * Pega a descricao do risco da atividade atividade
-	 * 
-	 * @return descricao de um risco
-	 */
-	public String getDescricaoRisco() {
-		return descricaoRisco;
 	}
 
 	/**
@@ -162,43 +142,45 @@ public class Atividade implements Serializable {
 	}
 
 	/**
-	 * Retorna o as informações de todos os items Realizaods;
+	 * exibe os itens e suas respectivas duracoes.
 	 * 
-	 * @return
+	 * @return duracoes dos itens
 	 */
-	private String getStringRealizados() {
-		String realizados = "";
-		for (int i = 0; i < resultadosEsperados.size(); i++) {
-			if (resultadosEsperados.get(i).getStatus().equals("REALIZADO")) {
-				if (i >= resultadosEsperados.size() - 1) {
-					realizados = realizados + "REALIZADO" + " - " + resultadosEsperados.get(i).getDescricao();
-				} else {
-					realizados = realizados + "REALIZADO" + " - " + resultadosEsperados.get(i).getDescricao() + " | ";
+	public String exibeDuracaoItens() {
+		String duracaoItens = "";
+		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
+
+			if (!this.resultadosEsperados.isEmpty()) {
+				if (this.resultadosEsperados.get(i).getDuracao() != 0) {
+					duracaoItens += "            - ITEM" + (i + 1) + " - "
+							+ this.resultadosEsperados.get(i).getDuracao() + "\n";
 				}
+
 			}
 		}
-		return realizados;
+		return duracaoItens;
 	}
 
 	/**
-	 * Retorna as informações de todos os itens pendentes;
+	 * Exibe todos os status dos resultados existentes;
 	 * 
-	 * @return
+	 * @return status dos itens.
 	 */
-	private String getStringPendentes() {
-		String pendentes = "";
-		for (int i = 0; i < resultadosEsperados.size(); i++) {
-			if (resultadosEsperados.get(i).getStatus().equals("PENDENTE")) {
-				if (i >= resultadosEsperados.size() - 1) {
-					pendentes = pendentes + "PENDENTE" + " - " + resultadosEsperados.get(i).getDescricao();
-				} else {
-					pendentes = pendentes + "PENDENTE" + " - " + resultadosEsperados.get(i).getDescricao() + " | ";
-				}
+	public String exibeStatusItem() {
+
+		String resultados = "";
+		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
+
+			if (!this.resultadosEsperados.isEmpty()) {
+				resultados += "            - " + this.resultadosEsperados.get(i).getStatus() + " - ITEM" + (i + 1)
+						+ "\n";
+
 			}
 		}
-		return pendentes;
+		return resultados;
 	}
 
+	// ------------------------------------------------------------toString-----------------------------------------------//
 	@Override
 	public String toString() {
 		String conc = "";
@@ -216,32 +198,7 @@ public class Atividade implements Serializable {
 		return this.descricaoAtividade + " (" + this.nivelRisco + " - " + this.descricaoRisco + ")";
 	}
 
-	// -----------------------------------------------US7------------------------------------------------//
-	/**
-	 * muda a durcao da atividade
-	 * 
-	 * @param duracao
-	 */
-	public void setDuracao(Integer item, Integer duracao) {
-		resultadosEsperados.get(item-1).setDuracao(duracao);
-		this.duracao += duracao;
-	}
-
-	/**
-	 * muda o status de um item
-	 * 
-	 * @param itemPosicao
-	 */
-	public void setStatusItem(Integer itemPosicao) {
-		if ((itemPosicao - 1) > resultadosEsperados.size())
-			throw new IllegalArgumentException("Item nao encontrado.");
-		if (resultadosEsperados.get(itemPosicao - 1).getStatus().equals("REALIZADO"))
-			throw new IllegalArgumentException("Item ja executado.");
-
-		resultadosEsperados.get(itemPosicao - 1).setStatus("REALIZADO");
-
-	}
-
+	// -----------------------------------------------RESULTADO------------------------------------------------//
 	/**
 	 * cadastra o resultado
 	 * 
@@ -288,15 +245,20 @@ public class Atividade implements Serializable {
 	}
 
 	/**
-	 * pega a duracao da atividade
+	 * exibe todos os resultados da atividade.
 	 * 
-	 * @return inteiro
+	 * @return resultados
 	 */
-	public Integer getDuracao() {
-		return duracao;
+	public String exibeResultadosCadastados() {
+		String msg = "";
+		for (String r : resultados.values()) {
+			if (!r.equals("removido"))
+				msg += "            - " + r + "\n";
+		}
+		return msg;
 	}
 
-	// -------------------------------------------------US8-------------------------------------------------------//
+	// -------------------------------------------------BUSCA-------------------------------------------------------//
 	/**
 	 * Busca o termo nos itens dentro da Atividade;
 	 * 
@@ -334,50 +296,6 @@ public class Atividade implements Serializable {
 			}
 		}
 		return count;
-	}
-
-	// ----------------------------------------------------------US10----------------------------------------------------------//
-	/**
-	 * pega o id da atividade
-	 * 
-	 * @return id atividade
-	 */
-	public String getIdAtividade() {
-		return idAtividade;
-	}
-
-	/**
-	 * pega o nivel de risco da atividade
-	 * 
-	 * @return nivel de risco
-	 */
-	public String getNivelRisco() {
-		return nivelRisco;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idAtividade == null) ? 0 : idAtividade.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Atividade other = (Atividade) obj;
-		if (idAtividade == null) {
-			if (other.idAtividade != null)
-				return false;
-		} else if (!idAtividade.equals(other.idAtividade))
-			return false;
-		return true;
 	}
 
 	// -------------------------------------------------------US9--------------------------------------------------------------//
@@ -451,56 +369,121 @@ public class Atividade implements Serializable {
 		}
 	}
 
-	/**
-	 * Exibe todos os status dos resultados existentes;
-	 * 
-	 * @return status dos itens.
-	 */
-	public String exibeStatusItem() {
-
-		String resultados = "";
-		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
-
-			if (!this.resultadosEsperados.isEmpty()) {
-				resultados += "            - " + this.resultadosEsperados.get(i).getStatus() + " - ITEM" + (i + 1)
-						+ "\n";
-
-			}
-		}
-		return resultados;
+	// ---------------------------------------------------GETS E SETS--------------------------------------------------//
+	public Integer getDuracao() {
+		return duracao;
 	}
-	/**
-	 * exibe os itens e suas respectivas duracoes.
-	 * 
-	 * @return duracoes dos itens
-	 */
-	public String exibeDuracaoItens() {
-		String duracaoItens = "";
-		for (int i = 0; i < this.resultadosEsperados.size(); i++) {
 
-			if (!this.resultadosEsperados.isEmpty()) {
-				if(this.resultadosEsperados.get(i).getDuracao()!=0) {
-					duracaoItens += "            - ITEM" + (i + 1) +" - "+ this.resultadosEsperados.get(i).getDuracao()
-							+ "\n";
+	public String getDescricaoAtividade() {
+		return descricaoAtividade;
+	}
+
+	public String getDescricaoRisco() {
+		return descricaoRisco;
+	}
+
+	public boolean isAssociado() {
+		return associado;
+	}
+
+	public void setAssociado(boolean associado) {
+		this.associado = associado;
+	}
+
+	public String getIdAtividade() {
+		return idAtividade;
+	}
+
+	public String getNivelRisco() {
+		return nivelRisco;
+	}
+
+	/**
+	 * muda a duracao da atividade e do item
+	 * 
+	 * @param duracao
+	 */
+	public void setDuracao(Integer item, Integer duracao) {
+		resultadosEsperados.get(item - 1).setDuracao(duracao);
+		this.duracao += duracao;
+	}
+
+	/**
+	 * Retorna o as informações de todos os items Realizaods;
+	 * 
+	 * @return
+	 */
+	private String getStringRealizados() {
+		String realizados = "";
+		for (int i = 0; i < resultadosEsperados.size(); i++) {
+			if (resultadosEsperados.get(i).getStatus().equals("REALIZADO")) {
+				if (i >= resultadosEsperados.size() - 1) {
+					realizados = realizados + "REALIZADO" + " - " + resultadosEsperados.get(i).getDescricao();
+				} else {
+					realizados = realizados + "REALIZADO" + " - " + resultadosEsperados.get(i).getDescricao() + " | ";
 				}
-				
-
 			}
 		}
-		return duracaoItens;
+		return realizados;
 	}
+
 	/**
-	 * exibe todos os resultados da atividade.
+	 * Retorna as informações de todos os itens pendentes;
 	 * 
-	 * @return resultados
+	 * @return
 	 */
-	public String exibeResultadosCadastados() {
-		String msg = "";
-		for (String r : resultados.values()) {
-			if (!r.equals("removido"))
-				msg += "            - " + r + "\n";
+	private String getStringPendentes() {
+		String pendentes = "";
+		for (int i = 0; i < resultadosEsperados.size(); i++) {
+			if (resultadosEsperados.get(i).getStatus().equals("PENDENTE")) {
+				if (i >= resultadosEsperados.size() - 1) {
+					pendentes = pendentes + "PENDENTE" + " - " + resultadosEsperados.get(i).getDescricao();
+				} else {
+					pendentes = pendentes + "PENDENTE" + " - " + resultadosEsperados.get(i).getDescricao() + " | ";
+				}
+			}
 		}
-		return msg;
+		return pendentes;
 	}
-	
+
+	/**
+	 * muda o status de um item
+	 * 
+	 * @param itemPosicao
+	 */
+	public void setStatusItem(Integer itemPosicao) {
+		if ((itemPosicao - 1) > resultadosEsperados.size())
+			throw new IllegalArgumentException("Item nao encontrado.");
+		if (resultadosEsperados.get(itemPosicao - 1).getStatus().equals("REALIZADO"))
+			throw new IllegalArgumentException("Item ja executado.");
+
+		resultadosEsperados.get(itemPosicao - 1).setStatus("REALIZADO");
+
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idAtividade == null) ? 0 : idAtividade.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Atividade other = (Atividade) obj;
+		if (idAtividade == null) {
+			if (other.idAtividade != null)
+				return false;
+		} else if (!idAtividade.equals(other.idAtividade))
+			return false;
+		return true;
+	}
+
 }

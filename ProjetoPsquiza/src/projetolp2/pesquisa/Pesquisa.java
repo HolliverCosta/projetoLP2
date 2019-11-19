@@ -8,10 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import projeto.lp2.comparator.ComparatorDuracao;
+import projeto.lp2.comparator.ComparatorPendencias;
+import projeto.lp2.comparator.ComparatorRisco;
 import projetolp2.atividades.Atividade;
-import projetolp2.atividades.ComparatorDuracao;
-import projetolp2.atividades.ComparatorPendencias;
-import projetolp2.atividades.ComparatorRisco;
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.pesquisador.ControllerPesquisador;
 import projetolp2.pesquisador.Pesquisador;
@@ -56,7 +56,7 @@ public class Pesquisa implements Serializable {
 	 */
 	private Map<String, Atividade> atividades;
 	private Map<String, Pesquisador> pesquisadores;
-
+	//-----------------------------------------------------------------PESQUISA------------------------------------------//
 	/**
 	 * Constroi uma pesquisa
 	 * 
@@ -76,92 +76,21 @@ public class Pesquisa implements Serializable {
 		this.problema = null;
 
 	}
-
-	public void addObjetivo(String idObjetivo, Objetivo objetivo) {
-		this.objetivos.put(idObjetivo, objetivo);
-	}
-
 	/**
-	 * pega o codigo da pesquisa
-	 * 
-	 * @return codigo
+	 * exibe os resultados presentes na pesquisa.
+	 * @return resultados
 	 */
-	public String getCodigo() {
-		return this.codigo;
-	}
-
-	public Map<String, Objetivo> getObjetivos() {
-		return objetivos;
-	}
-
-	public String getProblema() {
-		return this.idProblema;
-	}
-
-	/**
-	 * @return status da pesquisa
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * metodo para mudar o status da pesquisa
-	 * 
-	 * @param status
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	/**
-	 * metodo para mudar a descricao da pesquisa
-	 * 
-	 * @param descricao
-	 */
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	/**
-	 * pega a descricao da pesquisa
-	 * 
-	 * @return descricao
-	 */
-	public String getDescricao() {
-		return descricao;
-	}
-
-	/**
-	 * pega o campo de interesse da pesquisa
-	 * 
-	 * @return capo de interesse
-	 */
-	public String getCampoDeInteresse() {
-		return campoDeInteresse;
-	}
-
-	/**
-	 * metodo para mudar o campo de interesse da pesquisa
-	 * 
-	 * @param campoDeInteresse
-	 */
-	public void setCampoDeInteresse(String campoDeInteresse) {
-		this.campoDeInteresse = campoDeInteresse;
-	}
-
-	public void setProblema(String idProblema) {
-		this.idProblema = idProblema;
-	}
-
+	public String exibeResultadoPesquisa() {
+			return "- Pesquisa: " + toString() + "\n" + "    - Resultados:\n" +  listaDescricoes();
+		}
+	
 	/**
 	 * @return representacao textual de uma pesquisa
 	 */
 	public String toString() {
 		return this.codigo + " - " + this.descricao + " - " + this.campoDeInteresse;
 	}
-
-	
+	//-----------------------------------------ATIVIDADE---------------------------------------------//
 	/**
 	 * associa uma uma atividade a uma pesquisa
 	 * 
@@ -196,32 +125,6 @@ public class Pesquisa implements Serializable {
 			return true;
 		}
 	}
-	/**
-	 * associa um pesquisador a essa pesquisa.
-	 * @param emailPesquisador
-	 * @param controllerPesquisador
-	 * @return true or false.
-	 */
-	public boolean associaPesquisador(String emailPesquisador, ControllerPesquisador controllerPesquisador) {
-		if (pesquisadores.containsKey(emailPesquisador))
-			return false;
-		this.pesquisadores.put(emailPesquisador, controllerPesquisador.getPesquisador(emailPesquisador));
-		return true;
-
-	}
-	/**
-	 * desassocia um pesquisador que estava associado a essa pesquisa.
-	 * @param emailPesquisador
-	 * @return true or false.
-	 */
-	public boolean desassociaPesquisador(String emailPesquisador) {
-		if (!pesquisadores.containsKey(emailPesquisador))
-			return false;
-		this.pesquisadores.remove(emailPesquisador);
-		return true;
-	}
-	
-
 	/**
 	 * verifica se uma pesquisa tem atividades pendentes
 	 * 
@@ -321,36 +224,6 @@ public class Pesquisa implements Serializable {
 		return atividade;
 
 	}
-
-	/**
-	 * metodo feito pra pecorrer o mapa de pesquisadores que fazem parte da
-	 * pesquisa.
-	 * 
-	 * @return pesquisadores
-	 */
-	private String exibePesquisadores() {
-		Set<String> chaves = this.pesquisadores.keySet();
-		String pesquisadores = "";
-		for (String chave : chaves) {
-			pesquisadores += "        - " + this.pesquisadores.get(chave).toString() + "\n";
-		}
-		return pesquisadores;
-	}
-
-	/**
-	 * metodo feito pra pecorrer o mapa de objetivos que fazem parte da pesquisa.
-	 * 
-	 * @return objetivos
-	 */
-	private String exibeObjetivos() {
-		Set<String> chaves = this.objetivos.keySet();
-		String objetivos = "";
-		for (String chave : chaves) {
-			objetivos += "        - " + this.objetivos.get(chave).toString() + "\n";
-		}
-		return objetivos;
-	}
-
 	/**
 	 * metodo feito pra pecorrer o mapa de atividades que fazem parte da pesquisa.
 	 * 
@@ -365,25 +238,6 @@ public class Pesquisa implements Serializable {
 		}
 		return atividades;
 	}
-
-	/**
-	 * metodo feito para exibir a classe Pesquisa no modo que foi exigido no metodo
-	 * 'gravarResumo'.
-	 * 
-	 * @return resumo de pesquisa.
-	 */
-	public String exibeResumoPesquisa() {
-		return "- Pesquisa: " + toString() + "\n" + "    - Pesquisadores:\n" + exibePesquisadores()
-				+ "    - Problema:\n        - " + this.problema.toString() + "\n    - Objetivos:\n" + exibeObjetivos()
-				+ "    - Atividades:\n" + exibeAtividades();
-	}
-	/**
-	 * exibe os resultados presentes na pesquisa.
-	 * @return resultados
-	 */
-	public String exibeResultadoPesquisa() {
-			return "- Pesquisa: " + toString() + "\n" + "    - Resultados:\n" +  listaDescricoes();
-		}
 	/**
 	 * lista a descricoes da atividade, junto com eles os itens e duracao de intens.
 	 * @return lista de descricoes.
@@ -398,7 +252,134 @@ public class Pesquisa implements Serializable {
 		}
 		return descricao;
 	}
+	//---------------------------------------------------------PESQUISADOR-------------------------------------------------//
+	/**
+	 * associa um pesquisador a essa pesquisa.
+	 * @param emailPesquisador
+	 * @param controllerPesquisador
+	 * @return true or false.
+	 */
+	public boolean associaPesquisador(String emailPesquisador, ControllerPesquisador controllerPesquisador) {
+		if (pesquisadores.containsKey(emailPesquisador))
+			return false;
+		this.pesquisadores.put(emailPesquisador, controllerPesquisador.getPesquisador(emailPesquisador));
+		return true;
 
+	}
+	/**
+	 * desassocia um pesquisador que estava associado a essa pesquisa.
+	 * @param emailPesquisador
+	 * @return true or false.
+	 */
+	public boolean desassociaPesquisador(String emailPesquisador) {
+		if (!pesquisadores.containsKey(emailPesquisador))
+			return false;
+		this.pesquisadores.remove(emailPesquisador);
+		return true;
+	}
+	/**
+	 * metodo feito pra pecorrer o mapa de pesquisadores que fazem parte da
+	 * pesquisa.
+	 * 
+	 * @return pesquisadores
+	 */
+	private String exibePesquisadores() {
+		Set<String> chaves = this.pesquisadores.keySet();
+		String pesquisadores = "";
+		for (String chave : chaves) {
+			pesquisadores += "        - " + this.pesquisadores.get(chave).toString() + "\n";
+		}
+		return pesquisadores;
+	}
+	//---------------------------------------------------PROBLEMAS E OBJETIVOS-----------------------------------------------------//
+	public void addObjetivo(String idObjetivo, Objetivo objetivo) {
+		this.objetivos.put(idObjetivo, objetivo);
+	}
+	/**
+	 * metodo feito pra pecorrer o mapa de objetivos que fazem parte da pesquisa.
+	 * 
+	 * @return objetivos
+	 */
+	private String exibeObjetivos() {
+		Set<String> chaves = this.objetivos.keySet();
+		String objetivos = "";
+		for (String chave : chaves) {
+			objetivos += "        - " + this.objetivos.get(chave).toString() + "\n";
+		}
+		return objetivos;
+	}
+	/**
+	 * adiciona um problema relacionado a essa pesquisa.
+	 * 
+	 * @param novoProblema
+	 */
+	public void adicionaProblema(Problema novoProblema) {
+		this.problema = novoProblema;
+
+	}
+	/**
+	 * remove o problema que estava relacionado a essa pesquisa.
+	 */
+	public void removeProblema() {
+		this.problema = null;
+
+	}
+	//---------------------------------------------------------GET E SETS-------------------------------------------------//
+	public String getCodigo() {
+		return this.codigo;
+	}
+
+	public Map<String, Objetivo> getObjetivos() {
+		return objetivos;
+	}
+
+	public String getProblema() {
+		return this.idProblema;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public String getCampoDeInteresse() {
+		return campoDeInteresse;
+	}
+
+
+	public void setCampoDeInteresse(String campoDeInteresse) {
+		this.campoDeInteresse = campoDeInteresse;
+	}
+
+	public void setProblema(String idProblema) {
+		this.idProblema = idProblema;
+	}
+	
+	//----------------------------------------------RESUMO-------------------------------------//
+	/**
+	 * metodo feito para exibir a classe Pesquisa no modo que foi exigido no metodo
+	 * 'gravarResumo'.
+	 * 
+	 * @return resumo de pesquisa.
+	 */
+	public String exibeResumoPesquisa() {
+		return "- Pesquisa: " + toString() + "\n" + "    - Pesquisadores:\n" + exibePesquisadores()
+				+ "    - Problema:\n        - " + this.problema.toString() + "\n    - Objetivos:\n" + exibeObjetivos()
+				+ "    - Atividades:\n" + exibeAtividades();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -424,21 +405,5 @@ public class Pesquisa implements Serializable {
 		return true;
 	}
 
-	/**
-	 * remove o problema que estava relacionado a essa pesquisa.
-	 */
-	public void removeProblema() {
-		this.problema = null;
-
-	}
-
-	/**
-	 * adiciona um problema relacionado a essa pesquisa.
-	 * 
-	 * @param novoProblema
-	 */
-	public void adicionaProblema(Problema novoProblema) {
-		this.problema = novoProblema;
-
-	}
+	
 }

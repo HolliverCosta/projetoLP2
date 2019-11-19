@@ -57,7 +57,13 @@ public class ControllerPesquisa implements Serializable {
 		this.objetivosAssociados = new HashMap<String, Boolean>();
 		this.estrategia = "MAIS_ANTIGA";
 	}
-
+	public String getEstrategia() {
+		return estrategia;
+	}
+	public void setEstrategia(String estrategia) {
+		this.estrategia = estrategia;
+	}
+	//--------------------------------------------------------PESQUISA-------------------------------------------------------//
 	/**
 	 * metodo para cadastrar uma pesquisa
 	 * 
@@ -198,6 +204,56 @@ public class ControllerPesquisa implements Serializable {
 	 *                                  esteja desativada ou ja esteja associada a
 	 *                                  um problema.
 	 */
+	/**
+	 * Retorna uma String contendo todas as pesquisas ordenadas a partir do critério
+	 * ordem(PROBLEMA,OBJETIVOS,PESQUISA).
+	 * 
+	 * @param ordem criterio de ordenaçao
+	 * @return String contendo todas as pesquisas ordenadas
+	 */
+	public String listaPesquisas(String ordem) {
+		if (!ordem.equals("PROBLEMA") && !ordem.equals("OBJETIVOS") && !ordem.equals("PESQUISA"))
+			throw new IllegalArgumentException("Valor invalido da ordem");
+
+		String output = "";
+		List<Pesquisa> comCriterio = new ArrayList<Pesquisa>();
+		List<Pesquisa> semCriterio = new ArrayList<Pesquisa>();
+		Comparator<Pesquisa> comparador = GeraComparador.geraComparador(ordem);
+		if (ordem.equals("PROBLEMA")) {
+			comCriterio.addAll(this.pesquisas.values().stream().filter(x -> !x.getProblema().isEmpty())
+					.collect(Collectors.toList()));
+			semCriterio.addAll(this.pesquisas.values().stream().filter(x -> x.getProblema().isEmpty())
+					.collect(Collectors.toList()));
+		} else if (ordem.equals("OBJETIVOS")) {
+			comCriterio.addAll(this.pesquisas.values().stream().filter(x -> !x.getObjetivos().isEmpty())
+					.collect(Collectors.toList()));
+			semCriterio.addAll(this.pesquisas.values().stream().filter(x -> x.getObjetivos().isEmpty())
+					.collect(Collectors.toList()));
+		} else {
+			comCriterio.addAll(this.pesquisas.values());
+		}
+		output = geraStringOrdenada(comCriterio, semCriterio, comparador);
+		return output;
+	}
+	private String geraStringOrdenada(List<Pesquisa> l1, List<Pesquisa> l2, Comparator<Pesquisa> comparador) {
+		String output = "";
+		Collections.sort(l1, comparador);
+		Collections.sort(l2, new Comparator<Pesquisa>() {
+			@Override
+			public int compare(Pesquisa p0, Pesquisa p1) {
+				return p1.getCodigo().compareTo(p0.getCodigo());
+			}
+		});
+		l1.addAll(l2);
+		for (Pesquisa p : l1) {
+			if (l1.indexOf(p) == l1.size() - 1)
+				output += p.toString();
+			else
+				output += p.toString() + " | ";
+		}
+		return output;
+	}
+	//------------------------------------------------PROBLEMAS E OBJETIVOS----------------------------------------------------//
 	public boolean associaProblema(String idPesquisa, Problema novoProblema, String idProblema)
 			throws IllegalArgumentException {
 		if (!verificaExistePesquisa(idPesquisa))
@@ -291,59 +347,7 @@ public class ControllerPesquisa implements Serializable {
 		this.objetivosAssociados.replace(idObjetivo, false);
 		return true;
 	}
-
-	private String geraStringOrdenada(List<Pesquisa> l1, List<Pesquisa> l2, Comparator<Pesquisa> comparador) {
-		String output = "";
-		Collections.sort(l1, comparador);
-		Collections.sort(l2, new Comparator<Pesquisa>() {
-			@Override
-			public int compare(Pesquisa p0, Pesquisa p1) {
-				return p1.getCodigo().compareTo(p0.getCodigo());
-			}
-		});
-		l1.addAll(l2);
-		for (Pesquisa p : l1) {
-			if (l1.indexOf(p) == l1.size() - 1)
-				output += p.toString();
-			else
-				output += p.toString() + " | ";
-		}
-		return output;
-	}
-
-	/**
-	 * Retorna uma String contendo todas as pesquisas ordenadas a partir do critério
-	 * ordem(PROBLEMA,OBJETIVOS,PESQUISA).
-	 * 
-	 * @param ordem criterio de ordenaçao
-	 * @return String contendo todas as pesquisas ordenadas
-	 */
-	public String listaPesquisas(String ordem) {
-		if (!ordem.equals("PROBLEMA") && !ordem.equals("OBJETIVOS") && !ordem.equals("PESQUISA"))
-			throw new IllegalArgumentException("Valor invalido da ordem");
-
-		String output = "";
-		List<Pesquisa> comCriterio = new ArrayList<Pesquisa>();
-		List<Pesquisa> semCriterio = new ArrayList<Pesquisa>();
-		Comparator<Pesquisa> comparador = GeraComparador.geraComparador(ordem);
-		if (ordem.equals("PROBLEMA")) {
-			comCriterio.addAll(this.pesquisas.values().stream().filter(x -> !x.getProblema().isEmpty())
-					.collect(Collectors.toList()));
-			semCriterio.addAll(this.pesquisas.values().stream().filter(x -> x.getProblema().isEmpty())
-					.collect(Collectors.toList()));
-		} else if (ordem.equals("OBJETIVOS")) {
-			comCriterio.addAll(this.pesquisas.values().stream().filter(x -> !x.getObjetivos().isEmpty())
-					.collect(Collectors.toList()));
-			semCriterio.addAll(this.pesquisas.values().stream().filter(x -> x.getObjetivos().isEmpty())
-					.collect(Collectors.toList()));
-		} else {
-			comCriterio.addAll(this.pesquisas.values());
-		}
-		output = geraStringOrdenada(comCriterio, semCriterio, comparador);
-		return output;
-	}
-
-	// ----------------------------------------US7------------------------------------------------------//
+	// ----------------------------------------ATIVIDADE------------------------------------------------------//
 	/**
 	 * associa uma uma atividade a uma pesquisa
 	 * 
@@ -376,8 +380,55 @@ public class ControllerPesquisa implements Serializable {
 			throw new IllegalArgumentException("Pesquisa desativada.");
 		return pesquisas.get(codigoPesquisa).desassociaAtividade(codigoAtividade);
 	}
+	/**
+	 * sugere a proxima atividade de acordo com a estrategia
+	 * 
+	 * @param codigoPesquisa
+	 * @return idAtividade
+	 */
+	public String proximaAtividade(String codigoPesquisa) {
+		if (ehAtiva(codigoPesquisa) == false)
+			throw new IllegalArgumentException("Pesquisa desativada.");
+		if (pesquisas.get(codigoPesquisa).verificaPendencia() == false)
+			throw new IllegalArgumentException("Pesquisa sem atividades com pendencias.");
+		return pesquisas.get(codigoPesquisa).proximaAtividade(getEstrategia());
+	}
+	//------------------------------------------------PESQUISADOR-------------------------------------------//
+	/**
+	 * associa um determinado pesquisador a uma pesquisa
+	 * @param idPesquisa
+	 * @param emailPesquisador
+	 * @param controllerPesquisador
+	 * @return true or false
+	 */
+	public boolean associaPesquisador(String idPesquisa, String emailPesquisador,
+			ControllerPesquisador controllerPesquisador) {
+		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
+		validacao.validaString(emailPesquisador, "Campo emailPesquisador nao pode ser nulo ou vazio.");
+
+		if (!ehAtiva(idPesquisa))
+			throw new IllegalArgumentException("Pesquisa desativada.");
+		if (!controllerPesquisador.pesquisadorEhAtivo(emailPesquisador))
+			throw new IllegalArgumentException();
+		return this.pesquisas.get(idPesquisa).associaPesquisador(emailPesquisador, controllerPesquisador);
+
+	}
+	/**
+	 * desassocia um pesquisador que antes estava associado a mesma.
+	 * 
+	 * @param idPesquisa
+	 * @param emailPesquisador
+	 * @return true or false
+	 */
+	public boolean desassociaPesquisador(String idPesquisa, String emailPesquisador) {
+		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
+		validacao.validaString(emailPesquisador, "Campo emailPesquisador nao pode ser nulo ou vazio.");
+		if (!ehAtiva(idPesquisa))
+			throw new IllegalArgumentException("Pesquisa desativada.");
+		return this.pesquisas.get(idPesquisa).desassociaPesquisador(emailPesquisador);
+	}
 	
-	// --------------------------------------US8-----------------------------------------------------/-/
+	// --------------------------------------BUSCA-----------------------------------------------------//
 	public ArrayList<Pair> retornaBuscaGeralPesquisa(String termo) {
 		String procurarPor = termo;
 
@@ -412,73 +463,9 @@ public class ControllerPesquisa implements Serializable {
 		}
 		return count;
 	}
-	/**
-	 * associa um determinado pesquisador a uma pesquisa
-	 * @param idPesquisa
-	 * @param emailPesquisador
-	 * @param controllerPesquisador
-	 * @return true or false
-	 */
-	public boolean associaPesquisador(String idPesquisa, String emailPesquisador,
-			ControllerPesquisador controllerPesquisador) {
-		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
-		validacao.validaString(emailPesquisador, "Campo emailPesquisador nao pode ser nulo ou vazio.");
+	
 
-		if (!ehAtiva(idPesquisa))
-			throw new IllegalArgumentException("Pesquisa desativada.");
-		if (!controllerPesquisador.pesquisadorEhAtivo(emailPesquisador))
-			throw new IllegalArgumentException();
-		return this.pesquisas.get(idPesquisa).associaPesquisador(emailPesquisador, controllerPesquisador);
-
-	}
-	/**
-	 * desassocia um pesquisador que antes estava associado a mesma.
-	 * 
-	 * @param idPesquisa
-	 * @param emailPesquisador
-	 * @return true or false
-	 */
-	public boolean desassociaPesquisador(String idPesquisa, String emailPesquisador) {
-		validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
-		validacao.validaString(emailPesquisador, "Campo emailPesquisador nao pode ser nulo ou vazio.");
-		if (!ehAtiva(idPesquisa))
-			throw new IllegalArgumentException("Pesquisa desativada.");
-		return this.pesquisas.get(idPesquisa).desassociaPesquisador(emailPesquisador);
-	}
-
-	// ----------------------------------------------US10------------------------------------------------------//
-	/**
-	 * pega a estrategia para sugerir a proxima atividade
-	 * 
-	 * @return estrtegia
-	 */
-	public String getEstrategia() {
-		return estrategia;
-	}
-
-	/**
-	 * muda a estrategia
-	 * 
-	 * @param estrategia
-	 */
-	public void setEstrategia(String estrategia) {
-		this.estrategia = estrategia;
-
-	}
-
-	/**
-	 * sugere a proxima atividade de acordo com a estrategia
-	 * 
-	 * @param codigoPesquisa
-	 * @return idAtividade
-	 */
-	public String proximaAtividade(String codigoPesquisa) {
-		if (ehAtiva(codigoPesquisa) == false)
-			throw new IllegalArgumentException("Pesquisa desativada.");
-		if (pesquisas.get(codigoPesquisa).verificaPendencia() == false)
-			throw new IllegalArgumentException("Pesquisa sem atividades com pendencias.");
-		return pesquisas.get(codigoPesquisa).proximaAtividade(getEstrategia());
-	}
+	// ----------------------------------------------RESUMO------------------------------------------------------//	
 	/**
 	 * retorna um arquivo em formato txt com um resumo da pesquisa em que foi passado seu codigo.
 	 * 

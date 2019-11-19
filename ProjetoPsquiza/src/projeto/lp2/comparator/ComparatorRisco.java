@@ -1,6 +1,8 @@
-package projetolp2.atividades;
+package projeto.lp2.comparator;
 
 import java.util.Comparator;
+
+import projetolp2.atividades.Atividade;
 
 public class ComparatorRisco implements Comparator<Atividade> {
 	/**

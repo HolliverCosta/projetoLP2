@@ -9,62 +9,50 @@ import java.io.Serializable;
  * @author caiom
  *
  */
-public class Item implements Serializable{
+public class Item implements Serializable {
 
-    /**
-     * Descrição do item;
-     */
-    private String descricao;
-    /**
-     * Status do item;
-     */
-    private String status;
-    /**
-     * duracao de cada item
-     */
-    private Integer duracao;
-    /**
-     * COnstrói um Item a partir da sua descrição. Define o atributo status para
-     * "PENDENTE";
-     *
-     * @param descricao
-     */
-    public Item(String descricao) {
-        this.descricao = descricao;
-        this.status = "PENDENTE";
-        this.duracao = 0;
-    }
+	/**
+	 * Descrição do item;
+	 */
+	private String descricao;
+	/**
+	 * Status do item;
+	 */
+	private String status;
+	/**
+	 * duracao de cada item
+	 */
+	private Integer duracao;
 
-    /**
-     * Retorna a descrição do Item;
-     * 
-     * @return
-     */
-    public String getDescricao() {
-        return descricao;
-    }
+	/**
+	 * COnstrói um Item a partir da sua descrição. Define o atributo status para
+	 * "PENDENTE";
+	 *
+	 * @param descricao
+	 */
+	public Item(String descricao) {
+		this.descricao = descricao;
+		this.status = "PENDENTE";
+		this.duracao = 0;
+	}
 
-    /**
-     * Retorna o status do Item;
-     * 
-     * @return
-     */
-    public String getStatus() {
-        return status;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    /**
-     * Define o status do Item;
-     * 
-     * @param status
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    public Integer getDuracao() {
-        return duracao;
-    }
-    public void setDuracao(Integer duracao) {
-        this.duracao = duracao;
-    }
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Integer getDuracao() {
+		return duracao;
+	}
+
+	public void setDuracao(Integer duracao) {
+		this.duracao = duracao;
+	}
 }

@@ -23,7 +23,7 @@ public class ControllerAtividade implements Serializable {
      * Mapa com as atividades;
      */
     private HashMap<String,Atividade> atividades = new HashMap<String,Atividade>();
-    
+    //-------------------------------------------------ATIVIDADE--------------------------------------------------------------//
     /**
      * metódo que realiza o cadastro de cada Atividade;
      * @param Descricao
@@ -31,6 +31,7 @@ public class ControllerAtividade implements Serializable {
      * @param descricaoRisco
      * @return
      */
+    
     public String cadastrarAtividadePesquisa(String Descricao,String nivelRisco,String descricaoRisco) {
         if(Descricao == null || Descricao.trim().isEmpty()) throw new IllegalArgumentException("Campo Descricao nao pode ser nulo ou vazio.");
         if(nivelRisco == null || nivelRisco.trim().isEmpty()) throw new IllegalArgumentException("Campo nivelRisco nao pode ser nulo ou vazio.");
@@ -44,16 +45,6 @@ public class ControllerAtividade implements Serializable {
         atividades.put(iD, atividade);
         return iD;
     }
-    
-    /**
-     * Muda o status de um Item de Pendente para Realizado;
-     * @param codigo
-     * @param item
-     */
-    public void finalizaStatusItem(String codigo,String item) {
-        atividades.get(codigo).alteraStatusItem(item);
-    }
-    
     /**
      * Método que irá apgar uma atividade cadastrada;
      * @param codigo
@@ -64,20 +55,6 @@ public class ControllerAtividade implements Serializable {
         
         atividades.remove(codigo);
     }
-    
-    /**
-     * Método que realiza o cadastrao de um item em um atividae específica;
-     * @param codigo
-     * @param item
-     */
-    public void cadastrarItem(String codigo,String item) {
-        if(codigo == null || codigo.trim().isEmpty()) throw new IllegalArgumentException("Campo codigo nao pode ser nulo ou vazio.");
-        if(item == null || item.trim().isEmpty()) throw new IllegalArgumentException("Item nao pode ser nulo ou vazio.");
-        if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
-        
-        atividades.get(codigo).cadastroItem(item);
-    }
-    
     /**
      * Metódo que exibir(listar) uma atividade, com suas informações e os status dos itens daquela atividades;
      * @param codigo
@@ -87,37 +64,6 @@ public class ControllerAtividade implements Serializable {
         if(codigo == null || codigo.trim().isEmpty()) throw new IllegalArgumentException("Campo codigo nao pode ser nulo ou vazio.");
         if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
         return atividades.get(codigo).toString(); 
-    }
-    
-    /**
-     * Metódo para contar todos os itens Pendentes em uma atividaes específica;
-     * @param codigo
-     * @return
-     */
-    public int contarItensPendentes(String codigo) {
-        if(codigo == null || codigo.trim().isEmpty()) throw new IllegalArgumentException("Campo codigo nao pode ser nulo ou vazio.");
-        if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
-        return atividades.get(codigo).totalItemsPendentes();
-    }
-    
-    /**
-     * Metódo para contar todos os itens Realizados em uma atividaes específica;
-     * @param codigo
-     * @return
-     */
-    public int contarItensRealizados(String codigo) {
-        if(codigo == null || codigo.trim().isEmpty()) throw new IllegalArgumentException("Campo codigo nao pode ser nulo ou vazio.");
-        if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
-        return atividades.get(codigo).totalItemsRealizados();
-    }
-    //-------------------------------------------US7------------------------------------------------------//
-    /**
-     * Metódo para verificar se uma atividade existe no mapa de atividades
-     * @param codigo
-     * @return um boolean
-     */
-    public boolean verificaExisteAtividade(String codigo) {
-    	return atividades.containsKey(codigo);
     }
     /**
      * Metódo para executar uma atividade
@@ -132,34 +78,14 @@ public class ControllerAtividade implements Serializable {
         atividades.get(codigoAtividade).setDuracao(item,duracao);
     }
     /**
-     * Metódo para cadastrar um resultado
-     * @param codigoAtividade
-     * @param resultado
-     * @return o id do resultado
-     */
-	public Integer cadastraResultado(String codigoAtividade, String resultado) {
-		return atividades.get(codigoAtividade).cadastraResultado(resultado);		
-	}
-	 /**
-     * Metódo para remover um resultado
-     * @param codigoAtividade
-     * @param resultado
+     * Metódo para verificar se uma atividade existe no mapa de atividades
+     * @param codigo
      * @return um boolean
      */
-	public boolean removeResultado(String codigoAtividade, Integer numeroResultado) {
-		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
-		return atividades.get(codigoAtividade).removeResultado(numeroResultado);
-	}
-	/**
-     * Metódo para lista um resultado
-     * @param codigoAtividade
-     * @return representacao textual de um resultado
-     */
-	public String listaResultados(String codigoAtividade) {
-		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
-		return atividades.get(codigoAtividade).listaResultados();
-	}
-	/**
+    public boolean verificaExisteAtividade(String codigo) {
+    	return atividades.containsKey(codigo);
+    }
+    /**
      * Metódo para pegar a duracao de um resultado
      * @param codigoAtividade
      * @return a duracao do resultado em inteiro
@@ -168,58 +94,7 @@ public class ControllerAtividade implements Serializable {
 		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
 		return atividades.get(codigoAtividade).getDuracao();
 	}
-	//--------------------------------------------US8----------------------------------------------------------//
-	/**
-	 * Retorna o termo na busca em Atividades e Items;
-	 * @param termo
-	 * @return
-	 */
-	public ArrayList<Pair> retornaBuscaGeralAtividadesEItems(String termo) {
-        String procurarPor = termo;
-        ArrayList<Pair> pares = new ArrayList<Pair>();
-        
-        for(String key: atividades.keySet()) {
-            
-            if(atividades.get(key).getDescricaoAtividade().toLowerCase().contains(procurarPor.toLowerCase())) {
-                Pair par = new Pair(key,atividades.get(key).getDescricaoAtividade());
-                pares.add(par);
-            }
-            
-            if(atividades.get(key).getDescricaoRisco().toLowerCase().contains(procurarPor.toLowerCase())) {
-                Pair par = new Pair(key,atividades.get(key).getDescricaoRisco());
-                pares.add(par);
-            }
-            
-            pares.addAll(atividades.get(key).buscaTermoNoItem(termo)); //Adiciona todos os elementos da lista de pares de Item, na lista geral;
-        }
-        
-        return pares;
-    }
-        
-    /**
-     * Conta quantos casos do termo foram encontrados em Atividades e na descrição do risco;
-     * @param termo
-     * @return
-     */
-    public int contaResultadoBusca(String termo) {
-        String procurarPor = termo;
-        int count = 0;
-        
-        for(String key: atividades.keySet()) {
-            
-            if(atividades.get(key).getDescricaoAtividade().toLowerCase().contains(procurarPor.toLowerCase())) {
-                count = count + 1; 
-            }
-            
-            if(atividades.get(key).getDescricaoRisco().toLowerCase().contains(procurarPor.toLowerCase())) {
-                count = count + 1;
-            }  
-            
-            count = count + atividades.get(key).contaTermoNoItem(termo);
-        }
-        return count;
-    }
-    /**
+	 /**
      * metodo para pegar uma atividade
      * @param codigoAtividade
      * @return um objeto do tipo atividade
@@ -227,8 +102,6 @@ public class ControllerAtividade implements Serializable {
     public Atividade getAtividade(String codigoAtividade) {
 		return this.atividades.get(codigoAtividade);
 	}
-    
-//---------------------------------------------------------------------CRUD 9-------------------------------------------------------------------------//
     /**
      * Verifica se a inserção do idSubsequente irá gerar uma Loop na sequência das atividades;
      * @param idPrecedente
@@ -384,5 +257,128 @@ public class ControllerAtividade implements Serializable {
   		}
   		return maior;
     }
+	//---------------------------------------------------------ITEM-------------------------------------------------------//
+	/**
+     * Método que realiza o cadastrao de um item em um atividae específica;
+     * @param codigo
+     * @param item
+     */
+    public void cadastrarItem(String codigo,String item) {
+        if(codigo == null || codigo.trim().isEmpty()) throw new IllegalArgumentException("Campo codigo nao pode ser nulo ou vazio.");
+        if(item == null || item.trim().isEmpty()) throw new IllegalArgumentException("Item nao pode ser nulo ou vazio.");
+        if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
+        
+        atividades.get(codigo).cadastroItem(item);
+    }
+    /**
+     * Muda o status de um Item de Pendente para Realizado;
+     * @param codigo
+     * @param item
+     */
+    public void finalizaStatusItem(String codigo,String item) {
+        atividades.get(codigo).alteraStatusItem(item);
+    }   
+    /**
+     * Metódo para contar todos os itens Pendentes em uma atividaes específica;
+     * @param codigo
+     * @return
+     */
+    public int contarItensPendentes(String codigo) {
+        if(codigo == null || codigo.trim().isEmpty()) throw new IllegalArgumentException("Campo codigo nao pode ser nulo ou vazio.");
+        if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
+        return atividades.get(codigo).totalItemsPendentes();
+    }
     
+    /**
+     * Metódo para contar todos os itens Realizados em uma atividaes específica;
+     * @param codigo
+     * @return
+     */
+    public int contarItensRealizados(String codigo) {
+        if(codigo == null || codigo.trim().isEmpty()) throw new IllegalArgumentException("Campo codigo nao pode ser nulo ou vazio.");
+        if(!atividades.containsKey(codigo)) throw new IllegalArgumentException("Atividade nao encontrada");
+        return atividades.get(codigo).totalItemsRealizados();
+    }
+    //-------------------------------------------RESULTADO------------------------------------------------------//
+    /**
+     * Metódo para cadastrar um resultado
+     * @param codigoAtividade
+     * @param resultado
+     * @return o id do resultado
+     */
+	public Integer cadastraResultado(String codigoAtividade, String resultado) {
+		return atividades.get(codigoAtividade).cadastraResultado(resultado);		
+	}
+	 /**
+     * Metódo para remover um resultado
+     * @param codigoAtividade
+     * @param resultado
+     * @return um boolean
+     */
+	public boolean removeResultado(String codigoAtividade, Integer numeroResultado) {
+		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
+		return atividades.get(codigoAtividade).removeResultado(numeroResultado);
+	}
+	/**
+     * Metódo para lista um resultado
+     * @param codigoAtividade
+     * @return representacao textual de um resultado
+     */
+	public String listaResultados(String codigoAtividade) {
+		if(!atividades.containsKey(codigoAtividade)) throw new IllegalArgumentException("Atividade nao encontrada");
+		return atividades.get(codigoAtividade).listaResultados();
+	}
+	
+	//--------------------------------------------BUSCA----------------------------------------------------------//
+	/**
+	 * Retorna o termo na busca em Atividades e Items;
+	 * @param termo
+	 * @return
+	 */
+	public ArrayList<Pair> retornaBuscaGeralAtividadesEItems(String termo) {
+        String procurarPor = termo;
+        ArrayList<Pair> pares = new ArrayList<Pair>();
+        
+        for(String key: atividades.keySet()) {
+            
+            if(atividades.get(key).getDescricaoAtividade().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,atividades.get(key).getDescricaoAtividade());
+                pares.add(par);
+            }
+            
+            if(atividades.get(key).getDescricaoRisco().toLowerCase().contains(procurarPor.toLowerCase())) {
+                Pair par = new Pair(key,atividades.get(key).getDescricaoRisco());
+                pares.add(par);
+            }
+            
+            pares.addAll(atividades.get(key).buscaTermoNoItem(termo)); //Adiciona todos os elementos da lista de pares de Item, na lista geral;
+        }
+        
+        return pares;
+    }
+        
+    /**
+     * Conta quantos casos do termo foram encontrados em Atividades e na descrição do risco;
+     * @param termo
+     * @return
+     */
+    public int contaResultadoBusca(String termo) {
+        String procurarPor = termo;
+        int count = 0;
+        
+        for(String key: atividades.keySet()) {
+            
+            if(atividades.get(key).getDescricaoAtividade().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1; 
+            }
+            
+            if(atividades.get(key).getDescricaoRisco().toLowerCase().contains(procurarPor.toLowerCase())) {
+                count = count + 1;
+            }  
+            
+            count = count + atividades.get(key).contaTermoNoItem(termo);
+        }
+        return count;
+    }
+ 
 }
