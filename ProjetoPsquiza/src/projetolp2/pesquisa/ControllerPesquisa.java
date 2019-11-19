@@ -478,7 +478,7 @@ public class ControllerPesquisa implements Serializable {
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		try {
 			PrintWriter gravarArqquivo = new PrintWriter(new FileWriter("_" + codigoPesquisa + ".txt"));
-			gravarArqquivo.print(pesquisas.get(codigoPesquisa).exibePesquisa());
+			gravarArqquivo.print(pesquisas.get(codigoPesquisa).exibeResumoPesquisa());
 			gravarArqquivo.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -494,10 +494,7 @@ public class ControllerPesquisa implements Serializable {
 			throw new IllegalArgumentException("Pesquisa nao encontrada.");
 		try {
 			PrintWriter gravarArquivo = new PrintWriter(new FileWriter(codigoPesquisa + "-Resultados.txt"));
-			gravarArquivo.print("-Pesquisa: " + exibePesquisa(codigoPesquisa));
-			gravarArquivo.print("-Resultados:");
-			gravarArquivo.print("-Descrição");
-			gravarArquivo.print("");
+			gravarArquivo.print(pesquisas.get(codigoPesquisa).exibeResultadoPesquisa());
 			gravarArquivo.close();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -127,9 +127,9 @@ public class ControllerAtividade implements Serializable {
      * @return nao tem
      */
     public void executaAtividade(String codigoAtividade, Integer item, Integer duracao) {
-		atividades.get(codigoAtividade).setStatusItem(item);
-		atividades.get(codigoAtividade).setDuracao(duracao);
-	}
+        atividades.get(codigoAtividade).setStatusItem(item);
+        atividades.get(codigoAtividade).setDuracao(item,duracao);
+    }
     /**
      * Metódo para cadastrar um resultado
      * @param codigoAtividade
@@ -383,4 +383,5 @@ public class ControllerAtividade implements Serializable {
   		}
   		return maior;
     }
+    
 }

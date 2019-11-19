@@ -20,15 +20,17 @@ public class Item implements Serializable{
      */
     private String status;
 
+    private Integer duracao;
     /**
      * COnstrói um Item a partir da sua descrição. Define o atributo status para
      * "PENDENTE";
-     * 
+     *
      * @param descricao
      */
     public Item(String descricao) {
         this.descricao = descricao;
         this.status = "PENDENTE";
+        this.duracao = 0;
     }
 
     /**
@@ -56,5 +58,11 @@ public class Item implements Serializable{
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+    public Integer getDuracao() {
+        return duracao;
+    }
+    public void setDuracao(Integer duracao) {
+        this.duracao = duracao;
     }
 }
