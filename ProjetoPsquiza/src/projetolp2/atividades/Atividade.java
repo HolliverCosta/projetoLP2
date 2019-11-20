@@ -460,6 +460,9 @@ public class Atividade implements Serializable {
 		resultadosEsperados.get(itemPosicao - 1).setStatus("REALIZADO");
 
 	}
+	public String getStatusItem(Integer itemPosicao) {
+		return resultadosEsperados.get(itemPosicao).getStatus();
+	}
 
 	@Override
 	public int hashCode() {
