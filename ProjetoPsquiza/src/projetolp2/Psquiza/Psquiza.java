@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 
 import projetolp2.atividades.ControllerAtividade;
 import projetolp2.busca.ControllerBusca;
-import projetolp2.misc.ValidaCampos;
 import projetolp2.misc.Validacao;
 import projetolp2.pesquisa.ControllerPesquisa;
 import projetolp2.pesquisador.ControllerPesquisador;
@@ -69,32 +68,33 @@ public class Psquiza {
 	}
 	//-------------------------------------------------PROBLEMAS E OBJETIVOS---------------------------------------------------------//
 	public boolean associaProblema(String idPesquisa, String idProblema) {
-	       ValidaCampos.validaCamposString(new String[] {idPesquisa, idProblema},
-	                new String[] {"idPesquisa", "idProblema"});
+	    validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
+	    validacao.validaString(idProblema, "Campo idProblema nao pode ser nulo ou vazio.");
 	    if(!this.controllerPO.existe(idProblema)) throw new IllegalArgumentException("Problema nao encontrado");
+	    
 	    Problema novoProblema = this.controllerPO.getProblemas().get(idProblema);
 	    return this.controllerPesquisa.associaProblema(idPesquisa, novoProblema, idProblema);
 	}
 	
 	public boolean desassociaProblema(String idPesquisa) {
-	       ValidaCampos.validaCamposString(new String[] {idPesquisa},
-	                new String[] {"idPesquisa"});
-	    //if(!this.controllerPO.existe(idProblema)) throw new IllegalArgumentException("Problema nao encontrado");
+        validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
+
 	    return this.controllerPesquisa.desassociaProblema(idPesquisa);
 	}
 	
 	public boolean associaObjetivo(String idPesquisa, String idObjetivo) {
-	    ValidaCampos.validaCamposString(new String[] {idPesquisa, idObjetivo},
-                new String[] {"idPesquisa", "idObjetivo"});
+        validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
+        validacao.validaString(idObjetivo, "Campo idObjetivo nao pode ser nulo ou vazio.");
 	    if(!this.controllerPO.existe(idObjetivo)) throw new IllegalArgumentException("Objetivo nao encontrado");
+	    
 	    Objetivo novoObjetivo = this.controllerPO.getObjetivos().get(idObjetivo);
 	    return this.controllerPesquisa.associaObjetivo(idPesquisa, idObjetivo, novoObjetivo);
 	}
 	
 	public boolean desassociaObjetivo(String idPesquisa, String idObjetivo) {
-	    ValidaCampos.validaCamposString(new String[] {idPesquisa, idObjetivo},
-                new String[] {"idPesquisa", "idObjetivo"});
-	    if(!this.controllerPO.existe(idObjetivo)) throw new IllegalArgumentException("Objetivo nao encontrado");
+        validacao.validaString(idPesquisa, "Campo idPesquisa nao pode ser nulo ou vazio.");
+        validacao.validaString(idObjetivo, "Campo idObjetivo nao pode ser nulo ou vazio.");
+        
 	    return this.controllerPesquisa.desassociaObjetivo(idPesquisa, idObjetivo);
 	}
 	//----------------------------------------------------------ATIVIDADE----------------------------------------------//
@@ -145,28 +145,28 @@ public class Psquiza {
 	}
 	//-------------------------------------------------------SALVA------------------------------------------------//
 	public void salva() {
-	    String dir = "persistencia";
 	    try {
-	        FileOutputStream fout1 = new FileOutputStream(dir + "/atividades.ser"); 
-	        FileOutputStream fout2 = new FileOutputStream(dir + "/pesquisas.ser"); 
-	        FileOutputStream fout3 = new FileOutputStream(dir + "/pesquisadores.ser"); 
-	        FileOutputStream fout4 = new FileOutputStream(dir + "/problemasEobjetivos.ser"); 
-	        
-	        ObjectOutputStream oos1 = new ObjectOutputStream(fout1);
-	        ObjectOutputStream oos2 = new ObjectOutputStream(fout2);
-	        ObjectOutputStream oos3 = new ObjectOutputStream(fout3);
-	        ObjectOutputStream oos4 = new ObjectOutputStream(fout4);
-	        
-	        oos1.writeObject(this.controllerAtividade);
-	        oos2.writeObject(this.controllerPesquisa);
-	        oos3.writeObject(this.controllerPesquisador);
-	        oos4.writeObject(this.controllerPO);
-	        
-	        oos1.close();
-	        oos2.close();
-	        oos3.close();
-	        oos4.close();
-	        
+	        Object controllers[] = {
+	                this.controllerAtividade,
+	                this.controllerPesquisa,
+	                this.controllerPesquisador,
+	                this.controllerPO
+	        };
+	        String fileNames[] = {
+	                "persistencia/atividades.ser",
+	                "persistencia/pesquisas.ser",
+	                "persistencia/pesquisadores.ser",
+	                "persistencia/problemasEobjetivos.ser"
+	        };
+
+	        FileOutputStream fout;
+	        ObjectOutputStream oos;
+	        for(int i=0;i<4;i++) {
+	            fout = new FileOutputStream(fileNames[i]);
+	            oos = new ObjectOutputStream(fout);
+	            oos.writeObject(controllers[i]);
+	            oos.close();
+	        }
 	    }
 	    catch(Exception ex) {
 	        ex.printStackTrace();
@@ -176,25 +176,27 @@ public class Psquiza {
 	public void carrega() {
 	    String dir = "persistencia";
 	    try {
-	        FileInputStream fin1 = new FileInputStream(dir + "/atividades.ser");
-	        FileInputStream fin2 = new FileInputStream(dir + "/pesquisas.ser");
-	        FileInputStream fin3 = new FileInputStream(dir + "/pesquisadores.ser");
-	        FileInputStream fin4 = new FileInputStream(dir + "/problemasEobjetivos.ser");
-	        
-	        ObjectInputStream ois1 = new ObjectInputStream(fin1);
-	        ObjectInputStream ois2 = new ObjectInputStream(fin2);
-	        ObjectInputStream ois3 = new ObjectInputStream(fin3);
-	        ObjectInputStream ois4 = new ObjectInputStream(fin4);
-	        
-	        this.controllerAtividade = (ControllerAtividade) ois1.readObject();
-	        this.controllerPesquisa = (ControllerPesquisa) ois2.readObject();
-	        this.controllerPesquisador = (ControllerPesquisador) ois3.readObject();
-	        this.controllerPO = (ControllerPO) ois4.readObject();
-	        
-	        ois1.close();
-	        ois2.close();
-	        ois3.close();
-	        ois4.close();
+	        Object controllers[] = {
+	                this.controllerAtividade,
+                    this.controllerPesquisa,
+                    this.controllerPesquisador,
+                    this.controllerPO   
+	        };
+	        String fileNames[] = {
+                    "persistencia/atividades.ser",
+                    "persistencia/pesquisas.ser",
+                    "persistencia/pesquisadores.ser",
+                    "persistencia/problemasEobjetivos.ser"
+            };
+
+	        FileInputStream fin;
+	        ObjectInputStream ois;
+	        for(int i=0;i<4;i++) {
+	            fin = new FileInputStream(fileNames[i]);
+	            ois = new ObjectInputStream(fin);
+	            controllers[i] = ois.readObject();
+	            ois.close();
+	        }
 	    }
 	    catch(Exception ex) {
 	        ex.printStackTrace();
