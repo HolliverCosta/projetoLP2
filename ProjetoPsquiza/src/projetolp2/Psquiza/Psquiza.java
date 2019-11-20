@@ -174,7 +174,6 @@ public class Psquiza {
 	}
 	
 	public void carrega() {
-	    String dir = "persistencia";
 	    try {
 	        Object controllers[] = {
 	                this.controllerAtividade,
