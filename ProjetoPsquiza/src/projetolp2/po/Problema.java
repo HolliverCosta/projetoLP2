@@ -27,11 +27,8 @@ public class Problema implements Serializable{
      * @param desc descricao do problema
      * @param viabilidade viabilidade do problema(>0&<=5)
      * @param id código do problema
-     * @throws IllegalArgumentException Exceção lançada caso o valor da viabilidade seja invalido.
      */
-    public Problema(String desc, int viabilidade, String id) throws IllegalArgumentException{
-        if(viabilidade > 5 || viabilidade < 1) throw new IllegalArgumentException("Valor invalido de viabilidade.");
-        
+    public Problema(String desc, int viabilidade, String id) {
         this.descricao = desc;
         this.viabilidade = viabilidade;
         this.id = id;

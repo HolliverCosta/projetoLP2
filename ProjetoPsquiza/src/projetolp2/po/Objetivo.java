@@ -37,13 +37,8 @@ public class Objetivo implements Serializable{
      * @param aderencia aderenciado objetivo(>0&<=5)
      * @param viabilidade viabilidade do objetivo(>0&<=5)
      * @param id codigo do objetivo
-     * @throws IllegalArgumentException Exceção lançada caso a aderencia e/ou viabilidade sejam valores invalidos, e/ou o valor do tipo seja invalido.
      */
-    public Objetivo(String tipo, String descricao, int aderencia, int viabilidade, String id) throws IllegalArgumentException{
-        if(!tipo.equals("GERAL") && !tipo.equals("ESPECIFICO")) throw new IllegalArgumentException("Valor invalido de tipo.");
-        if(aderencia > 5 || aderencia < 1) throw new IllegalArgumentException("Valor invalido de aderencia");
-        if(viabilidade > 5 || viabilidade < 1) throw new IllegalArgumentException("Valor invalido de viabilidade.");
-        
+    public Objetivo(String tipo, String descricao, int aderencia, int viabilidade, String id) {
         this.tipo = tipo;
         this.descricao = descricao;
         this.aderencia = aderencia;

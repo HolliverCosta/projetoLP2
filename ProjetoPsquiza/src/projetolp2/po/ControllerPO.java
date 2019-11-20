@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import projetolp2.busca.Pair;
-import projetolp2.misc.ValidaCampos;
+import projetolp2.misc.Validacao;
 /**
  * Representação de um gerenciador de problemas e objetivos do sistema Psquiza.
  * 
@@ -32,11 +32,14 @@ public class ControllerPO implements Serializable{
     /**
      * Constrói um novo controlador inicializando os mapas e os contadores em 1.
      */
+    private Validacao valida;
+    
     public ControllerPO() {
         this.problemas = new HashMap<String,Problema>();
         this.objetivos = new HashMap<String,Objetivo>();
         this.idObj = 1;
         this.idProb = 1;
+        this.valida = new Validacao();
     }
     /**
      * Cadastra um novo problema no sistema a partir de sua descrição e viabilidade. Seu código é gerado automaticamente
@@ -49,11 +52,11 @@ public class ControllerPO implements Serializable{
      * @throws NullPointerException Exceção lançada caso o campo descrição seja nulo
      */
     public String cadastraProblema(String descricao, int viabilidade) throws IllegalArgumentException, NullPointerException{
-        ValidaCampos.validaCamposString(new String[]{descricao, String.valueOf(viabilidade)},
-                new String[] {"descricao", "viabilidade"});
-        String tempId = "P" + this.idProb;
+        valida.validaString(descricao, "Campo descricao nao pode ser nulo ou vazio.");
+        if(viabilidade > 5 || viabilidade < 1) throw new IllegalArgumentException("Valor invalido de viabilidade.");
+        
+        String tempId = "P" + this.idProb++;
         this.problemas.put(tempId, new Problema(descricao, viabilidade, tempId));
-        this.idProb++;
         return tempId;
     }
     /**
@@ -69,11 +72,14 @@ public class ControllerPO implements Serializable{
      * @throws NullPointerException Exceção lançada caso o campo tipo e/ou descrição sejam Strings nulas.
      */
     public String cadastraObjetivo(String tipo, String descricao, int aderencia, int viabilidade) throws IllegalArgumentException, NullPointerException{
-        ValidaCampos.validaCamposString(new String[] {tipo, descricao, String.valueOf(aderencia), String.valueOf(viabilidade)},
-                new String[] {"tipo", "descricao", "aderencia", "viabilidade"});
-        String tempId = "O" + this.idObj;
+        valida.validaString(descricao, "Campo descricao nao pode ser nulo ou vazio.");
+        valida.validaString(tipo, "Campo tipo nao pode ser nulo ou vazio.");
+        if(!tipo.equals("GERAL") && !tipo.equals("ESPECIFICO")) throw new IllegalArgumentException("Valor invalido de tipo.");
+        if(aderencia > 5 || aderencia < 1) throw new IllegalArgumentException("Valor invalido de aderencia");
+        if(viabilidade > 5 || viabilidade < 1) throw new IllegalArgumentException("Valor invalido de viabilidade.");
+        
+        String tempId = "O" + this.idObj++;
         this.objetivos.put(tempId, new Objetivo(tipo, descricao, aderencia, viabilidade, tempId));
-        this.idObj++;
         return tempId;
     }
     /**
@@ -85,8 +91,8 @@ public class ControllerPO implements Serializable{
      * @throws NullPointerException Exceção lançadaca caso o campo código seja uma String nula.
      */
     public String exibeProblema(String codigo) throws IllegalArgumentException, NullPointerException{
-        ValidaCampos.validaCamposString(new String[] {codigo},
-                new String[] {"codigo"});
+        valida.validaString(codigo, "Campo codigo nao pode ser nulo ou vazio.");
+        
         if(!this.problemas.containsKey(codigo)) throw new IllegalArgumentException("Problema nao encontrado");
         return this.problemas.get(codigo).toString();
     }
@@ -99,8 +105,8 @@ public class ControllerPO implements Serializable{
      * @throws NullPointerException Exceção lançadaca caso o campo código seja uma String nula.
      */
     public String exibeObjetivo(String codigo) throws IllegalArgumentException, NullPointerException {
-        ValidaCampos.validaCamposString(new String[] {codigo},
-                new String[] {"codigo"});
+        valida.validaString(codigo, "Campo codigo nao pode ser nulo ou vazio.");
+        
         if(!this.objetivos.containsKey(codigo)) throw new IllegalArgumentException("Objetivo nao encontrado");
         return this.objetivos.get(codigo).toString();
     }
@@ -112,8 +118,7 @@ public class ControllerPO implements Serializable{
      * @throws NullPointerException Exceção lançadaca caso o campo código seja uma String nula.
      */
     public void apagarProblema(String codigo) throws IllegalArgumentException, NullPointerException {
-        ValidaCampos.validaCamposString(new String[] {codigo},
-                new String[] {"codigo"});
+        valida.validaString(codigo, "Campo codigo nao pode ser nulo ou vazio.");
         if(!this.problemas.containsKey(codigo)) throw new IllegalArgumentException("Problema nao encontrado");
         this.problemas.remove(codigo);
     }
@@ -125,8 +130,7 @@ public class ControllerPO implements Serializable{
      * @throws NullPointerException Exceção lançadaca caso o campo código seja uma String nula.
      */
     public void apagarObjetivo(String codigo) throws IllegalArgumentException, NullPointerException {
-        ValidaCampos.validaCamposString(new String[] {codigo},
-                new String[] {"codigo"});
+        valida.validaString(codigo, "Campo codigo nao pode ser nulo ou vazio.");
         if(!this.objetivos.containsKey(codigo)) throw new IllegalArgumentException("Objetivo nao encontrado");
         this.objetivos.remove(codigo);
     }
