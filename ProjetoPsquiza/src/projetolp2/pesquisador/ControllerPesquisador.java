@@ -172,6 +172,25 @@ public class ControllerPesquisador implements Serializable {
 			return false;
 		return true;
 	}
+	
+	/**
+	 * metodo feito para ativar um pesquisador que antes ja foi desativado, podendo
+	 * assim, o objeto, usar os metodos do sistema Psquiza.
+	 * 
+	 * @param email
+	 */
+	public void ativaPesquisador(String email) {
+		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
+		if (ehCadastrado(email)) {
+			if (!pesquisadorEhAtivo(email)) {
+				this.pesquisadores.get(email).setStatus(true);
+			} else {
+				throw new IllegalArgumentException("Pesquisador ja ativado.");
+			}
+		} else
+			throw new IllegalArgumentException("Pesquisador nao encontrado");
+	}
+
 
 	/**
 	 * Metodo responsavel por desativar um pesquisador, um pesquisador inativo nao
@@ -191,23 +210,6 @@ public class ControllerPesquisador implements Serializable {
 			throw new IllegalArgumentException("Pesquisador nao encontrado");
 	}
 
-	/**
-	 * metodo feito para ativar um pesquisador que antes ja foi desativado, podendo
-	 * assim, o objeto, usar os metodos do sistema Psquiza.
-	 * 
-	 * @param email
-	 */
-	public void ativaPesquisador(String email) {
-		validacao.validaString(email, "Campo email nao pode ser nulo ou vazio.");
-		if (ehCadastrado(email)) {
-			if (!pesquisadorEhAtivo(email)) {
-				this.pesquisadores.get(email).setStatus(true);
-			} else {
-				throw new IllegalArgumentException("Pesquisador ja ativado.");
-			}
-		} else
-			throw new IllegalArgumentException("Pesquisador nao encontrado");
-	}
 
 	/**
 	 * Metodo responsavel por exibir de forma textual um pesquisador.
