@@ -158,7 +158,7 @@ class ControllerPesquisaTest {
 				() -> controllerPesquisa.exibePesquisa("COM1"));
 		
 	}
-	
+
 }
 
 
