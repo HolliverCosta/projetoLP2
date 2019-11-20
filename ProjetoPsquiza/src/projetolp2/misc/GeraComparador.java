@@ -5,7 +5,7 @@ import java.util.Comparator;
 import projetolp2.pesquisa.Pesquisa;
 
 public class GeraComparador {
-    
+
     public static Comparator<Pesquisa> geraComparador(String ordem){
         Comparator<Pesquisa> comparador;
         if(ordem.equals("PROBLEMA")) {
@@ -13,7 +13,7 @@ public class GeraComparador {
                 @Override
                 public int compare(Pesquisa p0, Pesquisa p1) {
                     return p1.getProblema().compareTo(p0.getProblema());
-                }            
+                }
             };
         }
         else if(ordem.equals("OBJETIVOS")) {
