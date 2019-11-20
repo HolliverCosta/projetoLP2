@@ -4,8 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import projetolp2.Psquiza.Psquiza;
 
+/**
+ * Representa a controla de Busca.Possui os métodos de busca utilizado que acessa as outras controladoras;
+ * @author caiom
+ */
 public class ControllerBusca {
     
+    /**
+     * Realiza a busca geral pelo termo especificado. Retorna todos os termos casos do termo encontrado;
+     * @param termo
+     * @param controller
+     * @return
+     */
     public String buscarGeral(String termo, Psquiza controller/*ControllerPesquisa cPa,ControllerPesquisador cPr,ControllerAtividade cA, ControllerPO cPO*/) {
         if(termo == null || termo.trim().isEmpty()) throw new IllegalArgumentException("Campo termo nao pode ser nulo ou vazio.");
 
@@ -50,6 +60,13 @@ public class ControllerBusca {
         return conc;
     }
     
+    /**
+     * Busca e retorna o termo na posição específica da busca, apenas;
+     * @param termo
+     * @param numeroDoResultado
+     * @param controller
+     * @return
+     */
     public String buscarEspecífico(String termo, int numeroDoResultado, Psquiza controller) {
         if(termo == null || termo.trim().isEmpty()) throw new IllegalArgumentException("Campo termo nao pode ser nulo ou vazio.");
         if(numeroDoResultado < 0) throw new IllegalArgumentException("Numero do resultado nao pode ser negativo");
@@ -89,6 +106,12 @@ public class ControllerBusca {
         return null;
     }
     
+    /**
+     * Conta a quantidade de casos encontrados na busca do termo;
+     * @param termo
+     * @param controller
+     * @return
+     */
     public int contarResultado(String termo, Psquiza controller) {
         if(termo == null || termo.trim().isEmpty()) throw new IllegalArgumentException("Campo termo nao pode ser nulo ou vazio.");
         

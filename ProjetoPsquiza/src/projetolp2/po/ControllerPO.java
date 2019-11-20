@@ -143,6 +143,11 @@ public class ControllerPO implements Serializable{
         return (this.problemas.containsKey(id) || this.objetivos.containsKey(id));
     }
     //-----------------------------------------------------US8---------------------------------------------------//
+    /**
+     * Retorna o termo na busca em problemas;
+     * @param termo
+     * @return
+     */
     public ArrayList<Pair> retornaBuscaGeralProblemas(String termo) {
         String procurarPor = termo;
         ArrayList<Pair> pares = new ArrayList<Pair>();
@@ -156,6 +161,11 @@ public class ControllerPO implements Serializable{
         return pares;
     }
     
+    /**
+     * Retorna o termo na busca em Objetivos;
+     * @param termo
+     * @return
+     */
     public ArrayList<Pair> retornaBuscaGeralObjetivos(String termo) {
         String procurarPor = termo;
         ArrayList<Pair> pares = new ArrayList<Pair>();
@@ -169,6 +179,11 @@ public class ControllerPO implements Serializable{
         return pares;
     }
     
+    /**
+     * Conta quantos casos do termo foram encontrados em Problemas e Objetivos;
+     * @param termo
+     * @return
+     */
     public int contaResultadoBusca(String termo) {
         String procurarPor = termo;
         int count = 0;

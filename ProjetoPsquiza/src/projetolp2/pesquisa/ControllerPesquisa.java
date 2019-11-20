@@ -430,6 +430,11 @@ public class ControllerPesquisa implements Serializable {
 	}
 	
 	// --------------------------------------BUSCA-----------------------------------------------------//
+	/**
+	 * Retorna o termo na busca nas Pesquisas;
+	 * @param termo
+	 * @return
+	 */
 	public ArrayList<Pair> retornaBuscaGeralPesquisa(String termo) {
 		String procurarPor = termo;
 
@@ -449,6 +454,11 @@ public class ControllerPesquisa implements Serializable {
 		return pares;
 	}
 
+	/**
+	 * Conta quantos casos do termo foram encontrados na Pesquisa;
+	 * @param termo
+	 * @return
+	 */
 	public int contaResultadoBusca(String termo) {
 		String procurarPor = termo;
 		int count = 0;
