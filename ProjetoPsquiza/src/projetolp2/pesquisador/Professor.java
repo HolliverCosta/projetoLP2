@@ -1,7 +1,11 @@
 package projetolp2.pesquisador;
 
 import java.io.Serializable;
-
+/**
+ * Classe reponsavel por representar uma funcao/especializacao de um Pesquisador.
+ * @author Pedro Goncalves
+ *
+ */
 public class Professor implements Funcao,Serializable {
 	/**
 	 * representa o nome da funcao exercidade, no caso professor.

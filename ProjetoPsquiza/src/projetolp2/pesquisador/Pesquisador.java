@@ -3,7 +3,7 @@ package projetolp2.pesquisador;
 import java.io.Serializable;
 /**
  * Representação da entidade Pesquisador do sistema Psquiza. O Pesquisador é identificado unicamente pelo seu email.
- * @author User
+ * @author Pedro Goncalves
  *
  */
 public  class Pesquisador implements Serializable{

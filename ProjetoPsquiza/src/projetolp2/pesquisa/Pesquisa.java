@@ -81,7 +81,14 @@ public class Pesquisa implements Serializable {
 	 * @return resultados
 	 */
 	public String exibeResultadoPesquisa() {
-			return "- Pesquisa: " + toString() + "\n" + "    - Resultados:\n" +  listaDescricoes();
+		Set<String> chaves = this.atividades.keySet();
+		String descricao = "";
+		for (String chave : chaves) {
+			descricao += "        - " + this.atividades.get(chave).getDescricaoAtividade() + "\n"
+					+ this.atividades.get(chave).exibeDuracaoItens()
+					+ this.atividades.get(chave).exibeResultadosCadastados();
+		}
+			return "- Pesquisa: " + toString() + "\n" + "    - Resultados:\n" +  descricao;
 		}
 	
 	/**
@@ -222,36 +229,8 @@ public class Pesquisa implements Serializable {
 		}
 
 		return atividade;
+	}
 
-	}
-	/**
-	 * metodo feito pra pecorrer o mapa de atividades que fazem parte da pesquisa.
-	 * 
-	 * @return atividades
-	 */
-	private String exibeAtividades() {
-		Set<String> chaves = this.atividades.keySet();
-		String atividades = "";
-		for (String chave : chaves) {
-			atividades += "        - " + this.atividades.get(chave).exibeAtividade() + "\n"
-					+ this.atividades.get(chave).exibeStatusItem();
-		}
-		return atividades;
-	}
-	/**
-	 * lista a descricoes da atividade, junto com eles os itens e duracao de intens.
-	 * @return lista de descricoes.
-	 */
-	public String listaDescricoes() {
-		Set<String> chaves = this.atividades.keySet();
-		String descricao = "";
-		for (String chave : chaves) {
-			descricao += "        - " + this.atividades.get(chave).getDescricaoAtividade() + "\n"
-					+ this.atividades.get(chave).exibeDuracaoItens()
-					+ this.atividades.get(chave).exibeResultadosCadastados();
-		}
-		return descricao;
-	}
 	//---------------------------------------------------------PESQUISADOR-------------------------------------------------//
 	/**
 	 * associa um pesquisador a essa pesquisa.
@@ -277,37 +256,12 @@ public class Pesquisa implements Serializable {
 		this.pesquisadores.remove(emailPesquisador);
 		return true;
 	}
-	/**
-	 * metodo feito pra pecorrer o mapa de pesquisadores que fazem parte da
-	 * pesquisa.
-	 * 
-	 * @return pesquisadores
-	 */
-	private String exibePesquisadores() {
-		Set<String> chaves = this.pesquisadores.keySet();
-		String pesquisadores = "";
-		for (String chave : chaves) {
-			pesquisadores += "        - " + this.pesquisadores.get(chave).toString() + "\n";
-		}
-		return pesquisadores;
-	}
+	
 	//---------------------------------------------------PROBLEMAS E OBJETIVOS-----------------------------------------------------//
 	public void addObjetivo(String idObjetivo, Objetivo objetivo) {
 		this.objetivos.put(idObjetivo, objetivo);
 	}
-	/**
-	 * metodo feito pra pecorrer o mapa de objetivos que fazem parte da pesquisa.
-	 * 
-	 * @return objetivos
-	 */
-	private String exibeObjetivos() {
-		Set<String> chaves = this.objetivos.keySet();
-		String objetivos = "";
-		for (String chave : chaves) {
-			objetivos += "        - " + this.objetivos.get(chave).toString() + "\n";
-		}
-		return objetivos;
-	}
+	
 	/**
 	 * adiciona um problema relacionado a essa pesquisa.
 	 * 
@@ -375,9 +329,25 @@ public class Pesquisa implements Serializable {
 	 * @return resumo de pesquisa.
 	 */
 	public String exibeResumoPesquisa() {
-		return "- Pesquisa: " + toString() + "\n" + "    - Pesquisadores:\n" + exibePesquisadores()
-				+ "    - Problema:\n        - " + this.problema.toString() + "\n    - Objetivos:\n" + exibeObjetivos()
-				+ "    - Atividades:\n" + exibeAtividades();
+		Set<String> chaves = this.pesquisadores.keySet();
+		String pesquisadores = "";
+		for (String chave : chaves) {
+			pesquisadores += "        - " + this.pesquisadores.get(chave).toString() + "\n";
+		}
+		Set<String> keys = this.objetivos.keySet();
+		String objetivos = "";
+		for (String chave : keys) {
+			objetivos += "        - " + this.objetivos.get(chave).toString() + "\n";
+		}
+		Set<String> atividade = this.atividades.keySet();
+		String atividades = "";
+		for (String chave : atividade) {
+			atividades += "        - " + this.atividades.get(chave).exibeAtividade() + "\n"
+					+ this.atividades.get(chave).exibeStatusItem();
+		}
+		return "- Pesquisa: " + toString() + "\n" + "    - Pesquisadores:\n" + pesquisadores
+				+ "    - Problema:\n        - " + this.problema.toString() + "\n    - Objetivos:\n" + objetivos
+				+ "    - Atividades:\n" + atividades;
 	}
 	
 	@Override

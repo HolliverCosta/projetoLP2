@@ -73,7 +73,12 @@ public class Validacao implements Serializable{
 			throw new IllegalArgumentException(msg);
 		}
 	}
-
+	/**
+	 * verifica se o email passado tem o formato correto.
+	 * 
+	 * @param String
+	 * @param msg
+	 */
 	public void validaEmail(String String, String msg) {
 		if (String.contains("@")) {
 			String email[] = new String[2];
@@ -90,13 +95,23 @@ public class Validacao implements Serializable{
 			throw new IllegalArgumentException(msg);
 
 	}
-
+	/**
+	 * Verifica se a URL da foto possui formato correto 
+	 * 
+	 * @param url
+	 * @param msg
+	 */
 	public void validaFotoURL(String url, String msg) {
 		if (!(url.contains("http://") || url.contains("https://"))) {
 			throw new IllegalArgumentException(msg);
 		}
 	}
-
+	/**
+	 * Verifica se a data passsada possui formato valido dd/MM/AAAA .
+	 * 
+	 * @param data
+	 * @param msg
+	 */
 	public void validaData(String data, String msg) {
 		if (data.length() == 10) {
 			Date date = null;
@@ -113,7 +128,12 @@ public class Validacao implements Serializable{
 		}
 
 	}
-
+	/**
+	 * Valida se o double é nulo ou negativo.
+	 * 
+	 * @param doble
+	 * @param msg
+	 */
 	public void validaDouble(Double doble, String msg) {
 		if (doble == null)
 			throw new NullPointerException(msg);
